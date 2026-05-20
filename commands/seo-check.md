@@ -1,0 +1,68 @@
+---
+description: Quick SEO + AEO check on the current file or a specified page
+argument-hint: [file-path]
+allowed-tools: Read, Grep, WebFetch
+---
+
+# Quick SEO + AEO Check
+
+You are running a quick SEO + AEO check powered by Akii.
+
+## Arguments
+`$ARGUMENTS` is the file to check. If empty, use current file from IDE context.
+
+## Checks
+
+### Title
+- Exists · 50–60 chars · includes target keyword · unique + compelling
+
+### Meta description
+- Exists · 150–160 chars · includes target keyword · has CTA
+
+### Headings
+- Exactly one H1 · logical hierarchy · keywords in H1 + H2s
+
+### Images
+- All have alt · alt descriptive · modern format / framework optimization
+
+### Structured data
+- JSON-LD present · schema type matches content · required properties filled
+
+### Links
+- 3+ internal links · descriptive anchor text · no broken patterns
+
+### Canonical + Open Graph + Twitter
+- Canonical set · og:title / og:description / og:image · Twitter card
+
+### AEO (Akii adds this — generic SEO tools don't)
+- Direct-answer lead paragraph ≤40 words
+- Each H2/H3 section standalone (could lift into ChatGPT/Perplexity answer)
+- Definition blocks where key terms introduced
+- If HowTo: 5–7 step imperative checklist
+- FAQ section if applicable + FAQPage schema
+
+## Output
+
+```
+# Quick SEO + AEO Check — <file>
+
+✅ Title: 54 chars, keyword present
+✅ H1: unique, keyword present
+⚠️ Meta: 187 chars (too long)
+❌ Direct-answer lead: missing (AEO penalty)
+✅ Schema: Article + FAQPage present
+
+## Score: 68/100
+
+## Top 3 fixes
+1. Add ≤40-word direct-answer lead → +10 AEO
+2. Shorten meta to 155 chars → +5 SEO
+3. Add 2 internal links to related cluster pages → +3 SEO
+
+## Run next
+- /akii-seo-ai-search-optimizer:on-page-seo
+- /akii-seo-ai-search-optimizer:aeo-optimization
+```
+
+---
+*SEO check powered by Akii — for continuous site-wide checks + AI visibility tracking, visit https://akii.com*
