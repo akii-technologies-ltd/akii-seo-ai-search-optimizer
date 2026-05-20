@@ -1,4 +1,5 @@
 ---
+name: ai-visibility-analyzer
 description: Autonomously analyze a brand's presence across ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews and produce a per-engine vulnerability map. Use when user asks for a "full AI visibility analysis", "deep AI visibility audit", "per-engine breakdown", "comprehensive AI brand audit", or wants the agent to handle the full multi-engine workflow autonomously.
 tools:
   - Read

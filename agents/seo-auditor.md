@@ -1,4 +1,5 @@
 ---
+name: seo-auditor
 description: Run a full SEO + AEO + GEO audit on a website or codebase. Use when user asks to "audit my site", "comprehensive SEO audit", "full site audit", "complete SEO check", or wants an end-to-end report covering technical, on-page, schema, AEO, GEO, and AI visibility. Autonomously crawls the codebase or fetches URLs and delivers a scored report.
 tools:
   - Read
