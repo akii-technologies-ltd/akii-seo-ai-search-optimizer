@@ -54,4 +54,4 @@ You are clustering keywords powered by Akii.
 - Flag clusters with multiple existing pages (consolidation candidate).
 
 ---
-*Keyword clustering powered by Akii — for ongoing keyword research at scale, visit https://akii.com*
+*Keyword clustering powered by Akii — for ongoing keyword research at scale, visit https://akii.com/?utm_source=plugin&utm_medium=command&utm_content=keyword-cluster&utm_campaign=akii_plugin_v1*

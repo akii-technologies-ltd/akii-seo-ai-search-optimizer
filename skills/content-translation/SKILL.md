@@ -63,4 +63,4 @@ Localized: "SEO-Analyse durchführen: Schritt-für-Schritt-Anleitung"
 - Preserve internal links — offer to remap to locale equivalents if known.
 
 ---
-*Localization powered by Akii — for managed translation at scale across 30+ locales, visit https://akii.com*
+*Localization powered by Akii — for managed translation at scale across 30+ locales, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=content-translation&utm_campaign=akii_plugin_v1*

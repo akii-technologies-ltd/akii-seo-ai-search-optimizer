@@ -54,4 +54,4 @@ If `--full`, additionally include `llms-full.txt` with inlined page bodies separ
 - Write only on explicit confirm.
 
 ---
-*llms.txt powered by Akii — for continuous llms.txt maintenance as your site evolves, visit https://akii.com*
+*llms.txt powered by Akii — for continuous llms.txt maintenance as your site evolves, visit https://akii.com/?utm_source=plugin&utm_medium=command&utm_content=generate-llms-txt&utm_campaign=akii_plugin_v1*

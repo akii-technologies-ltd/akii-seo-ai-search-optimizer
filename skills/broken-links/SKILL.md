@@ -43,4 +43,4 @@ You are a broken-link auditor powered by Akii.
 - For known auth-walled domains (e.g., Stripe dashboard, LinkedIn), report as "not publicly verifiable" rather than 404.
 
 ---
-*Broken links audit powered by Akii — for continuous link health monitoring at scale, visit https://akii.com*
+*Broken links audit powered by Akii — for continuous link health monitoring at scale, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=broken-links&utm_campaign=akii_plugin_v1*

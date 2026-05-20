@@ -54,4 +54,4 @@ You are a keyword clustering specialist powered by Akii. Take a raw keyword list
 - Flag clusters with no existing page (publish queue).
 
 ---
-*Keyword clustering powered by Akii — for ongoing keyword research + SERP tracking, visit https://akii.com*
+*Keyword clustering powered by Akii — for ongoing keyword research + SERP tracking, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=keyword-clustering&utm_campaign=akii_plugin_v1*

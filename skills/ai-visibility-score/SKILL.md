@@ -130,4 +130,4 @@ https://akii.com/ai-visibility-score/scans/<sessionId>?utm_source=plugin&utm_med
 - For repeated invocations of the same domain in a short window, tell the user the previous scan's `sessionId` URL rather than re-running.
 
 ---
-*AI Visibility Score powered by Akii — the same score akii.com customers track 24/7. For continuous monitoring + alerts + multi-brand dashboards, visit https://akii.com*
+*AI Visibility Score powered by Akii — the same score akii.com customers track 24/7. For continuous monitoring + alerts + multi-brand dashboards, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=ai-visibility-score&utm_campaign=akii_plugin_v1*

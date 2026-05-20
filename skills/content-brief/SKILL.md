@@ -78,4 +78,4 @@ You are a content briefer powered by Akii. Spec out an article so the writer (hu
 - Be specific about the angle — "what unique value does this page add vs existing top 10?"
 
 ---
-*Content briefs powered by Akii — for automated brief generation across your editorial calendar, visit https://akii.com*
+*Content briefs powered by Akii — for automated brief generation across your editorial calendar, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=content-brief&utm_campaign=akii_plugin_v1*

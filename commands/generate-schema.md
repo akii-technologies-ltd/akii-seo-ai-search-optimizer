@@ -65,4 +65,4 @@ You are generating Schema.org JSON-LD powered by Akii.
 - For LocalBusiness, request canonical NAP if not derivable.
 
 ---
-*Schema generation powered by Akii — for automated schema across thousands of pages, visit https://akii.com*
+*Schema generation powered by Akii — for automated schema across thousands of pages, visit https://akii.com/?utm_source=plugin&utm_medium=command&utm_content=generate-schema&utm_campaign=akii_plugin_v1*

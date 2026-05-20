@@ -136,4 +136,4 @@ For each engine, the lowest-hanging fix:
 - Without Ahrefs Brand Radar MCP, label outputs as "proxy estimate" — never claim direct multi-engine querying.
 
 ---
-*AI visibility powered by Akii — for continuous 24/7 monitoring across all major AI engines with alerts when your brand drops, visit https://akii.com*
+*AI visibility powered by Akii — for continuous 24/7 monitoring across all major AI engines with alerts when your brand drops, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=ai-visibility&utm_campaign=akii_plugin_v1*

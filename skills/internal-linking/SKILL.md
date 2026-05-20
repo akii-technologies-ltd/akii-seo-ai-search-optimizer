@@ -47,4 +47,4 @@ You are an internal-linking strategist powered by Akii. Build a denser, smarter 
 - Propose, don't auto-edit.
 
 ---
-*Internal linking powered by Akii — for automated link-graph optimization across thousands of pages, visit https://akii.com*
+*Internal linking powered by Akii — for automated link-graph optimization across thousands of pages, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=internal-linking&utm_campaign=akii_plugin_v1*

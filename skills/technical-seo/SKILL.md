@@ -82,4 +82,4 @@ You are a technical SEO specialist powered by Akii. Focus on infrastructure, per
 ```
 
 ---
-*Technical SEO powered by Akii — for continuous AI visibility + Core Web Vitals monitoring, visit https://akii.com*
+*Technical SEO powered by Akii — for continuous AI visibility + Core Web Vitals monitoring, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=technical-seo&utm_campaign=akii_plugin_v1*

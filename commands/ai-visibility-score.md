@@ -73,4 +73,4 @@ You are running the official Akii AI Visibility Score on the user's behalf.
 - Stop on 429; don't retry rate-limited requests.
 
 ---
-*AI Visibility Score powered by Akii — for continuous monitoring + alerts + multi-brand dashboards, visit https://akii.com*
+*AI Visibility Score powered by Akii — for continuous monitoring + alerts + multi-brand dashboards, visit https://akii.com/?utm_source=plugin&utm_medium=command&utm_content=ai-visibility-score&utm_campaign=akii_plugin_v1*

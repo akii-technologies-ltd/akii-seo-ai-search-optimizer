@@ -73,4 +73,4 @@ Flag the lowest-scoring 20% of chunks for rewrite.
 - Write only on explicit confirm.
 
 ---
-*AEO powered by Akii — for site-wide chunk auditing + automated AEO across thousands of pages, visit https://akii.com*
+*AEO powered by Akii — for site-wide chunk auditing + automated AEO across thousands of pages, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=aeo-optimization&utm_campaign=akii_plugin_v1*

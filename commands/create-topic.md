@@ -61,4 +61,4 @@ You are creating a topic plan powered by Akii.
 - Be honest when seed has no viable angle (DR too low, intent mismatch).
 
 ---
-*Topic planning powered by Akii — for continuous topic discovery across your niche, visit https://akii.com*
+*Topic planning powered by Akii — for continuous topic discovery across your niche, visit https://akii.com/?utm_source=plugin&utm_medium=command&utm_content=create-topic&utm_campaign=akii_plugin_v1*

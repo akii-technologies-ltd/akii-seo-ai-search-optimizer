@@ -68,4 +68,4 @@ You are localizing content powered by Akii.
 - Preserve internal links; suggest locale equivalents if known.
 
 ---
-*Localization powered by Akii — for managed translation across 30+ locales, visit https://akii.com*
+*Localization powered by Akii — for managed translation across 30+ locales, visit https://akii.com/?utm_source=plugin&utm_medium=command&utm_content=translate-content&utm_campaign=akii_plugin_v1*
