@@ -1,5 +1,11 @@
 # Akii — SEO & AI Search Optimizer
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+[![Version](https://img.shields.io/github/v/release/akii-technologies-ltd/akii-seo-ai-search-optimizer?display_name=tag&sort=semver)](https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases)
+[![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-Plugin-7c3aed)](https://code.claude.com/docs/en/plugins)
+[![SEO + AEO + GEO](https://img.shields.io/badge/SEO%20%C2%B7%20AEO%20%C2%B7%20GEO-toolkit-22c55e)](https://akii.com/claude-code)
+[![Stars](https://img.shields.io/github/stars/akii-technologies-ltd/akii-seo-ai-search-optimizer?style=social)](https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/stargazers)
+
 Free AI-powered SEO, AEO, and GEO toolkit by [Akii](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) — works with Claude Code and any AI agent that supports Claude Code plugins.
 
 Audit websites, plan content strategy, optimize pages, generate schema markup, cluster keywords, track AI visibility across **ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews**, generate `llms.txt`, run Princeton-backed GEO rewrites, and more — all without leaving your terminal or IDE.

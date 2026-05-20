@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Documentation
+    url: https://akii.com/claude-code
+    about: Plugin landing page with install + feature reference.
+  - name: 💬 Akii support
+    url: https://akii.com/contact
+    about: For paid-platform questions (continuous AI visibility monitoring, alerts, dashboards).

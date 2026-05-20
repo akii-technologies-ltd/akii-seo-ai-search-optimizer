@@ -1,0 +1,16 @@
+# Force GitHub Linguist to detect file languages correctly so the
+# repo's "Languages" sidebar reflects the real content distribution.
+
+*.md       linguist-detectable=true
+*.md       linguist-language=Markdown
+SKILL.md   linguist-language=Markdown
+AGENT.md   linguist-language=Markdown
+*.json     linguist-detectable=true
+*.sh       linguist-detectable=true
+*.html     linguist-detectable=true
+
+# Treat the launch/ folder as documentation, not source.
+launch/**  linguist-documentation=true
+
+# Treat assets/ screenshots + helper docs as non-source.
+assets/**  linguist-vendored=true
