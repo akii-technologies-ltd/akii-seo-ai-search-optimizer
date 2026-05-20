@@ -1,4 +1,5 @@
 ---
+name: competitor-analyzer
 description: Analyze competitors' SEO, AEO, GEO, and AI visibility. Use when the user asks to "analyze competitors", "competitor analysis", "compare SEO with competitors", "what are competitors doing", "competitive audit", "competitor research", "competitor gap analysis", or names competitors. Autonomous research + side-by-side scorecard + ranked counter-move plan.
 tools:
   - Read

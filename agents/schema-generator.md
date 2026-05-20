@@ -1,4 +1,5 @@
 ---
+name: schema-generator
 description: Generate, audit, and validate JSON-LD structured data autonomously across one or many pages. Use when user asks to "generate schema across my site", "audit all schema", "bulk schema generation", "fix schema everywhere", or wants the agent to handle the full schema workflow including writing into source files (with user approval).
 tools:
   - Read

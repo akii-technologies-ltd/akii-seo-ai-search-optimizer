@@ -1,4 +1,5 @@
 ---
+name: content-strategist
 description: Analyze a website and create a complete content strategy. Use when user asks to "create a content plan", "content strategy for my site", "what should I write about", "content gap analysis", "plan my blog", "editorial roadmap", or wants a comprehensive content plan. Autonomously researches the site and competitors and delivers a complete strategy.
 tools:
   - Read

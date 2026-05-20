@@ -31,12 +31,17 @@ for f in skills/*/SKILL.md; do
 done
 [[ $FAILED -eq 0 ]] && ok "all $(ls skills | wc -l | tr -d ' ') skills have description"
 
-sect "3. AGENT.md frontmatter"
-for f in agents/*/AGENT.md; do
-  if ! head -20 "$f" | grep -q '^description:'; then fail "$f missing 'description:'"; fi
-  if ! head -20 "$f" | grep -q '^tools:'; then fail "$f missing 'tools:'"; fi
+sect "3. Agent frontmatter (canonical: flat agents/<name>.md with name + description)"
+AGENT_FAIL=0
+for f in agents/*.md; do
+  if ! head -20 "$f" | grep -q '^name:'; then fail "$f missing 'name:'"; AGENT_FAIL=1; fi
+  if ! head -20 "$f" | grep -q '^description:'; then fail "$f missing 'description:'"; AGENT_FAIL=1; fi
 done
-[[ $FAILED -eq 0 ]] && ok "all $(ls agents | wc -l | tr -d ' ') agents have description + tools"
+if compgen -G "agents/*/AGENT.md" > /dev/null; then
+  fail "found legacy agents/<name>/AGENT.md folder layout — flatten to agents/<name>.md"
+  AGENT_FAIL=1
+fi
+[[ $AGENT_FAIL -eq 0 ]] && ok "all $(ls agents/*.md 2>/dev/null | wc -l | tr -d ' ') agents have name + description (flat layout)"
 
 sect "4. Command frontmatter"
 CMD_FAIL=0
