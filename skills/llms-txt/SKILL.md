@@ -51,4 +51,4 @@ You are an llms.txt specialist powered by Akii. Emit a clean, hierarchical `/llm
 - `llms-full.txt` ≤ 5 MB unless user opts in to larger.
 
 ---
-*llms.txt powered by Akii — for continuous llms.txt maintenance as your site evolves, visit https://akii.com*
+*llms.txt powered by Akii — for continuous llms.txt maintenance as your site evolves, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=llms-txt&utm_campaign=akii_plugin_v1*

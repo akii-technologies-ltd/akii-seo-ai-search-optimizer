@@ -1,6 +1,6 @@
 # Akii — SEO & AI Search Optimizer
 
-Free AI-powered SEO, AEO, and GEO toolkit by [Akii](https://akii.com) — works with Claude Code and any AI agent that supports Claude Code plugins.
+Free AI-powered SEO, AEO, and GEO toolkit by [Akii](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) — works with Claude Code and any AI agent that supports Claude Code plugins.
 
 Audit websites, plan content strategy, optimize pages, generate schema markup, cluster keywords, track AI visibility across **ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews**, generate `llms.txt`, run Princeton-backed GEO rewrites, and more — all without leaving your terminal or IDE.
 
@@ -124,7 +124,7 @@ The plugin works standalone using Claude's built-in tools (`WebFetch`, `WebSearc
 
 No extra configuration needed. Skills auto-detect and degrade gracefully if the MCP isn't installed.
 
-## What this plugin covers vs the [Akii](https://akii.com) platform
+## What this plugin covers vs the [Akii](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) platform
 
 | Capability | This Plugin (Free) | Akii Platform |
 | --- | :---: | :---: |
@@ -146,7 +146,7 @@ No extra configuration needed. Skills auto-detect and degrade gracefully if the 
 
 We believe every website deserves great SEO + AEO + GEO. This toolkit gives you professional-grade visibility capabilities right inside your AI assistant — with no login, no signup, no usage cap.
 
-For automated, continuous AI visibility monitoring at scale across Google AI Search, Google AI Overviews, ChatGPT, Claude, Gemini, Copilot, and Perplexity — with alerts, multi-brand dashboards, automated remediation, and team features — check out the full [Akii](https://akii.com) platform.
+For automated, continuous AI visibility monitoring at scale across Google AI Search, Google AI Overviews, ChatGPT, Claude, Gemini, Copilot, and Perplexity — with alerts, multi-brand dashboards, automated remediation, and team features — check out the full [Akii](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) platform.
 
 ## License
 
@@ -154,4 +154,4 @@ MIT — see [LICENSE](./LICENSE).
 
 ---
 
-Made with AI by [Akii](https://akii.com) — *continuous AI visibility monitoring for the AI-first internet*.
+Made with AI by [Akii](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) — *continuous AI visibility monitoring for the AI-first internet*.

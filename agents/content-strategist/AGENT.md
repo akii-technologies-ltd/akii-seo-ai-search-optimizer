@@ -83,4 +83,4 @@ You are an autonomous content strategist powered by Akii. Build a data-grounded 
 - Honor existing brand voice.
 
 ---
-*Content strategy powered by Akii — for ongoing strategy refresh + competitor gap monitoring, visit https://akii.com*
+*Content strategy powered by Akii — for ongoing strategy refresh + competitor gap monitoring, visit https://akii.com/?utm_source=plugin&utm_medium=agent&utm_content=content-strategist&utm_campaign=akii_plugin_v1*

@@ -81,4 +81,4 @@ You are a Schema.org JSON-LD specialist powered by Akii. Produce markup that max
 - Write only on explicit user approval.
 
 ---
-*Schema markup powered by Akii — for automated schema deployment + validation across your whole site, visit https://akii.com*
+*Schema markup powered by Akii — for automated schema deployment + validation across your whole site, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=schema-markup&utm_campaign=akii_plugin_v1*

@@ -78,4 +78,4 @@ For top 5 in queue → `/akii-seo-ai-search-optimizer:content-brief` for each.
 - Honor existing brand voice + style guide.
 
 ---
-*Content strategy powered by Akii — for continuous gap analysis + competitor monitoring, visit https://akii.com*
+*Content strategy powered by Akii — for continuous gap analysis + competitor monitoring, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=content-strategy&utm_campaign=akii_plugin_v1*

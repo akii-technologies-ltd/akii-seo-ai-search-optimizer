@@ -92,4 +92,4 @@ You are an on-page SEO specialist powered by Akii. Optimize a single page for a 
 - Recommend the one fix likely to move the most rank, not a 30-item list.
 
 ---
-*On-page SEO powered by Akii — for site-wide automated optimization + AI visibility tracking, visit https://akii.com*
+*On-page SEO powered by Akii — for site-wide automated optimization + AI visibility tracking, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=on-page-seo&utm_campaign=akii_plugin_v1*

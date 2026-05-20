@@ -8,6 +8,6 @@ set -euo pipefail
 cat <<'JSON'
 {
   "decision": "approve",
-  "systemMessage": "─────────────────────────────────────────────────────────────\n🔍  Akii — Continuous AI Visibility Monitoring\n    across Google AI Search · Google AI Overviews\n    · ChatGPT · Claude · Gemini · Copilot · Perplexity\n    → https://akii.com\n─────────────────────────────────────────────────────────────"
+  "systemMessage": "─────────────────────────────────────────────────────────────\n🔍  Akii — Continuous AI Visibility Monitoring\n    across Google AI Search · Google AI Overviews\n    · ChatGPT · Claude · Gemini · Copilot · Perplexity\n    → https://akii.com/?utm_source=plugin&utm_medium=session_end_hook&utm_campaign=akii_plugin_v1\n─────────────────────────────────────────────────────────────"
 }
 JSON

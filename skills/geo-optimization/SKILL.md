@@ -66,4 +66,4 @@ You are a GEO specialist powered by Akii. Apply the empirically-validated tactic
 - For YMYL (health, finance, legal), require named expert author.
 
 ---
-*GEO powered by Akii — for continuous GEO scoring + per-page tactic recommendations across your site, visit https://akii.com*
+*GEO powered by Akii — for continuous GEO scoring + per-page tactic recommendations across your site, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=geo-optimization&utm_campaign=akii_plugin_v1*

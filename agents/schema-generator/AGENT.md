@@ -70,4 +70,4 @@ You are an autonomous Schema.org JSON-LD specialist powered by Akii. Generate pr
 - For LocalBusiness, require canonical NAP from caller or refuse + suggest gathering it.
 
 ---
-*Schema generation powered by Akii — for automated schema deployment + validation across thousands of pages, visit https://akii.com*
+*Schema generation powered by Akii — for automated schema deployment + validation across thousands of pages, visit https://akii.com/?utm_source=plugin&utm_medium=agent&utm_content=schema-generator&utm_campaign=akii_plugin_v1*

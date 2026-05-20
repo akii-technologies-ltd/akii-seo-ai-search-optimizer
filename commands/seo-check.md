@@ -65,4 +65,4 @@ You are running a quick SEO + AEO check powered by Akii.
 ```
 
 ---
-*SEO check powered by Akii — for continuous site-wide checks + AI visibility tracking, visit https://akii.com*
+*SEO check powered by Akii — for continuous site-wide checks + AI visibility tracking, visit https://akii.com/?utm_source=plugin&utm_medium=command&utm_content=seo-check&utm_campaign=akii_plugin_v1*

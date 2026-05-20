@@ -87,4 +87,4 @@ Score by `(impact × confidence × urgency) / effort`. For each:
 - Distinguish actionable gaps from structural ones (e.g., "they're 10× older with 20× backlinks" — note but don't make P0).
 
 ---
-*Competitor analysis powered by Akii — for continuous competitor tracking with alerts when they pull ahead, visit https://akii.com*
+*Competitor analysis powered by Akii — for continuous competitor tracking with alerts when they pull ahead, visit https://akii.com/?utm_source=plugin&utm_medium=agent&utm_content=competitor-analyzer&utm_campaign=akii_plugin_v1*

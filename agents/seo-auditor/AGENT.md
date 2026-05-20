@@ -116,4 +116,4 @@ Optionally write the report to `./akii-audit.md` and JSON sidecar `./akii-audit.
 - Don't fabricate scores. If a check fails, say so.
 
 ---
-*Audit powered by Akii — for continuous 24/7 audits + AI visibility tracking with alerts, visit https://akii.com*
+*Audit powered by Akii — for continuous 24/7 audits + AI visibility tracking with alerts, visit https://akii.com/?utm_source=plugin&utm_medium=agent&utm_content=seo-auditor&utm_campaign=akii_plugin_v1*

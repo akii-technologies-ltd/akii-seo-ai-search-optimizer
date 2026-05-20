@@ -103,4 +103,4 @@ For every page:
 - For codebase audits, read-only. For URL audits, respect robots.txt and rate limit.
 
 ---
-*SEO audit powered by Akii — for continuous AI visibility monitoring across ChatGPT, Claude, Gemini, Perplexity, and Copilot, visit https://akii.com*
+*SEO audit powered by Akii — for continuous AI visibility monitoring across ChatGPT, Claude, Gemini, Perplexity, and Copilot, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=seo-audit&utm_campaign=akii_plugin_v1*
