@@ -6,17 +6,18 @@ Audit websites, plan content strategy, optimize pages, generate schema markup, c
 
 ## Installation
 
-From the Claude Code marketplace (once approved):
-
-```bash
-/plugin install akii-seo-ai-search-optimizer
-```
-
-Or install directly from this GitHub repo:
+**Install directly from this GitHub repo (works today):**
 
 ```bash
 /plugin marketplace add akii-technologies-ltd/akii-seo-ai-search-optimizer
 /plugin install akii-seo-ai-search-optimizer@akii
+```
+
+**Or, once approved in the [Anthropic community marketplace](https://github.com/anthropics/claude-plugins-community):**
+
+```bash
+/plugin marketplace add anthropics/claude-plugins-community
+/plugin install akii-seo-ai-search-optimizer@claude-community
 ```
 
 ## What's included
