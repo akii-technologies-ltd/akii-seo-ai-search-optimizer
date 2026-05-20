@@ -1,0 +1,16 @@
+{
+  "name": "akii",
+  "description": "Akii — AI search optimization tools",
+  "owner": {
+    "name": "Akii",
+    "url": "https://akii.com"
+  },
+  "plugins": [
+    {
+      "name": "akii-seo-ai-search-optimizer",
+      "source": "./",
+      "version": "1.0.0",
+      "description": "Free SEO + AEO + GEO toolkit. Rank in Google and every major AI answer engine."
+    }
+  ]
+}
