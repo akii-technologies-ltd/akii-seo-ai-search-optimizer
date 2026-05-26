@@ -4,6 +4,19 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.8.0] — 2026-05-26
+
+### Removed
+- The `technical-seo` skill, merged into `seo-audit`. The boundary-sharpening in v2.7.6 was a half-measure — two skills with overlapping triggers and procedural overlap produced the same anti-pattern that v2.7.0 fixed for skill+command pairs. The right product call was to collapse the two into a single audit entry point with mode modifiers.
+
+### Changed
+- The `seo-audit` skill is now a unified SEO + AEO + GEO audit entry point with three modes: `full` (default, all 12 layers including Core Web Vitals + JS rendering + crawlability depth + AEO/GEO readiness), `quick` (scorecard-only, surface-level pass/fail), and `technical` (infrastructure-only deep dive — what `technical-seo` previously covered). Mode is detected from natural-language keywords or via explicit `--mode=full|quick|technical` flag, matching the same `--mode=` pattern as `optimize-page`. The resolved mode is printed at the top of every run.
+- All in-repo cross-references that previously pointed to the `technical-seo` skill (README skill catalog, AUTHORITIES.md skill count, COMPATIBILITY.md MCP table, `llms-txt` SKILL.md authority section) are rewritten to reference `seo-audit` with the appropriate `--mode=` flag.
+- Skill count drops from 13 to 12. The `technical-seo` keyword stays in `plugin.json` for marketplace discoverability — users searching "technical SEO" still find the plugin, they just land on the unified `seo-audit` skill.
+
+### Migration
+If you previously invoked `/akii-seo-ai-search-optimizer:technical-seo`, the equivalent is now `/akii-seo-ai-search-optimizer:seo-audit --mode=technical` (or just say "technical SEO audit" / "check my Core Web Vitals" / "audit crawlability" — the natural-language keywords route to `--mode=technical` automatically). All previous technical-seo output sections (Critical issues, Core Web Vitals, Crawlability, JS rendering, Fix path) remain in the `--mode=technical` output template — same coverage, single entry point.
+
 ## [2.7.6] — 2026-05-26
 
 ### Changed

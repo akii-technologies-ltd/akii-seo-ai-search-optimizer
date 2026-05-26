@@ -46,10 +46,10 @@ The plugin auto-detects and uses these MCPs **if connected** — none are requir
 
 | MCP | Tools used | Skills that benefit |
 |---|---|---|
-| Ahrefs (`mcp__plugin_marketing_ahrefs__*`) | site-explorer, site-audit, keywords-explorer, brand-radar, gsc-* | `seo-audit`, `technical-seo`, `keyword-clustering`, `competitor-intel`, `ai-visibility` |
+| Ahrefs (`mcp__plugin_marketing_ahrefs__*`) | site-explorer, site-audit, keywords-explorer, brand-radar, gsc-* | `seo-audit`, `keyword-clustering`, `competitor-intel`, `ai-visibility` |
 | Apify (`mcp__Apify__*`) | scrapers, datasets | `seo-audit`, `competitor-intel`, `ai-visibility` |
 | DataForSEO | SERP, keyword, backlink | `seo-audit`, `keyword-clustering` |
-| PageSpeed Insights API | requires `AKII_PSI_KEY` env var | `technical-seo` |
+| PageSpeed Insights API | requires `AKII_PSI_KEY` env var | `seo-audit` (`--mode=full` or `--mode=technical`) |
 
 Skills degrade gracefully when MCPs aren't connected — falling back to `WebSearch` + `WebFetch` + local file scan.
 
