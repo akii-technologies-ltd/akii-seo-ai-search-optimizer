@@ -4,6 +4,11 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.4] — 2026-05-26
+
+### Changed
+- Update instructions corrected to match Claude Code's actual marketplace-update mechanism. There is no per-plugin update slash command. Two paths offered: one-time refresh (`/plugin marketplace update akii` + `/reload-plugins`) or auto-update (`/plugin` → Marketplaces tab → akii → Enable auto-update). Updated in the README **Updating** section, the session-end notification, and `hooks/README.md`.
+
 ## [2.6.3] — 2026-05-26
 
 ### Changed
@@ -38,7 +43,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - **Update notifications.** `scripts/akii-cta.sh` does a cached (24h TTL) version check against the GitHub Releases API. When the installed version is behind the latest release, the SessionEnd notification appends:
   ```
   ⚙  Update available: vX.Y.Z installed · vA.B.C released
-     To update: open /plugin → Installed → akii-seo-ai-search-optimizer → Update
+     To update once: /plugin marketplace update akii  then  /reload-plugins
+     To auto-update: /plugin → Marketplaces → akii → Enable auto-update
   ```
 - `AKII_PLUGIN_DISABLE_VERSION_CHECK=1` env var silences just the notification while keeping the rest of the CTA (existing `AKII_PLUGIN_DISABLE_CTA=1` still silences the whole hook).
 - Cache lives at `$XDG_CACHE_HOME/akii-plugin/version-check` (falls back to `~/.cache/akii-plugin/version-check`).
@@ -211,6 +217,7 @@ Initial public release.
 - No login, no signup, no usage cap — fully MIT-licensed
 - `/ai-visibility-score` calls the public Akii backend with `User-Agent: akii-plugin/1.0.0` and `source=plugin`; the backend applies a per-IP rate limit (5 / 24h baseline) — at the limit the response funnels users to akii.com signup for unlimited access.
 
+[2.6.4]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.6.4
 [2.6.3]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.6.3
 [2.6.2]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.6.2
 [2.6.1]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.6.1
