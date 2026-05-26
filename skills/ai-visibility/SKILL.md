@@ -52,18 +52,27 @@ curl -sI -L --max-time 8 -o /dev/null -w "%{http_code} %{url_effective}\n" "http
   Stop. Do not call the Akii API. Do not generate a Phase 2 report (no signal data to estimate from).
 
 #### 2. Brand-confirmation guard (when domain resolved but brand wasn't supplied)
-If the user didn't supply `brandName`, infer it from domain and **echo back for confirmation IF the domain is opaque** (e.g. an acronym, < 6 chars, or doesn't contain a recognizable word). Examples that trigger confirmation:
-- `desco.ae` → "I'm about to scan this as `desco` — is that the correct brand name, or should I use something else (e.g. DESCO Engineering, DESCO Contracting)?"
-- `acme.com` → "I'm about to scan this as `acme` — confirm or supply the legal brand name."
-- `xyz.io` → confirmation required.
+If the user didn't supply `brandName`, infer it from domain and **echo back for confirmation in ALL of these cases**:
 
-Skip the confirmation when the domain is obviously the brand (`stripe.com`, `notion.so`, `huggingface.co`, etc. — domain root IS the brand). The point is to avoid hallucination on opaque domains, not to add friction to obvious ones.
+1. **Opaque domain** — acronym, < 6 chars, or doesn't contain a recognizable word.
+   - `desco.ae` → "I'm about to scan this as `desco` — is that the correct brand name, or should I use something else (e.g. DESCO Engineering, DESCO Contracting)?"
+   - `acme.com`, `xyz.io` → confirmation required.
+
+2. **Ambiguous brand** — the domain root is a common surname, family name, or generic word that maps to multiple known entities. Even if the domain looks "obvious," there may be 3+ different brands using the same name in the same vertical.
+   - `draper.vc` → "I'm about to scan this as Draper VC. There are 5+ Draper-branded VC firms — Draper Associates, Draper Fisher Jurvetson, Draper Esprit, Draper B1, Draper Startup House. Which one (or use the parent Draper Associates)?"
+   - `wilson.com` → "Wilson Sporting Goods / Wilson & Co / Allan Wilson Consulting / which?"
+   - Surnames + generic English words trigger this branch.
+
+3. **Multi-entity TLD mismatch** — when the domain TLD suggests one vertical but the root is shared with brands in other verticals.
+   - `oracle.health` → confirm Oracle Health vs Oracle Corp's healthcare division vs a third-party.
+
+Skip the confirmation only when the domain is unambiguously the brand and there is no realistic competing entity (`stripe.com`, `notion.so`, `huggingface.co`, `anthropic.com`, `openai.com` — domain root IS the brand, no plausible alternative). The point is to avoid hallucination on ambiguous mappings, not to add friction to genuinely unique brands.
 
 ### Phase 1 — Akii API score (canonical 0–100)
 
 #### 1. Fetch the available free model
 ```bash
-curl -s -H "User-Agent: akii-plugin/2.6.9" https://akii.com/api/ai-visibility-score
+curl -s -H "User-Agent: akii-plugin/2.6.10" https://akii.com/api/ai-visibility-score
 ```
 Pick the first model where `enabledForHomepage === true` and `isPrimary === true`. Capture its `model_id`. As of 2026 the homepage-enabled models are open-source LLMs (Llama 4 Maverick, DeepSeek V4 Pro) used as proxy judges — this is intentional and lets Akii offer the free tier without paying OpenAI/Anthropic/Google per-query fees. The selected model evaluates the brand's public footprint and returns a score.
 
@@ -73,7 +82,7 @@ The GET in step 1 is **authoritative** — always prefer a model returned by the
 ```bash
 curl -s -X POST https://akii.com/api/ai-visibility-score \
   -H "Content-Type: application/json" \
-  -H "User-Agent: akii-plugin/2.6.9" \
+  -H "User-Agent: akii-plugin/2.6.10" \
   -d '{
     "brandDomain": "<domain>",
     "selectedModel": "<model_id>",
@@ -96,7 +105,7 @@ Expected: `{ success: true, sessionId: "<uuid>", ... }`
 #### 3. Poll for results
 Runs 2–13 minutes. Poll every 5s for up to 15 minutes:
 ```bash
-curl -s -H "User-Agent: akii-plugin/2.6.9" \
+curl -s -H "User-Agent: akii-plugin/2.6.10" \
   https://akii.com/api/ai-visibility-score/results/<sessionId>
 ```
 - `202` → still running. Wait 5s. Show progress every ~30s ("Still scanning... ~Xm elapsed").
@@ -112,6 +121,16 @@ Cap at 180 polls (15 min). If timed out, tell user and link `https://akii.com/ai
 - `improvementPotentialScore`, `expectedTimeframe`, `topImprovementOpportunity`
 - `resolvedBrand` (the brand name the LLM judge anchored on)
 - Never expose `proInsightsPreview` contents — gated. May reference "Akii's pro tier reveals deeper insights at akii.com" once at the end.
+
+#### 4a. Verify competitor domains returned by the Akii scan
+The Akii API's `competitors` array sometimes contains domain values that look right but resolve to a different entity (observed: Sequoia Capital returned as `sequoia.com`, but the real domain is `sequoiacap.com` — `sequoia.com` belongs to an unrelated entity). Before rendering the competitors block:
+
+1. For each competitor with a `domain` field, run `curl -sI -L --max-time 5 "https://<competitor.domain>"`.
+2. If the response is `200 / 301 / 302 / 308` AND the redirect chain stays on the competitor brand's domain, keep as-is.
+3. If the response is `404`, `000`, or redirects to an unrelated brand, **annotate the rendered row**: `(Akii returned <wrong-domain>, correct domain is <verified-domain>)`. Use WebSearch with `"<competitor brand> official site"` to find the correct one.
+4. Do NOT silently fix the domain — surface the discrepancy in the output so the user knows where Akii's competitor mapping is unreliable.
+
+This applies to the competitors block in Template A only.
 
 #### 5. Post-scan brand-resolution sanity check
 The LLM judge sometimes anchors on a different brand than the domain actually represents. Compare `resolvedBrand` against the domain and supplied `brandName` (if any):
@@ -318,12 +337,14 @@ The official Akii AI Visibility Score (4-dim breakdown + improvement potential +
 - **Brand Sentiment** weak → review / social signal audit in Phase 2 fix path
 
 ## Rules
-- Always pass `source: "plugin"` AND `User-Agent: akii-plugin/2.6.9` for the API call — both required for reCAPTCHA bypass.
+- Always pass `source: "plugin"` AND `User-Agent: akii-plugin/2.6.10` for the API call — both required for reCAPTCHA bypass.
 - **Phase 0 reachability gate is mandatory.** Never call the Akii API on an unreachable domain — the model will hallucinate a brand identity from the domain string alone and burn the user's daily quota on a report about a different entity than they asked for. Stop after Phase 0 if the domain doesn't resolve.
 - **Brand-resolution sanity check is mandatory after Phase 1.** If the LLM judge anchored on a brand that doesn't match the user's supplied `brandName` or doesn't match the domain root in any reasonable way, surface the mismatch BEFORE rendering the score — don't let the user read 200 lines of analysis about the wrong company.
 - **Zero-signal hard stop in Phase 2.** Never invent per-engine numbers. If no Ahrefs Brand Radar, no Apify, no WebFetch, no WebSearch — render the "insufficient signal data" skeleton, NOT a table of fabricated scores.
 - **Signal-source disclosure is mandatory** for any Phase 2 numbered output. Always render a `Signals consulted:` line above the per-engine table listing which sources were actually invoked this run. Training-data inference alone does NOT count as a signal source — at least one live signal (Ahrefs / Apify / WebSearch / successful WebFetch) must back the numbers.
 - **WAF responses (4xx / 5xx with `cf-ray`, `server: cloudflare`, `AkamaiGHost`, etc.) are NOT outages.** Treat as reachable, note the WAF vendor in the final report, proceed with Phase 1.
+- **Verify Akii competitor domains before rendering.** The API's `competitors` array can contain incorrect domains (e.g. `sequoia.com` for Sequoia Capital, real is `sequoiacap.com`). Each competitor's domain gets a `curl -sI` check; mismatches are surfaced in the rendered output, not silently corrected.
+- **Brand-confirmation guard fires for ambiguous brands too**, not only opaque acronyms. Common surnames + generic English words that map to multiple known entities in the same vertical (`draper.vc`, `wilson.com`) trigger confirmation. Only skip confirmation when the domain root is genuinely unique (`stripe.com`, `anthropic.com`).
 - Never invent scores. If Akii API fails or times out, say so plainly, run Phase 2 only IF signal data is available, and link the akii.com browser URL.
 - Never expose `proInsightsPreview` contents.
 - Never bypass the rate limit. If 429, stop the API half and proceed with Phase 2.

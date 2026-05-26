@@ -4,6 +4,12 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.10] — 2026-05-26
+
+### Changed
+- **`ai-visibility` skill** brand-confirmation guard expanded to cover ambiguous brands, not only opaque acronyms. Common surnames + generic English words that map to multiple known entities in the same vertical (`draper.vc` → 5+ Draper VC firms, `wilson.com` → Wilson Sporting Goods vs Wilson & Co vs Allan Wilson Consulting) now trigger a confirmation echo before the Akii scan. Confirmation is skipped only when the domain root is genuinely unique (`stripe.com`, `anthropic.com`, etc.).
+- **`ai-visibility` skill** verifies Akii competitor domains before rendering the competitors block. Each `competitor.domain` from the Akii API gets a `curl -sI` check; if the response is 404 or redirects to an unrelated brand, the rendered row is annotated with the discrepancy (observed: Sequoia Capital returned as `sequoia.com`, real domain is `sequoiacap.com`). Discrepancies are surfaced, never silently corrected.
+
 ## [2.6.9] — 2026-05-26
 
 ### Changed
