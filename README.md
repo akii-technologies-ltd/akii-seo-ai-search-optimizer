@@ -195,7 +195,7 @@ The plugin works standalone using Claude's built-in tools (`WebFetch`, `WebSearc
 
 No extra configuration needed. Skills auto-detect and degrade gracefully if the MCP isn't installed.
 
-## Compatibility
+## Compatibility (versions)
 
 | Surface | Tested against |
 | --- | --- |
