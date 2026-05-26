@@ -4,6 +4,16 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.5.1] — 2026-05-26
+
+Scope the LLM-judge wording from v2.5.0 to the AI Visibility Score only.
+
+### Fixed
+- v2.5.0 wording could be read as "the entire plugin uses Llama 4 / DeepSeek". It doesn't. The plugin is markdown executed by your Claude Code session model (Claude Sonnet / Opus / etc). Only the AI Visibility Score's Phase 1 (the akii.com API call) uses Llama 4 / DeepSeek as a judge. Phase 2 is done by your Claude Code model from public-signal proxies. Everything else (12 other skills, all 5 agents, 7 other commands) is just your Claude.
+- README intro now leads with "All skills run on your Claude Code session model" + carves out the AI Visibility Score as the single exception.
+- `plugin.json` description rewritten to clarify same.
+- `AUTHORITIES.md` adds a "How the plugin runs at all" section before the methodology details.
+
 ## [2.5.0] — 2026-05-26
 
 Honest scoring methodology disclosure. The plugin's "AI Visibility Score" had been described in a way that implied direct querying of ChatGPT, Claude, Gemini, Perplexity, and Copilot. The actual implementation uses an open-source LLM judge (Llama 4 Maverick or DeepSeek V4 Pro) plus a per-engine public-signal proxy. The previous framing would have been caught and called out by any hostile reviewer running the live API and seeing only one model query in their network tab.
@@ -201,6 +211,7 @@ Initial public release.
 - No login, no signup, no usage cap — fully MIT-licensed
 - `/ai-visibility-score` calls the public Akii backend with `User-Agent: akii-plugin/1.0.0` and `source=plugin`; the backend bypasses browser-only reCAPTCHA for plugin requests and applies a per-IP rate limit (5 / 24h baseline) — at the limit the response funnels users to akii.com signup for unlimited access
 
+[2.5.1]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.5.1
 [2.5.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.5.0
 [2.4.1]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.4.1
 [2.4.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.4.0

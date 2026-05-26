@@ -11,9 +11,11 @@ Free AI-powered SEO, AEO, and GEO toolkit by [Akii](https://akii.com/?utm_source
 
 **Aligned with [Google's AI Optimization Guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) for Google AI Overviews + AI Mode** — and extends those foundations to the 5 other engines (ChatGPT, Claude, Gemini, Perplexity, Copilot) using peer-reviewed cross-engine research where Google doesn't have jurisdiction.
 
-Audit websites, plan content strategy, optimize pages, generate schema markup, cluster keywords, **estimate** your AI visibility for ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews using an open-source LLM judge (Llama 4 / DeepSeek V4 Pro) + per-engine public-signal proxy, generate `llms.txt` for non-Google AI crawlers, and apply the cross-engine GEO rewrite tactics from the Princeton/IIT Delhi study ([Aggarwal et al., KDD 2024, arXiv:2311.09735](https://arxiv.org/abs/2311.09735)) — all without leaving your terminal or IDE.
+**All skills run on your Claude Code session model** (Claude Sonnet / Opus / etc) — same model you're already using.
 
-> **On the AI Visibility Score specifically:** the free plugin does NOT directly query ChatGPT, Claude, Gemini, Perplexity, or Copilot. It uses an open-source LLM as a judge against your brand's public footprint (Phase 1) plus a per-engine signal-correlation proxy (Phase 2). Direct multi-engine querying is a paid Akii platform feature. See [AUTHORITIES.md](./AUTHORITIES.md) § "What this plugin actually measures" for full methodology.
+Audit websites, plan content strategy, optimize pages, generate schema markup, cluster keywords, **estimate** your AI visibility for ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews, generate `llms.txt` for non-Google AI crawlers, and apply the cross-engine GEO rewrite tactics from the Princeton/IIT Delhi study ([Aggarwal et al., KDD 2024, arXiv:2311.09735](https://arxiv.org/abs/2311.09735)) — all without leaving your terminal or IDE.
+
+> **On the AI Visibility Score specifically:** that one skill (and its `/ai-visibility-score` command) calls the Akii backend, which uses Llama 4 / DeepSeek V4 Pro as an LLM judge against your brand's public footprint (Phase 1) plus a per-engine signal-correlation proxy (Phase 2 — done by your Claude Code session). It does NOT directly query ChatGPT, Claude, Gemini, Perplexity, or Copilot. Direct multi-engine querying is a paid Akii platform feature. See [AUTHORITIES.md](./AUTHORITIES.md) § "What this plugin actually measures" for full methodology.
 
 See [AUTHORITIES.md](./AUTHORITIES.md) for how each source is scoped (Google guide → Google AI surfaces · Princeton paper → cross-engine GEO tactics · FirstPageSage breakdown → per-engine signal correlations).
 
