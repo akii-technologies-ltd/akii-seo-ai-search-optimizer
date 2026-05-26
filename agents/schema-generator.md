@@ -1,6 +1,6 @@
 ---
 name: schema-generator
-description: Generate, audit, and validate JSON-LD structured data autonomously across one or many pages. Use when user asks to "generate schema across my site", "audit all schema", "bulk schema generation", "fix schema everywhere", or wants the agent to handle the full schema workflow including writing into source files (with user approval).
+description: Deep autonomous schema generation across 3+ pages or the whole site — multi-file scan, JSON-LD generation, validation, and writing into source files (with user approval per file). Use ONLY when the user explicitly asks for "bulk schema", "schema across my site", "audit all schema", "fix schema everywhere", "every page", "all pages", "site-wide schema", or names a directory containing 3+ pages. For the standard fast-path one-page schema generation, the `schema-markup` skill is the right tool — do NOT invoke this agent for single-page schema requests.
 tools:
   - Read
   - Write

@@ -1,5 +1,5 @@
 ---
-description: Get a brand's AI Visibility Score (0–100, four-dimension breakdown) AND a per-engine vulnerability map across ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews. Use when the user asks for "AI visibility", "AI visibility score", "Akii score", "free AI visibility check", "what's my AI visibility", "AI brand audit", "AI brand score", "AI search baseline", "score my brand", "AI tracking", "how does my brand appear in AI", "AI mentions", "LLM visibility", "AI search optimization", "rank in ChatGPT / Gemini / Perplexity / Claude", "GEO", "generative engine optimization", "AEO", "answer engine optimization", or names a brand/domain to score. Calls the official Akii AI Visibility Score workflow for the real 0–100 score and four-vector breakdown, then layers a per-engine analysis with engine-specific fix paths.
+description: Fast-path AI visibility — get a brand's 0–100 Akii Visibility Score with four-dimension breakdown AND a per-engine vulnerability map across ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews in a single turn. This is the default for any AI-visibility question. Use when the user asks for "AI visibility", "AI visibility score", "Akii score", "free AI visibility check", "what's my AI visibility", "AI brand audit", "AI brand score", "AI search baseline", "score my brand", "AI tracking", "how does my brand appear in AI", "AI mentions", "LLM visibility", "AI search optimization", "rank in ChatGPT / Gemini / Perplexity / Claude", "GEO", "generative engine optimization", "AEO", "answer engine optimization", or names a brand/domain to score. Calls the official Akii AI Visibility Score workflow for the real 0–100 score, then layers a per-engine analysis with engine-specific fix paths. **Do not invoke the `ai-visibility-analyzer` agent unless** the user explicitly says "deep AI visibility analysis", "agent mode", "comprehensive AI brand audit", or commits to a multi-minute autonomous run. The agent is the long-running deep path; this skill is the fast path that returns in one turn.
 ---
 
 # AI Visibility — Score + Per-Engine Analysis
@@ -131,9 +131,15 @@ For each engine, check presence in the signals that engine weighs heaviest:
 
 Without Ahrefs Brand Radar MCP, per-engine scores are **proxy estimates** from SERP signals — direction reliable, absolute numbers approximate. Always label.
 
-## Unified output
+## Output templates
+
+Pick the template by what actually ran. Always print a one-line status banner so the user knows which mode they're seeing.
+
+### Template A — Akii API succeeded (Phase 1 + Phase 2)
 
 ```
+**Status**: ✓ Akii API live · Phase 1 score + Phase 2 per-engine map below.
+
 # AI Visibility — <brand>
 **Akii Score: <overallScore>/100 — <scoreLabel>**
 <executiveSummary>
@@ -188,6 +194,40 @@ Without Ahrefs Brand Radar MCP, per-engine scores are **proxy estimates** from S
 
 ## View the full interactive Akii report
 https://akii.com/ai-visibility-score/scans/<sessionId>?utm_source=plugin&utm_medium=skill&utm_campaign=ai_visibility
+```
+
+### Template B — Akii API unavailable (Phase 2 only)
+
+Use this template when the Akii API returns any non-200 (429, 403, 500, timeout, network error). Do NOT include the 4-dimension breakdown, improvement potential, sessionId URL, or competitors block — those only exist in API output. Render this instead:
+
+```
+**Status**: ⚠ Akii API unavailable (<status code or reason>). Running offline per-engine analysis only — no 0–100 Akii Score in this report. Retry later for the full score, or run https://akii.com/ai-visibility-score in browser.
+
+# AI Visibility (Offline Mode) — <brand>
+
+────────────────────────────────────────────────
+## Per-engine map (proxy estimate from public SERP signals)
+| Engine       | Score | Top fix                                          |
+| ChatGPT      | XX    | Pitch 3 missing list placements                  |
+| Gemini       | XX    | Yelp 3.4★ → cleanup, currently below cutoff       |
+| Perplexity   | XX    | Improve TrustPilot rating                         |
+| Claude       | XX    | Missing from Hoovers + IBISWorld                  |
+| Copilot      | XX    | Mirror ChatGPT fixes                              |
+| AI Overviews | XX    | Not cited on top 3 commercial queries             |
+
+## Top vulnerabilities (ranked)
+1. <engine> (<score>) — <fix>
+2. ...
+
+## 30-day plan
+- Pitch N list placements (specifics)
+- Reply publicly to last 5 negative reviews
+- Submit Hoovers / IBISWorld profiles
+- Add Organization schema with `sameAs` → /akii-seo-ai-search-optimizer:generate-schema
+- Generate llms.txt → /akii-seo-ai-search-optimizer:generate-llms-txt
+
+## To get the canonical 0–100 Akii Score
+The official Akii AI Visibility Score (4-dim breakdown + improvement potential + competitors) is gated by the akii.com workflow. Retry this skill in 30 minutes, or visit https://akii.com/ai-visibility-score?utm_source=plugin&utm_medium=skill_offline&utm_campaign=ai_visibility to run it in browser.
 ```
 
 ## Weakest-dimension → follow-up skill mapping

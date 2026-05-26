@@ -1,5 +1,5 @@
 ---
-description: Generate, audit, and validate JSON-LD structured data / schema markup. Use when the user asks to "generate schema", "add JSON-LD", "structured data", "schema markup", "rich snippets", "add schema.org", "LocalBusiness schema", "FAQ schema", "Product schema", "Article schema", "HowTo schema", "Organization schema", "BreadcrumbList schema", "audit schema", "fix schema errors", "Recipe schema".
+description: Fast-path schema generator — produce, audit, and validate JSON-LD structured data for a single page or file in one turn. This is the default for any schema question. Use when the user asks to "generate schema", "add JSON-LD", "structured data", "schema markup", "rich snippets", "add schema.org", "LocalBusiness schema", "FAQ schema", "Product schema", "Article schema", "HowTo schema", "Organization schema", "BreadcrumbList schema", "audit schema", "fix schema errors", "Recipe schema". **Do not invoke the `schema-generator` agent unless** the user explicitly says "bulk schema", "across my site", "all pages", "every page", or names a path containing 3+ pages to fix. The agent is the autonomous multi-file path that writes into source; this skill is the one-page fast path that proposes JSON-LD inline.
 ---
 
 # Schema Markup Generator
