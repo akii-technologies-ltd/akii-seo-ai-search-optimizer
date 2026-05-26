@@ -13,6 +13,21 @@ sect() { printf "\n\033[1m▶ %s\033[0m\n" "$1"; }
 
 FAILED=0
 
+sect "0. Preflight — required tooling"
+PREFLIGHT_FAIL=0
+for cmd in python3 jq grep sed; do
+  if ! command -v "$cmd" >/dev/null 2>&1; then
+    fail "missing required command: $cmd"
+    PREFLIGHT_FAIL=1
+  fi
+done
+# Warn (don't fail) if the user's grep is actually ugrep — we hit this on
+# Homebrew systems and it broke earlier iterations of bump-version.sh.
+if grep --version 2>&1 | head -1 | grep -qi 'ugrep'; then
+  printf "  \033[33m⚠\033[0m grep on PATH is ugrep — most checks work but some flags differ; install GNU grep if you see odd failures\n"
+fi
+[[ $PREFLIGHT_FAIL -eq 0 ]] && ok "all required tools on PATH (python3, jq, grep, sed)"
+
 sect "1. plugin.json + marketplace.json schemas"
 python3 - <<'PY'
 import json
