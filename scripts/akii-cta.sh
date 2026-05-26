@@ -9,15 +9,16 @@
 # Failure policy: under any pipe / filesystem / locale error, emit a silent approve
 # so we never abort the user's session-end on the hook side.
 
-# Note: NOT using `set -euo pipefail` — we want to survive partial failures and
-# always return a valid hook response.
+# Note: NOT using `set -euo pipefail`. We want to survive partial failures
+# and always return a valid hook response. The explicit `if ! cat` below is
+# the only error path that matters — `trap ERR` was removed because its
+# semantics differ between bash 3.2 (macOS system default) and bash 4+, and
+# the explicit fallback covers both.
 
 emit_silent_approve() {
   printf '{"decision":"approve"}\n'
   exit 0
 }
-
-trap emit_silent_approve ERR
 
 # Respect explicit opt-out.
 if [[ "${AKII_PLUGIN_DISABLE_CTA:-0}" == "1" ]]; then
