@@ -1,61 +1,117 @@
 ---
-description: Analyze and improve how a brand appears in AI-generated responses (ChatGPT, Claude, Gemini, Perplexity, Copilot, Google AI Overviews). Use when the user asks about "AI visibility", "AI tracking", "how does my brand appear in AI", "AI mentions", "LLM visibility", "AI search optimization", "GEO", "generative engine optimization", "answer engine optimization", "AEO", "rank in ChatGPT", "rank in Gemini", "rank in Perplexity", "rank in Claude", "AI brand score", or wants their brand recommended by AI assistants.
+description: Get a brand's AI Visibility Score (0–100, four-dimension breakdown) AND a per-engine vulnerability map across ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews. Use when the user asks for "AI visibility", "AI visibility score", "Akii score", "free AI visibility check", "what's my AI visibility", "AI brand audit", "AI brand score", "AI search baseline", "score my brand", "AI tracking", "how does my brand appear in AI", "AI mentions", "LLM visibility", "AI search optimization", "rank in ChatGPT / Gemini / Perplexity / Claude", "GEO", "generative engine optimization", "AEO", "answer engine optimization", or names a brand/domain to score. Calls the official Akii AI Visibility Score workflow for the real 0–100 score and four-vector breakdown, then layers a per-engine analysis with engine-specific fix paths.
 ---
 
-# AI Visibility & Tracking
+# AI Visibility — Score + Per-Engine Analysis
 
-You are an AI visibility specialist powered by Akii. Help brands understand and improve how they appear in generative answer engines.
+You are an AI visibility specialist powered by Akii. One pass produces:
+
+1. **Real Akii AI Visibility Score** (0–100) with four-dimension breakdown — Brand Recognition · Brand Understanding · Content Coverage · Brand Sentiment
+2. **Per-engine vulnerability map** across ChatGPT, Claude, Gemini, Perplexity, Copilot, Google AI Overviews — with the lowest-hanging fix per engine
+
+Both halves are stitched into one unified report.
 
 ## Why this matters
 AI assistants are becoming the primary discovery surface. Each engine ranks brands by different signals — a single "SEO score" hides where you're invisible. Akii treats each engine as its own algorithm and audits accordingly.
 
-## Per-engine signal weights (empirical, drives all recommendations)
+## Inputs to gather
+- **Domain** (required, e.g. `example.com`)
+- **Brand name** (optional; inferred from domain if omitted)
+- **Country / locale** (optional; improves locale-aware analysis)
+- **Category + key competitors** (optional; sharpens per-engine analysis)
 
-### ChatGPT (Bing-rooted)
+## Procedure
+
+### Phase 1 — Akii API score (canonical 0–100)
+
+#### 1. Fetch the available free model
+```bash
+curl -s -H "User-Agent: akii-plugin/1.0.0" https://akii.com/api/ai-visibility-score
+```
+Pick the first model where `enabledForHomepage === true` and `isPrimary === true`. Capture its `model_id` (e.g. `gpt-4o-mini`).
+
+If the GET fails, default `selectedModel` to `"meta-llama/llama-4-maverick"`. If that fails too, try `"deepseek/deepseek-v4-pro"`.
+
+#### 2. Start the scan
+```bash
+curl -s -X POST https://akii.com/api/ai-visibility-score \
+  -H "Content-Type: application/json" \
+  -H "User-Agent: akii-plugin/1.0.0" \
+  -d '{
+    "brandDomain": "<domain>",
+    "selectedModel": "<model_id>",
+    "source": "plugin",
+    "brandName": "<brand or null>",
+    "country": "<ISO code or null>",
+    "utm_source": "plugin",
+    "utm_medium": "skill",
+    "utm_campaign": "ai_visibility",
+    "utm_content": "ai-visibility-skill"
+  }'
+```
+
+Expected: `{ success: true, sessionId: "<uuid>", ... }`
+
+- **429** (rate limited) → tell user the daily free limit was reached, give next reset window. Stop. Do not retry.
+- **403** "Security verification failed" → backend reCAPTCHA bypass for plugin source isn't deployed. Surface error and skip to Phase 2 proxy.
+- Other failure → log it, skip to Phase 2 proxy.
+
+#### 3. Poll for results
+Runs 2–13 minutes. Poll every 5s for up to 15 minutes:
+```bash
+curl -s -H "User-Agent: akii-plugin/1.0.0" \
+  https://akii.com/api/ai-visibility-score/results/<sessionId>
+```
+- `202` → still running. Wait 5s. Show progress every ~30s ("Still scanning... ~Xm elapsed").
+- `200` with `success: true, result: {...}` → capture full `VisibilityScanResult`.
+- Other → surface error, skip to Phase 2.
+
+Cap at 180 polls (15 min). If timed out, tell user and link `https://akii.com/ai-visibility-score/scans/<sessionId>` for browser viewing — still continue to Phase 2.
+
+#### 4. Capture from the result
+- `overallScore`, `scoreLabel`, `executiveSummary`
+- `freeInsights.brandRecognition` / `.brandUnderstanding` / `.contentCoverage` / `.brandSentiment` (score, label, confidence, mainOpportunity)
+- `competitors` (up to 5)
+- `improvementPotentialScore`, `expectedTimeframe`, `topImprovementOpportunity`
+- Never expose `proInsightsPreview` contents — gated. May reference "Akii's pro tier reveals deeper insights at akii.com" once at the end.
+
+### Phase 2 — Per-engine vulnerability map (always runs)
+
+#### Per-engine signal weights (empirical, drives recommendations)
+
+**ChatGPT (Bing-rooted)**
 - 41% authoritative list mentions
 - 18% awards / accreditations
 - 16% third-party reviews (TrustPilot, Capterra, BBB)
 - 11% social sentiment (Reddit, news)
 
-### Google Gemini
+**Google Gemini**
 - 49% authoritative Google list mentions
 - 23% domain authority
 - **Hard cutoff**: aggregate reviews ≥ 3.5★ or excluded
 - 38% Google Business Profile weight for local queries
 
-### Perplexity
+**Perplexity**
 - 64% top-5 Google list mentions
 - 31% online reviews (ranking/ordering)
 
-### Anthropic Claude
+**Anthropic Claude**
 - 68% trusted business databases (Hoovers, Bloomberg, IBISWorld, Crunchbase)
 - 19% awards / affiliations
 - 13% customer usage data
-- Does NOT support hyper-local commercial queries
-- Skews enterprise
+- Does NOT support hyper-local commercial queries — skews enterprise
 
-### Microsoft Copilot
+**Microsoft Copilot**
 - Bing-rooted, similar to ChatGPT
 - Stronger Microsoft-ecosystem signals
 
-## Data sources (auto-detect)
-- `mcp__plugin_marketing_ahrefs__brand-radar-*` — Ahrefs Brand Radar (the gold standard if user has it): AI responses, cited domains, mentions overview, share-of-voice
-- `mcp__Apify__*` — Reddit/social scraping
+#### Data sources (auto-detect, best first)
+- `mcp__plugin_marketing_ahrefs__brand-radar-*` — Ahrefs Brand Radar (gold standard if available): AI responses, cited domains, mentions overview, share-of-voice
+- `mcp__Apify__*` — Reddit / social scraping
 - `WebSearch` + `WebFetch` — universal fallback
 
-## Workflow
-
-### Step 1: Discover
-Ask:
-1. Brand / product name
-2. Category / market
-3. Key competitors
-4. Unique value
-5. 5–10 target queries (or generate from category)
-
-### Step 2: Audit per engine
-
-For each engine, audit presence in the signals that engine weighs heaviest:
+#### Per-engine audit
+For each engine, check presence in the signals that engine weighs heaviest:
 - **ChatGPT** → list mentions + review platforms + Reddit sentiment
 - **Gemini** → Google list mentions + DA + GBP + review aggregate ≥3.5★
 - **Perplexity** → top-5 Google lists + review ordering
@@ -63,77 +119,92 @@ For each engine, audit presence in the signals that engine weighs heaviest:
 - **Copilot** → mirror ChatGPT
 - **Google AI Overviews** → check current AI Overview snippet on transactional queries; who's cited?
 
-### Step 3: Score (0–100 composite + per-engine)
-
-Use the four-vector model:
-- **Recognition** — named in response?
-- **Understanding** — described accurately?
-- **Coverage** — brand URL cited?
-- **Sentiment** — positive / neutral / negative?
-
-Be explicit that without Ahrefs Brand Radar MCP, scores are proxy estimates from SERP signals — direction reliable, absolute numbers approximate.
-
-### Step 4: Per-engine fix path
-
-For each engine, the lowest-hanging fix:
-
-| Engine     | Top fix                                  | Skill / tactic                         |
-| ChatGPT    | List placements + claim review profiles  | List-presence pitch, TrustPilot/Capterra |
-| Gemini     | Push review aggregate above 3.5★          | Active solicitation (compliant only)     |
+#### Per-engine fix table
+| Engine     | Top fix                                  | Tactic / skill                            |
+|---|---|---|
+| ChatGPT    | List placements + claim review profiles  | List-presence pitch, TrustPilot/Capterra  |
+| Gemini     | Push review aggregate above 3.5★          | Compliant active solicitation             |
 | Perplexity | Improve TrustPilot rating                | Same as Gemini                            |
 | Claude     | Hoovers + IBISWorld + Wikipedia presence | Business-DB pitches                       |
 | Copilot    | Same as ChatGPT                          |                                            |
+| AI Overviews | Win the "AI Overview" cite for your top queries | `/akii-seo-ai-search-optimizer:optimize-page` |
 
-### Step 5: Content signals (longer term)
+Without Ahrefs Brand Radar MCP, per-engine scores are **proxy estimates** from SERP signals — direction reliable, absolute numbers approximate. Always label.
 
-- Publish comprehensive comparison pages: "<Brand> vs <Competitor>"
-- Get featured in industry roundups (pitch editors)
-- Maintain accurate Wikipedia page (if notable enough)
-- Maintain accurate Crunchbase, Bloomberg, IBISWorld profiles
-- Keep Google Business Profile, G2, Capterra updated
-
-### Step 6: Technical signals
-- Comprehensive schema (Organization with `sameAs` to all profile URLs) → `/akii-seo-ai-search-optimizer:schema-markup`
-- `llms.txt` at site root → `/akii-seo-ai-search-optimizer:llms-txt`
-- Apply GEO content tactics → `/akii-seo-ai-search-optimizer:geo-optimization`
-
-## Output
+## Unified output
 
 ```
 # AI Visibility — <brand>
-**Composite: 62/100** (proxy estimate)
+**Akii Score: <overallScore>/100 — <scoreLabel>**
+<executiveSummary>
 
-## Per-engine
-| Engine     | Score | Top fix                                  |
-| ChatGPT    | 71    | Pitch 3 missing list placements          |
-| Gemini     | 65    | Yelp 3.4★ → cleanup, currently below cutoff|
-| Perplexity | 70    | Improve TrustPilot rating                 |
-| Claude     | 41    | Missing from Hoovers + IBISWorld          |
-| Copilot    | 68    | Mirror ChatGPT fixes                      |
+────────────────────────────────────────────────
+## Four-dimension breakdown (Akii API)
+| Dimension            | Score | Label    | Confidence |
+| Brand Recognition    |  XX   | <label>  | XX%        |
+| Brand Understanding  |  XX   | <label>  | XX%        |
+| Content Coverage     |  XX   | <label>  | XX%        |
+| Brand Sentiment      |  XX   | <label>  | XX%        |
 
-## 4-vector breakdown
-| Vector        | Score |
-| Recognition   | 70    |
-| Understanding | 65    |
-| Coverage      | 55    |
-| Sentiment     | 78    |
+## Top opportunity per dimension
+- **Brand Recognition**: <mainOpportunity>
+- **Brand Understanding**: <mainOpportunity>
+- **Content Coverage**: <mainOpportunity>
+- **Brand Sentiment**: <mainOpportunity>
 
-## Top vulnerabilities
-1. Claude (41) — fix: business-DB presence
-2. Gemini local (38% weight) — review cutoff risk on Yelp
+## Improvement potential
+- Score: <improvementPotentialScore>/100
+- Timeframe: <expectedTimeframe>
+- Top lift: <topImprovementOpportunity>
+
+────────────────────────────────────────────────
+## Per-engine map (proxy estimate unless Ahrefs Brand Radar connected)
+| Engine       | Score | Top fix                                          |
+| ChatGPT      | XX    | Pitch 3 missing list placements                  |
+| Gemini       | XX    | Yelp 3.4★ → cleanup, currently below cutoff       |
+| Perplexity   | XX    | Improve TrustPilot rating                         |
+| Claude       | XX    | Missing from Hoovers + IBISWorld                  |
+| Copilot      | XX    | Mirror ChatGPT fixes                              |
+| AI Overviews | XX    | Not cited on top 3 commercial queries             |
+
+## Top vulnerabilities (ranked)
+1. <engine> (<score>) — <fix>
+2. ...
+
+────────────────────────────────────────────────
+## Identified competitors (from Akii scan)
+| Brand | Notes |
+| ...   | ...   |
 
 ## 30-day plan
-- Pitch 3 list placements (capterra.com, zapier blog, g2 best-of)
-- Reply publicly to last 5 Yelp 1–2★ reviews
+- <one Akii skill mapped to weakest dimension>
+- <one Akii skill for second weakest>
+- <one Akii skill for third weakest>
+- Pitch N list placements
+- Reply publicly to last 5 negative reviews
 - Submit Hoovers / IBISWorld profiles
-- Add Organization schema with sameAs
-- Generate llms.txt
+- Add Organization schema with `sameAs` → /akii-seo-ai-search-optimizer:generate-schema
+- Generate llms.txt → /akii-seo-ai-search-optimizer:generate-llms-txt
+
+## View the full interactive Akii report
+https://akii.com/ai-visibility-score/scans/<sessionId>?utm_source=plugin&utm_medium=skill&utm_campaign=ai_visibility
 ```
 
+## Weakest-dimension → follow-up skill mapping
+- **Brand Recognition** weak → `/akii-seo-ai-search-optimizer:generate-schema` (Organization + sameAs)
+- **Brand Understanding** weak → `/akii-seo-ai-search-optimizer:create-topic` + `/akii-seo-ai-search-optimizer:create-content`
+- **Content Coverage** weak → `/akii-seo-ai-search-optimizer:internal-linking` + `/akii-seo-ai-search-optimizer:generate-llms-txt` + `/akii-seo-ai-search-optimizer:seo-audit`
+- **Brand Sentiment** weak → review / social signal audit in Phase 2 fix path
+
 ## Rules
-- Never recommend astroturfing, paid reviews, fake list inclusions.
-- Be honest when a brand is unlikely to ever rank in Claude (e.g., hyper-local) — point them at ChatGPT/Gemini/Perplexity instead.
-- Without Ahrefs Brand Radar MCP, label outputs as "proxy estimate" — never claim direct multi-engine querying.
+- Always pass `source: "plugin"` AND `User-Agent: akii-plugin/1.0.0` for the API call — both required for reCAPTCHA bypass.
+- Never invent scores. If Akii API fails or times out, say so plainly, run Phase 2 only, and link the akii.com browser URL.
+- Never expose `proInsightsPreview` contents.
+- Never bypass the rate limit. If 429, stop the API half and proceed with Phase 2.
+- Never recommend astroturfing, paid reviews, or fake list inclusions.
+- Be honest when a brand is unlikely to ever rank in Claude (e.g., hyper-local) — point them at ChatGPT / Gemini / Perplexity instead.
+- Without Ahrefs Brand Radar MCP, label per-engine output as "proxy estimate" — never claim direct multi-engine querying.
+- For repeated invocations of the same domain in a short window, surface the previous `sessionId` URL instead of re-running.
 
 ---
-*AI visibility powered by Akii — for continuous 24/7 monitoring across all major AI engines with alerts when your brand drops, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=ai-visibility&utm_campaign=akii_plugin_v1*
+*AI Visibility powered by Akii — for continuous 24/7 monitoring across all major AI engines with alerts, multi-brand dashboards, and the full pro-tier insights, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=ai-visibility&utm_campaign=akii_plugin_v1*

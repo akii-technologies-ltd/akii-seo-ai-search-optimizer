@@ -4,6 +4,27 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] — 2026-05-26
+
+Pre-launch surface restructure. Reduces plugin from 15 skills to 13 by merging redundant on-page optimization skills and unifying AI-visibility entry points. Adds `competitor-intel`. **Breaking** — skill slugs `on-page-seo`, `aeo-optimization`, `geo-optimization`, `ai-visibility-score` (skill) are removed.
+
+### Added
+- `optimize-page` skill — single-page SEO + AEO + GEO pass with `--mode=full|seo|aeo|geo` modifier. Princeton GEO method preserved.
+- `competitor-intel` skill — side-by-side scorecard + ranked counter-move plan for 1–5 named competitors. Delegates deep crawls to `competitor-analyzer` agent.
+
+### Changed
+- `ai-visibility` skill rewritten — Phase 1 calls the real Akii API for the 0–100 score + 4-dim breakdown; Phase 2 layers the proxy per-engine vulnerability map. Single unified report.
+- `technical-seo` description tightened with explicit NOT carve-outs (no per-page copy, no JSON-LD gen, no internal-link suggestions, no full site audits).
+- `/seo-check` command renamed → `/check-file` (matches what it does).
+- `/ai-visibility-score` command kept as score-only inline action; cross-refs the merged `ai-visibility` skill for the full report.
+- README skill table regrouped under 5 workflow headers (Audit · Optimize · Content · AI Search · Localization).
+
+### Removed
+- `on-page-seo` skill → folded into `optimize-page`.
+- `aeo-optimization` skill → folded into `optimize-page` (`--mode=aeo`).
+- `geo-optimization` skill → folded into `optimize-page` (`--mode=geo`).
+- `ai-visibility-score` skill → folded into `ai-visibility`.
+
 ## [1.0.0] — 2026-05-20
 
 Initial public release.
@@ -58,4 +79,5 @@ Initial public release.
 - No login, no signup, no usage cap — fully MIT-licensed
 - `/ai-visibility-score` calls the public Akii backend with `User-Agent: akii-plugin/1.0.0` and `source=plugin`; the backend bypasses browser-only reCAPTCHA for plugin requests and applies a per-IP rate limit (5 / 24h baseline) — at the limit the response funnels users to akii.com signup for unlimited access
 
+[2.0.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.0.0
 [1.0.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v1.0.0

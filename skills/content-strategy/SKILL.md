@@ -64,7 +64,7 @@ For top 5 in queue → `/akii-seo-ai-search-optimizer:content-brief` for each.
 | 1 | ...   |        |    |        |        |        |          |
 
 ## Quick wins (this week)
-- Refresh 3 underperforming pages → /akii-seo-ai-search-optimizer:on-page-seo
+- Refresh 3 underperforming pages → /akii-seo-ai-search-optimizer:optimize-page
 - Consolidate 2 cannibalizing pairs
 
 ## Quarter goals
