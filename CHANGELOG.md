@@ -4,6 +4,14 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.7.5] — 2026-05-26
+
+### Changed
+- **`llms-txt` skill** every per-page description now carries a provenance tag (`[scan]` for fetched pages, `[inferred-from-slug]` for unreachable pages described from URL + general knowledge, `[user-supplied]` for sitemap / frontmatter descriptions). llms.txt feeds AI crawlers that cache the descriptions as source-of-truth for their future answers about the brand — inaccurate one-liners compound downstream, so the provenance is now visible at the line level.
+- **`llms-txt` skill** adds an explicit `sitemap.xml` resolution step for dynamic `[slug]` routes. Placeholders are expanded into concrete URLs before publishing; if `sitemap.xml` is unavailable and no data MCP can enumerate slugs, the patterns are surfaced as a `Skipped` row instead of shipping placeholder URLs that would 404 for the crawler.
+- **`llms-txt` skill** adds explicit `noindex` verification via `robots.txt` fetch and `X-Robots-Tag` header inspection, replacing the previous "infer from URL slug" approximation.
+- **`llms-txt` skill** output template now requires a "Generation context" header block disclosing pages inventoried, pages included, description-provenance breakdown, sitemap status, and robots.txt status. Precise integer counts mandatory.
+
 ## [2.7.4] — 2026-05-26
 
 ### Changed
