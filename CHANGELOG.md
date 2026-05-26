@@ -4,6 +4,13 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.12] — 2026-05-26
+
+### Changed
+- **`content-strategy` skill** now requires a live audit (Ahrefs Site Explorer / GSC or WebFetch on the homepage plus 2-3 representative pages) before emitting any claim about the target site's current state. Prior-session context bleed and training-data inference no longer count. The Audit findings section opens with a `Site audit signals:` line listing exactly which sources were invoked.
+- **`content-strategy` skill** Publishing queue's Volume + KD columns now require `mcp__plugin_marketing_ahrefs__keywords-explorer-*`. Without it, the columns are either omitted or every cell is suffixed `(no Ahrefs — heuristic)` so users know the number is a model prior rather than measured research.
+- **`content-strategy` skill** explicitly bans unverified context-inheritance claims (e.g. "Inherits context from prior /ai-visibility + /competitor-intel runs") unless those runs actually executed in the current session.
+
 ## [2.6.11] — 2026-05-26
 
 ### Changed
