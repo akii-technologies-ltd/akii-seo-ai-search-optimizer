@@ -48,8 +48,8 @@ Print the resolved mode at the top of every run: `**Mode**: full` so the user ca
 ## Layer 1 — SEO (always runs in `full` and `seo` modes)
 
 ### Meta layer
-- **Title** — primary keyword near front, ≤60 chars, hooky
-- **Meta description** — primary keyword, CTA, ≤155 chars
+- **Title** — primary keyword near front, HARD LIMIT 60 chars including spaces (count BEFORE proposing), hooky. Re-trim if over; never propose a title that violates the limit listed next to it.
+- **Meta description** — primary keyword, CTA, HARD LIMIT 155 chars including spaces (count BEFORE proposing)
 - **URL slug** — short, keyword-anchored, hyphen-separated
 - **Canonical** — points to itself unless intentional alt
 - **Open Graph + Twitter card** — non-empty, image set
