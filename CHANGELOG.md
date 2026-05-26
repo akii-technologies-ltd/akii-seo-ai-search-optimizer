@@ -4,6 +4,14 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.8.1] — 2026-05-26
+
+### Changed
+- **`seo-audit` skill** scorecard now carries a Provenance column on every row, matching the pattern already active in 5 sister skills (`ai-visibility`, `content-strategy`, `internal-linking`, `keyword-clustering`, `llms-txt`). Tags: `[scan]` (data fetched this run), `[partial-scan]` (some pages sampled), `[heuristic]` (model judgment with no underlying data), `[unmeasured]` (data source required to score was unavailable).
+- **`seo-audit` skill** when a layer is `[unmeasured]` or `[heuristic]`, the score column emits `—` instead of a number. Numbers with weak provenance still read as data to a non-careful reader.
+- **`seo-audit` skill** Issues block must render as a real markdown table with `| --- |` separator row. No more `────` ASCII dividers — they break copy-paste into issue trackers.
+- **`seo-audit` skill** Core Web Vitals section gains a Source column and explicitly bans `curl --time_total` as a TTFB substitute (conflates server response + transfer + rendering). Real TTFB requires PageSpeed Insights or `curl --time_starttransfer`; lower-quality measurements must be tagged `[approximation]`.
+
 ## [2.8.0] — 2026-05-26
 
 ### Removed

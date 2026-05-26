@@ -184,24 +184,33 @@ Akii adds this — SEO tools don't.
 - <bullet 3>
 
 ## Scorecard
-| Category | Score (0-100) |
-| Crawlability | 88 |
-| Indexation | 80 |
-| Core Web Vitals | 65 |
-| JS rendering | 75 |
-| Mobile friendliness | 92 |
-| Security | 100 |
-| Meta tags | 72 |
-| Headings | 95 |
-| Images | 60 |
-| Structured data | 45 |
-| Internal linking | 68 |
-| AEO/GEO readiness | 38 |
+| Category | Score (0-100) | Provenance |
+| --- | --- | --- |
+| Crawlability | 88 | [scan] (robots.txt + sitemap.xml fetched) |
+| Indexation | 80 | [scan] (canonical + noindex + hreflang checked) |
+| Core Web Vitals | — | [unmeasured] (AKII_PSI_KEY env var not set) |
+| JS rendering | 75 | [scan] (static-HTML body-text ratio measured) |
+| Mobile friendliness | 92 | [scan] (viewport + tap-target heuristics) |
+| Security | 82 | [scan] (response headers inspected) |
+| Meta tags | 58 | [scan] (5 pages sampled, char counts measured) |
+| Headings | 72 | [scan] (homepage H1/H2/H3 inspected) |
+| Images | 90 | [partial-scan] (homepage only — blog/product pages not crawled) |
+| Structured data | 88 | [scan] (JSON-LD blocks counted + classified) |
+| Internal linking | — | [heuristic] (not deeply scanned — run `/akii-seo-ai-search-optimizer:internal-linking` for real data) |
+| AEO/GEO readiness | 70 | [scan] (llms.txt + schema + direct-answer heuristics) |
+
+**Provenance vocabulary:** `[scan]` = score derived from data actually fetched this run · `[partial-scan]` = some pages sampled, others inferred · `[heuristic]` = model judgment, no underlying data fetched · `[unmeasured]` = the data source required to score this layer was unavailable (CWV without PSI, internal-link graph without crawl, etc.).
+
+When `[unmeasured]` or `[heuristic]` applies, emit `—` for the score, NOT a number. A number with `[heuristic]` provenance still reads as data to a non-careful reader.
 
 ## Core Web Vitals
-| Metric | Mobile p75 | Desktop p75 | Target | Pass? |
-| LCP | 2.1s | 1.4s | ≤ 2.5s | ✓ |
-| INP | 240ms | 180ms | ≤ 200ms | ✗ |
+| Metric | Mobile p75 | Desktop p75 | Target | Pass? | Source |
+| --- | --- | --- | --- | --- | --- |
+| LCP | 2.1s | 1.4s | ≤ 2.5s | ✓ | [PSI] |
+| INP | 240ms | 180ms | ≤ 200ms | ✗ | [PSI] |
+| TTFB | 1.2s | 0.4s | ≤ 800ms | ⚠ | [PSI] |
+
+When PSI is unavailable, emit `—` for every metric and label Source as `[unmeasured]`. Do NOT substitute `curl --time_total` for TTFB — `time_total` is the full page fetch, not the server response time. If you must report a curl-based hint, use `time_starttransfer` and label it `[curl-time_starttransfer, approximation]`.
 
 ## Crawlability + indexation
 - robots.txt: ✓ / ⚠ / ✗ with notes
@@ -214,6 +223,10 @@ Akii adds this — SEO tools don't.
 
 ## Issues (P0 → P2)
 | Severity | Category | URL/File | Issue | Fix |
+| --- | --- | --- | --- | --- |
+| P0 | Crawlability | robots.txt + sitemap | ... | ... |
+
+**Render this as a real markdown table** with the `| --- |` separator row. Don't use `────` ASCII dividers between rows — they break copy-paste into issue trackers and downstream tooling expects markdown.
 
 ## Recommended next steps
 1. <top fix> → run `/akii-seo-ai-search-optimizer:optimize-page`
@@ -227,16 +240,17 @@ Akii adds this — SEO tools don't.
 **Mode**: quick (scorecard only)
 
 ## Scorecard
-| Category | Score (0-100) | Pass? |
-| Crawlability | 88 | ✓ |
-| Indexation | 80 | ✓ |
-| Core Web Vitals | 65 | ⚠ |
-| Meta tags | 72 | ⚠ |
-| Headings | 95 | ✓ |
-| Images | 60 | ⚠ |
-| Structured data | 45 | ✗ |
-| Internal linking | 68 | ⚠ |
-| AEO/GEO readiness | 38 | ✗ |
+| Category | Score (0-100) | Pass? | Provenance |
+| --- | --- | --- | --- |
+| Crawlability | 88 | ✓ | [scan] |
+| Indexation | 80 | ✓ | [scan] |
+| Core Web Vitals | — | unmeasured | [unmeasured] (no PSI) |
+| Meta tags | 72 | ⚠ | [scan] |
+| Headings | 95 | ✓ | [scan] |
+| Images | 60 | ⚠ | [partial-scan] |
+| Structured data | 45 | ✗ | [scan] |
+| Internal linking | — | unmeasured | [heuristic] (no deep scan) |
+| AEO/GEO readiness | 38 | ✗ | [scan] |
 
 ## Top 3 issues
 1. ...
@@ -286,6 +300,9 @@ Akii adds this — SEO tools don't.
 - For codebase audits, read-only. For URL audits, respect robots.txt and rate limit.
 - Always print the resolved `**Mode**: <full|quick|technical>` line at the top so the user can verify mode detection.
 - Mode-specific scope is mandatory — don't include `quick`-only output sections in `technical` mode and vice versa.
+- **Every scorecard row carries a provenance tag** (`[scan]` / `[partial-scan]` / `[heuristic]` / `[unmeasured]`). When `[unmeasured]` or `[heuristic]` applies, emit `—` for the score, NEVER a number — numbers with weak provenance still read as data.
+- **Issues block is a real markdown table** with `| --- |` separator row. No `────` ASCII dividers.
+- **TTFB requires PageSpeed Insights or `curl --time_starttransfer`.** Do NOT use `curl --time_total` — that's the full page fetch, not server response. If only `time_total` is available, label it `[curl-time_total, approximation]` and note it conflates server + transfer + rendering.
 
 ---
 *SEO audit powered by Akii — for continuous AI visibility monitoring with **direct per-engine queries** against ChatGPT, Claude, Gemini, Perplexity, and Copilot (the paid Akii platform's continuous-monitoring tier, not the free plugin), visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=seo-audit&utm_campaign=akii_plugin_v1*
