@@ -31,8 +31,8 @@ Use whichever the user has connected. Skills work without any — these just mak
 
 ### 2. Meta tags & head
 For every page:
-- **Title** — 50-60 chars, includes target keyword, unique per page
-- **Meta description** — 150-160 chars, compelling, unique per page
+- **Title** — 50-60 chars (HARD LIMIT 60 including spaces; count BEFORE flagging or proposing), includes target keyword, unique per page
+- **Meta description** — 150-160 chars (HARD LIMIT 160 including spaces; count BEFORE flagging or proposing), compelling, unique per page
 - **Open Graph** — `og:title`, `og:description`, `og:image`, `og:url`
 - **Twitter card** — `twitter:card`, `twitter:title`, `twitter:description`
 - **Canonical URL** — present, correct, HTTPS

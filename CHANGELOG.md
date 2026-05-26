@@ -4,6 +4,11 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.11] — 2026-05-26
+
+### Changed
+- **`content-brief`, `optimize-page`, and `seo-audit` skills** now enforce title and meta-description character limits as HARD LIMITS rather than soft guidelines. The skill bodies instruct the model to count BEFORE proposing the value and re-trim if over, with explicit guidance on common over-run patterns (trailing "& X" clauses, year stamps, "the …" qualifiers). Title hard limit is 60 chars including spaces; meta description hard limit is 155 chars (`content-brief`, `optimize-page`) or 160 chars (`seo-audit`, matching the SEO industry-standard range).
+
 ## [2.6.10] — 2026-05-26
 
 ### Changed
