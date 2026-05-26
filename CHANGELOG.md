@@ -4,6 +4,11 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.6] — 2026-05-26
+
+### Changed
+- **`broken-links` skill** parallel-verify pattern fixed for URLs containing `&` (e.g. UTM query strings). Previous `xargs -P 5 -I {}` form failed with *"command line cannot be assembled, too long"* on real-world links; corrected to `xargs -P 5 -n 1 sh -c '…' _` with positional `$1`. Skill body now ships the working pattern plus a pre-filter step that strips template placeholders (`example.com`, `<url>`, bare `web.archive.org/`, empty UTM values) before verification, and adds Cloudflare / WAF 403 responses to the false-positive list alongside the existing auth-walled domains.
+
 ## [2.6.5] — 2026-05-26
 
 ### Changed
