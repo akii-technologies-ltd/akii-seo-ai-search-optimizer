@@ -72,7 +72,7 @@ You are an autonomous content strategist powered by Akii. Build a data-grounded 
 | # | Topic | Vol | KD | Pillar | Status | Effort | Priority |
 
 ## This week's quick wins
-- /akii-seo-ai-search-optimizer:on-page-seo on top 3 underperformers
+- /akii-seo-ai-search-optimizer:optimize-page on top 3 underperformers
 
 ## Briefs to draft next
 - /akii-seo-ai-search-optimizer:content-brief on top 5 queue items
