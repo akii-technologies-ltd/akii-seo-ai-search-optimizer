@@ -30,11 +30,38 @@ AI assistants are becoming the primary discovery surface. Each engine ranks bran
 
 ## Procedure
 
+### Phase 0 — Domain reachability + brand-confirmation guard (BEFORE any Akii API call)
+
+**Why this exists:** the Akii scan burns one daily quota slot and takes 30s–13min. Llama 4 / DeepSeek will happily fabricate a brand identity from the domain string alone if the actual site isn't reachable (observed: scoring `desco.ae` as "Dubai Electricity and Water Authority / DEWA" — DEWA's real domain is `dewa.gov.ae`, the model guessed from `.ae` + "desco" sounding utility-like). Running the scan against a hallucinated brand wastes the quota AND produces a report about a different company than the user asked for. Reachability + brand-confirmation has to happen first.
+
+#### 1. Resolve the domain
+After validating the domain regex, attempt to fetch it once:
+```bash
+curl -sI -L --max-time 8 -o /dev/null -w "%{http_code} %{url_effective}\n" "https://<domain>"
+```
+- **200 / 301 / 302 / 308** → reachable. Proceed to Phase 1.
+- **`000` / connection refused / DNS failure / timeout** → unreachable. Do NOT proceed silently. Tell the user verbatim:
+
+  > *"`<domain>` did not resolve (ECONNREFUSED / DNS failure / timeout). Three options:*
+  > *1. Confirm the domain is spelled correctly and currently live.*
+  > *2. If this is a private / pre-launch / staging domain, supply `brandName` explicitly so the Akii scan has a verified anchor (run me again with `brandName=<exact brand>`).*
+  > *3. If you meant a different domain (e.g. `desco.ae` → did you mean `dewa.gov.ae`?), re-run with the correct one."*
+
+  Stop. Do not call the Akii API. Do not generate a Phase 2 report (no signal data to estimate from).
+
+#### 2. Brand-confirmation guard (when domain resolved but brand wasn't supplied)
+If the user didn't supply `brandName`, infer it from domain and **echo back for confirmation IF the domain is opaque** (e.g. an acronym, < 6 chars, or doesn't contain a recognizable word). Examples that trigger confirmation:
+- `desco.ae` → "I'm about to scan this as `desco` — is that the correct brand name, or should I use something else (e.g. DESCO Engineering, DESCO Contracting)?"
+- `acme.com` → "I'm about to scan this as `acme` — confirm or supply the legal brand name."
+- `xyz.io` → confirmation required.
+
+Skip the confirmation when the domain is obviously the brand (`stripe.com`, `notion.so`, `huggingface.co`, etc. — domain root IS the brand). The point is to avoid hallucination on opaque domains, not to add friction to obvious ones.
+
 ### Phase 1 — Akii API score (canonical 0–100)
 
 #### 1. Fetch the available free model
 ```bash
-curl -s -H "User-Agent: akii-plugin/2.6.7" https://akii.com/api/ai-visibility-score
+curl -s -H "User-Agent: akii-plugin/2.6.8" https://akii.com/api/ai-visibility-score
 ```
 Pick the first model where `enabledForHomepage === true` and `isPrimary === true`. Capture its `model_id`. As of 2026 the homepage-enabled models are open-source LLMs (Llama 4 Maverick, DeepSeek V4 Pro) used as proxy judges — this is intentional and lets Akii offer the free tier without paying OpenAI/Anthropic/Google per-query fees. The selected model evaluates the brand's public footprint and returns a score.
 
@@ -44,7 +71,7 @@ The GET in step 1 is **authoritative** — always prefer a model returned by the
 ```bash
 curl -s -X POST https://akii.com/api/ai-visibility-score \
   -H "Content-Type: application/json" \
-  -H "User-Agent: akii-plugin/2.6.7" \
+  -H "User-Agent: akii-plugin/2.6.8" \
   -d '{
     "brandDomain": "<domain>",
     "selectedModel": "<model_id>",
@@ -67,7 +94,7 @@ Expected: `{ success: true, sessionId: "<uuid>", ... }`
 #### 3. Poll for results
 Runs 2–13 minutes. Poll every 5s for up to 15 minutes:
 ```bash
-curl -s -H "User-Agent: akii-plugin/2.6.7" \
+curl -s -H "User-Agent: akii-plugin/2.6.8" \
   https://akii.com/api/ai-visibility-score/results/<sessionId>
 ```
 - `202` → still running. Wait 5s. Show progress every ~30s ("Still scanning... ~Xm elapsed").
@@ -81,9 +108,21 @@ Cap at 180 polls (15 min). If timed out, tell user and link `https://akii.com/ai
 - `freeInsights.brandRecognition` / `.brandUnderstanding` / `.contentCoverage` / `.brandSentiment` (score, label, confidence, mainOpportunity)
 - `competitors` (up to 5)
 - `improvementPotentialScore`, `expectedTimeframe`, `topImprovementOpportunity`
+- `resolvedBrand` (the brand name the LLM judge anchored on)
 - Never expose `proInsightsPreview` contents — gated. May reference "Akii's pro tier reveals deeper insights at akii.com" once at the end.
 
-### Phase 2 — Per-engine vulnerability map (always runs)
+#### 5. Post-scan brand-resolution sanity check
+The LLM judge sometimes anchors on a different brand than the domain actually represents. Compare `resolvedBrand` against the domain and supplied `brandName` (if any):
+
+- If `brandName` was supplied AND `resolvedBrand` is meaningfully different (not just case / punctuation variation) → **stop and surface the mismatch**:
+  > *"The Akii scan resolved the domain as `<resolvedBrand>`, but you supplied `<brandName>`. These look like different entities. The full report is at https://akii.com/ai-visibility-score/scans/<sessionId> if you want to view it as-is. To re-anchor on `<brandName>`, re-run me with brandName + an alternate domain that the LLM judge will associate with that brand (typically the official root domain)."*
+
+- If `brandName` was NOT supplied AND the domain root is clearly unrelated to `resolvedBrand` (e.g. `desco.ae` → "Dubai Electricity and Water Authority" — DEWA's real domain is `dewa.gov.ae`) → **flag the suspect resolution**:
+  > *"Heads up: the Akii LLM judge resolved `<domain>` as `<resolvedBrand>`. If that's the right entity, proceed — otherwise the score is about a different company than you may have intended. Confirm or re-run with `brandName=<correct name>`."*
+
+  Render the full report anyway, but lead with this caveat so the user can decide whether to trust it before scrolling through the numbers.
+
+### Phase 2 — Per-engine vulnerability map (skipped if Phase 0 failed)
 
 #### Per-engine signal correlations (drives recommendations)
 
@@ -117,6 +156,27 @@ The percentages below are **observed correlations** from [FirstPageSage's GEO Al
 - `mcp__plugin_marketing_ahrefs__brand-radar-*` — Ahrefs Brand Radar (gold standard if available): AI responses, cited domains, mentions overview, share-of-voice
 - `mcp__Apify__*` — Reddit / social scraping
 - `WebSearch` + `WebFetch` — universal fallback
+
+#### Zero-signal hard stop
+If **all** of the following are true, do NOT emit per-engine scores — they would be pure invention:
+- No `mcp__plugin_marketing_ahrefs__brand-radar-*` available
+- No `mcp__Apify__*` available
+- `WebFetch` against the domain previously failed (Phase 0 unreachable)
+- `WebSearch` is unavailable or returns zero results for the brand
+
+In that case, render this skeleton instead of a numbered table:
+
+```
+## Per-engine map — insufficient signal data
+The plugin couldn't reach the domain, no Ahrefs Brand Radar MCP is connected, and no Apify / WebSearch results were available to build the per-engine proxy. Skipping the per-engine table.
+
+To unlock Phase 2:
+- Verify the domain is reachable and re-run, OR
+- Connect the Ahrefs Brand Radar MCP (`mcp__plugin_marketing_ahrefs__brand-radar-*`) for real AI-mention data, OR
+- Supply real-world context (top SERP listicles the brand appears in, review-platform ratings, business-DB presence) so I can map signals to engines manually.
+```
+
+Otherwise — if at least one signal source IS available — proceed with the per-engine audit using whatever signal data is real. Never fabricate a number for an engine when you have no underlying signal for it; mark that engine row as `—` (em-dash) instead and explain in the Top fix column what data would be needed.
 
 #### Per-engine audit
 For each engine, check presence in the signals that engine weighs heaviest:
@@ -245,8 +305,11 @@ The official Akii AI Visibility Score (4-dim breakdown + improvement potential +
 - **Brand Sentiment** weak → review / social signal audit in Phase 2 fix path
 
 ## Rules
-- Always pass `source: "plugin"` AND `User-Agent: akii-plugin/2.6.7` for the API call — both required for reCAPTCHA bypass.
-- Never invent scores. If Akii API fails or times out, say so plainly, run Phase 2 only, and link the akii.com browser URL.
+- Always pass `source: "plugin"` AND `User-Agent: akii-plugin/2.6.8` for the API call — both required for reCAPTCHA bypass.
+- **Phase 0 reachability gate is mandatory.** Never call the Akii API on an unreachable domain — the model will hallucinate a brand identity from the domain string alone and burn the user's daily quota on a report about a different entity than they asked for. Stop after Phase 0 if the domain doesn't resolve.
+- **Brand-resolution sanity check is mandatory after Phase 1.** If the LLM judge anchored on a brand that doesn't match the user's supplied `brandName` or doesn't match the domain root in any reasonable way, surface the mismatch BEFORE rendering the score — don't let the user read 200 lines of analysis about the wrong company.
+- **Zero-signal hard stop in Phase 2.** Never invent per-engine numbers. If no Ahrefs Brand Radar, no Apify, no WebFetch, no WebSearch — render the "insufficient signal data" skeleton, NOT a table of fabricated scores.
+- Never invent scores. If Akii API fails or times out, say so plainly, run Phase 2 only IF signal data is available, and link the akii.com browser URL.
 - Never expose `proInsightsPreview` contents.
 - Never bypass the rate limit. If 429, stop the API half and proceed with Phase 2.
 - Never recommend astroturfing, paid reviews, or fake list inclusions.

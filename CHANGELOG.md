@@ -4,6 +4,13 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.8] — 2026-05-26
+
+### Changed
+- **`ai-visibility` skill** now runs a Phase 0 reachability + brand-confirmation guard before calling the Akii API. If the domain doesn't resolve (`ECONNREFUSED`, DNS failure, timeout), the skill stops and asks the user to confirm the domain or supply an explicit `brandName` instead of letting the LLM judge hallucinate a brand identity from the domain string and burning a daily quota slot.
+- **`ai-visibility` skill** runs a post-scan brand-resolution sanity check. If the LLM judge anchored on a brand that doesn't match the supplied `brandName` or the domain root, the mismatch is surfaced before the score — preventing 200-line reports about a different company than the user asked for.
+- **`ai-visibility` skill** adds a zero-signal hard stop in Phase 2. When no Ahrefs Brand Radar MCP, no Apify, no WebFetch, no WebSearch signal data is available, the per-engine map is replaced with an "insufficient signal data" skeleton listing what would unlock Phase 2 — instead of emitting per-engine numbers that have no underlying signal.
+
 ## [2.6.7] — 2026-05-26
 
 ### Changed
