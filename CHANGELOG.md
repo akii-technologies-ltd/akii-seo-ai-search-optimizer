@@ -4,6 +4,11 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.2] — 2026-05-26
+
+### Changed
+- SessionEnd CTA now leads with **"Upgrade for continuous AI visibility monitoring"** so the platform-pitch framing is unambiguous. Previous wording (*"Akii — Continuous AI Visibility Monitoring"*) was technically a platform pitch (arrow → akii.com) but could be misread as a description of the plugin itself.
+
 ## [2.6.1] — 2026-05-26
 
 Post-install testing batch. Four UX fixes surfaced by running the plugin end-to-end against akii.com.
@@ -249,6 +254,7 @@ Initial public release.
 - No login, no signup, no usage cap — fully MIT-licensed
 - `/ai-visibility-score` calls the public Akii backend with `User-Agent: akii-plugin/1.0.0` and `source=plugin`; the backend bypasses browser-only reCAPTCHA for plugin requests and applies a per-IP rate limit (5 / 24h baseline) — at the limit the response funnels users to akii.com signup for unlimited access
 
+[2.6.2]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.6.2
 [2.6.1]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.6.1
 [2.6.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.6.0
 [2.5.1]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.5.1
