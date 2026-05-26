@@ -4,6 +4,11 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.14] — 2026-05-26
+
+### Changed
+- Four commands (`/translate-content`, `/generate-schema`, `/generate-llms-txt`, `/keyword-cluster`) are now thin slash-command wrappers around their sibling skills (`content-translation`, `schema-markup`, `llms-txt`, `keyword-clustering`). The full procedure for each operation now lives in a single source of truth — the skill body — and the command file documents argument parsing plus delegates to the skill via an in-repo link. Eliminates the drift risk where skill-body updates (like the v2.6.13 top-10 locale baseline) weren't reflected in the command file. Both invocation surfaces (natural-language skill trigger AND `$ARGUMENTS`-parsed slash command) continue to work; no external behavior change.
+
 ## [2.6.13] — 2026-05-26
 
 ### Changed
