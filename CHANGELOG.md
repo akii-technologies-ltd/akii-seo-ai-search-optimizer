@@ -4,6 +4,22 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.5.0] — 2026-05-26
+
+Honest scoring methodology disclosure. The plugin's "AI Visibility Score" had been described in a way that implied direct querying of ChatGPT, Claude, Gemini, Perplexity, and Copilot. The actual implementation uses an open-source LLM judge (Llama 4 Maverick or DeepSeek V4 Pro) plus a per-engine public-signal proxy. The previous framing would have been caught and called out by any hostile reviewer running the live API and seeing only one model query in their network tab.
+
+### Changed
+- **`ai-visibility` skill** rewritten with explicit "What this skill is NOT" section. Phase 1 is now described as an open-source LLM judge against the brand's public footprint. Phase 2 is now described as a per-engine signal-correlation proxy. The skill explicitly tells Claude to respond "no" if a user asks whether this is the actual ChatGPT response about their brand.
+- **`/ai-visibility-score` command** description rewritten same way.
+- **README** intro replaces "track AI visibility across [6 engines]" with "estimate AI visibility... via an open-source LLM judge + per-engine public-signal proxy". Skill table row updated. Comparison table now has a new row: "direct per-engine querying" — plugin: NO, platform: YES.
+- **`plugin.json` + `marketplace.json` descriptions** rewritten to be honest about the LLM-judge mechanism + carve out direct querying as the paid platform's differentiator.
+- **`AUTHORITIES.md`** adds a "What this plugin actually measures" section explaining Phase 1 and Phase 2 mechanics, what's NOT happening, and what direct querying requires (paid Akii or Ahrefs Brand Radar MCP).
+- **`seo-audit` footer CTA** now distinguishes the free plugin (proxy) from the paid platform (direct per-engine queries).
+- **Output banner** for Template A now states the mechanism: "Phase 1 score (LLM-judge proxy via <model_id>) + Phase 2 per-engine proxy map below. Neither phase directly queries ChatGPT / Claude / Gemini / Perplexity / Copilot."
+
+### Why a minor bump
+This is a substantive positioning correction. No skill behavior changes — the plugin still does what it did before. But the marketing language now matches the implementation. If a hostile reviewer running the live API confronts us with "you said you queried ChatGPT but I only see one Llama call", the answer is now in the docs.
+
 ## [2.4.1] — 2026-05-26
 
 Self-audit of the v2.4.0 co-anchor pass surfaced five drift / gap items. Fixed.
@@ -185,6 +201,7 @@ Initial public release.
 - No login, no signup, no usage cap — fully MIT-licensed
 - `/ai-visibility-score` calls the public Akii backend with `User-Agent: akii-plugin/1.0.0` and `source=plugin`; the backend bypasses browser-only reCAPTCHA for plugin requests and applies a per-IP rate limit (5 / 24h baseline) — at the limit the response funnels users to akii.com signup for unlimited access
 
+[2.5.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.5.0
 [2.4.1]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.4.1
 [2.4.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.4.0
 [2.3.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.3.0
