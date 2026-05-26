@@ -4,6 +4,19 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.7.0] — 2026-05-26
+
+### Removed
+- Four redundant command slugs that duplicated existing skills: `/translate-content`, `/generate-schema`, `/generate-llms-txt`, `/keyword-cluster`. The slash menu was listing each operation twice with confusingly similar names, leaving users unsure which to pick. The skills (`content-translation`, `schema-markup`, `llms-txt`, `keyword-clustering`) remain as the single canonical surface for each operation and can be invoked through natural language ("translate this to German", "generate schema for this page") or by typing the skill's slash slug (`/akii-seo-ai-search-optimizer:content-translation`, etc.).
+
+### Changed
+- Command count drops from 7 to 3. The remaining commands (`/create-topic`, `/create-content`, `/check-file`) all serve argument-driven invocation patterns that don't have a sibling skill, so the slash menu now reads coherently without duplication.
+- All in-repo cross-references that previously pointed to the removed command slugs (e.g. `/akii-seo-ai-search-optimizer:generate-schema`) are rewritten to the surviving skill slugs (`/akii-seo-ai-search-optimizer:schema-markup`). The `ai-visibility` skill's 30-day-plan templates, `content-brief` post-write checklist, `optimize-page` schema delegation, and the `technical-seo` description carve-out all updated.
+- README's Commands section, AUTHORITIES.md plugin-architecture footnote, and assorted example blocks updated to reflect the new 3-command catalog.
+
+### Migration
+Anyone who previously typed `/translate-content`, `/generate-schema`, `/generate-llms-txt`, or `/keyword-cluster` can use the equivalent skill instead: ask in natural language ("translate this page to French", "generate JSON-LD schema for the open file", "build llms.txt from the sitemap", "cluster these keywords") or type the skill's slash slug. The procedure body is identical — same output, same arguments, same rules.
+
 ## [2.6.14] — 2026-05-26
 
 ### Changed

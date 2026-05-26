@@ -133,19 +133,15 @@ Autonomous agents for deep, multi-step work. Each agent has a fast-path skill co
 
 When in doubt, the **skill** is the default for any question in its capability area. The **agent** only triggers when the user explicitly says one of: `deep`, `agent mode`, `autonomous`, `bulk`, `across my site`, `every page`, `5+ competitors`, `comprehensive`. If you want the agent specifically, name it: e.g. *"run the schema-generator agent"*.
 
-### Commands (7)
+### Commands (3)
 
-Quick actions you can invoke directly. For AI Visibility scoring, just ask in natural language ("score my brand", "what's my AI visibility for yourdomain.com") — the `ai-visibility` skill auto-triggers.
+Three argument-driven slash commands for operations that benefit from positional `$ARGUMENTS` parsing. Everything else triggers through the skill catalog above — either via natural language ("translate this to German", "generate schema for this page") or by typing the skill's slash slug (`/akii-seo-ai-search-optimizer:content-translation`, `/akii-seo-ai-search-optimizer:schema-markup`, etc.).
 
 | Command | What it does |
 | --- | --- |
 | `/create-topic <seed>` | Research and generate a full topic plan |
 | `/create-content <topic>` | Generate a full SEO + AEO + GEO-optimized article |
-| `/generate-schema [type]` | Generate JSON-LD structured data |
-| `/keyword-cluster <keywords>` | Cluster keywords into content groups |
 | `/check-file [file]` | Quick SEO + AEO check on a single file |
-| `/translate-content <language>` | Translate content with multilingual SEO |
-| `/generate-llms-txt` | Generate llms.txt + llms-full.txt |
 
 ## Examples
 
@@ -168,14 +164,14 @@ Quick actions you can invoke directly. For AI Visibility scoring, just ask in na
 # Per-engine AI visibility breakdown
 "How does my brand rank in ChatGPT vs Gemini vs Perplexity vs Claude?"
 
-# Localize for Mexico (positional: language [market] [file])
-/translate-content Spanish Mexico
+# Localize for Mexico
+"Translate this to Spanish (Mexico)"
 
 # Cluster keywords
-/keyword-cluster "seo tools, best seo software, seo audit, website optimization, keyword research tool"
+"Cluster these keywords: seo tools, best seo software, seo audit, website optimization, keyword research tool"
 
 # Generate schema for the open file
-/generate-schema article
+"Generate Article schema for this file"
 
 # Compare against competitors
 "Compare my SEO against competitor1.com and competitor2.com"
@@ -184,7 +180,7 @@ Quick actions you can invoke directly. For AI Visibility scoring, just ask in na
 "Apply GEO optimization to ./blog/my-post.md"  # routes to optimize-page --mode=geo
 
 # Generate llms.txt for the AI crawlers
-/generate-llms-txt
+"Generate llms.txt for this site"
 ```
 
 ## Auto-detected third-party MCPs

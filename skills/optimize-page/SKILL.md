@@ -71,7 +71,7 @@ Print the resolved mode at the top of every run: `**Mode**: full` so the user ca
 - Descriptive anchor text
 
 ### Schema + images
-- Recommend schema type (Article / HowTo / Product / FAQ / Recipe / etc.) — delegate generation to `/akii-seo-ai-search-optimizer:generate-schema`
+- Recommend schema type (Article / HowTo / Product / FAQ / Recipe / etc.) — delegate generation to `/akii-seo-ai-search-optimizer:schema-markup`
 - Hero image with descriptive alt + filename, width/height set, modern format
 
 ## Layer 2 — AEO (runs in `full` and `aeo` modes)
@@ -104,7 +104,7 @@ Flag the lowest-scoring 20% of chunks for rewrite.
 2. Convert prose-lists to bulleted
 3. Promote inline definitions to definition blocks
 4. Split sections >300 words into autonomous sub-sections
-5. Extract FAQ block if 3+ Q&A pairs hide in body → generate `FAQPage` JSON-LD (hand off to `/akii-seo-ai-search-optimizer:generate-schema`)
+5. Extract FAQ block if 3+ Q&A pairs hide in body → generate `FAQPage` JSON-LD (hand off to `/akii-seo-ai-search-optimizer:schema-markup`)
 
 ## Layer 3 — GEO (runs in `full` and `geo` modes)
 
@@ -182,7 +182,7 @@ Methodology caveat: the Princeton benchmark allowed fabricated quotes/stats in t
 | Direct-answer lead | ❌ | Add ≤40-word answer to first paragraph |
 | Entity coverage | 6/10 | Add: <entity 1>, <entity 2> |
 | Internal links | 1 (target 3+) | Suggest: /a, /b |
-| Schema type | none | Article + FAQPage → /akii-seo-ai-search-optimizer:generate-schema |
+| Schema type | none | Article + FAQPage → /akii-seo-ai-search-optimizer:schema-markup |
 
 ## Layer 2 · AEO
 **Chunk score**: 58/100 → 84/100 (+26)
