@@ -4,6 +4,13 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.7.2] — 2026-05-26
+
+### Changed
+- **`internal-linking` skill** now enforces precise integer counts in every summary line (Pages / Orphans / Anchor-stuffed) and requires the row count of each table to equal the integer reported above it. Eliminates the `~30 orphans` style approximation where the printed list actually contained 25.
+- **`internal-linking` skill** every recommendation (orphan linker, link addition, hub fix) now carries a mandatory provenance tag: `[scan]` for findings derived directly from the link-graph scan, `[IA-judgment]` for model-inferred information-architecture suggestions based on URL structure, and `[heuristic]` for general SEO best-practice applied without site-specific data. Users can tell at a glance whether a recommendation is data-backed or judgment-based.
+- **`internal-linking` skill** now surfaces DB-resident route limitations at the top of the report. When dynamic `[slug]` routes are detected in the codebase, the report lists the affected patterns and names the data MCP (Supabase, BigQuery, Definite, Hex) that would unlock per-instance analysis. Previously this was a closing caveat that users could miss.
+
 ## [2.7.1] — 2026-05-26
 
 ### Changed
