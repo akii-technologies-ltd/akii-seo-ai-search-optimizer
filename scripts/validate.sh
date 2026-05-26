@@ -135,9 +135,14 @@ AGENT_SLUGS=$(ls agents/*.md 2>/dev/null | xargs -n1 basename | sed 's/\.md$//' 
 CMD_SLUGS=$(ls commands/*.md 2>/dev/null | xargs -n1 basename | sed 's/\.md$//' | sort -u)
 ALL_SLUGS=$(printf '%s\n%s\n%s\n' "$SKILL_SLUGS" "$AGENT_SLUGS" "$CMD_SLUGS" | sort -u)
 
-# Find references like /akii-seo-ai-search-optimizer:<slug> and /<slug> (commands)
+# Find references like /akii-seo-ai-search-optimizer:<slug> and /<slug> (commands).
+# CHANGELOG.md is the project's historical record; it legitimately mentions
+# slugs that have since been removed (e.g. migration blocks for removed
+# commands). Exclude CHANGELOG.md from the scan so historical references
+# don't trip §10. Active runtime references live in skills/agents/commands
+# bodies and README — those are checked.
 REFS=$(grep -RhoE '/akii-seo-ai-search-optimizer:[a-z0-9-]+' \
-        README.md CHANGELOG.md skills agents commands 2>/dev/null \
+        README.md skills agents commands 2>/dev/null \
         | sed 's|/akii-seo-ai-search-optimizer:||' | sort -u)
 for ref in $REFS; do
   if ! echo "$ALL_SLUGS" | grep -qx "$ref"; then
@@ -145,7 +150,7 @@ for ref in $REFS; do
     XREF_FAIL=1
   fi
 done
-[[ $XREF_FAIL -eq 0 ]] && ok "all /akii-seo-ai-search-optimizer:<slug> references resolve"
+[[ $XREF_FAIL -eq 0 ]] && ok "all /akii-seo-ai-search-optimizer:<slug> references in active surfaces resolve"
 
 sect "11. README counts match filesystem"
 COUNT_FAIL=0
