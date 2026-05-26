@@ -4,3 +4,8 @@ dist/
 *.log
 .env
 .env.local
+
+# Internal — never commit
+launch/
+SUBMISSION.md
+SCREENSHOT-GUIDE.md
