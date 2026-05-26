@@ -4,6 +4,12 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.7.4] — 2026-05-26
+
+### Changed
+- **`keyword-clustering` skill** pillar-selection rule now explicitly allows editorial override of the highest-volume-default when the volume head is too broad or off-brand for the site's specialization. Overrides MUST append `[editorial override — highest-volume kw is "<term>" at <vol>]` to the pillar row so users see both the chosen pillar AND the default they'd have gotten by strict-volume logic. No hidden overrides.
+- **`keyword-clustering` skill** precise-integer count rule strengthened: the skill body now explicitly defines what the `Total` integer counts (unique keyword rows across all clusters, including `[alias]` and `[absorbed]`) vs what `Clusters` counts (cluster headers), and requires the model to verify the counts before emitting the summary line. Closes the 120 vs 122 rounding drift surfaced during end-to-end testing.
+
 ## [2.7.3] — 2026-05-26
 
 ### Changed
