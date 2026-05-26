@@ -37,18 +37,18 @@ Detect from target shape if not specified explicitly. Default order: `local` if 
 3. **Split internal vs external:**
    - Internal (relative paths, same-domain) → walk repo with `Glob` to confirm the target file exists
    - External (`https?://`) → verify via Bash curl
-4. **Verify externals** in batches. Recommended: process 20-30 at a time per Bash call. Use:
+4. **Verify externals in parallel** — single Bash call, 5 concurrent workers, 200ms stagger. Write URLs to a temp file then:
    ```bash
-   curl -sIL --max-time 10 -o /dev/null -w '%{http_code} %{url_effective}\n' '<url>'
+   xargs -P 5 -I {} sh -c 'sleep 0.2; curl -sIL --max-time 10 -o /dev/null -w "%{http_code} {}\n" "{}"' < /tmp/urls.txt
    ```
-   Rate limit: insert 200ms `sleep` between requests so a single domain doesn't get hammered.
+   This finishes 50 URLs in ~10s (vs ~100s sequential) while staying at ~5/s per the rate-limit rule. **Do not** loop curl serially in shell — that's the slow trap.
 5. **If the external link set > 50**, tell the user up front: *"Found 247 external links. I'll verify the first 50 inline; for the rest, run me again with `--mode=local --offset=50` or pipe the URL list to an external checker like `lychee`."*
 
 ### Mode `page` — single live URL
 
 1. **Fetch the page** with `WebFetch` (returns HTML).
 2. **Extract all `<a href>`, `<img src>`, `<link href>`, `<script src>`** from the rendered HTML.
-3. **Verify each** via Bash curl (same command as Mode `local` step 4).
+3. **Verify each in parallel** — same `xargs -P 5` pattern as Mode `local` step 4. Write extracted URLs to a temp file, run one xargs call.
 4. Hard cap: 100 verifications per run. If more, tell user + explain the cap.
 
 ### Mode `site` — multi-page live crawl
@@ -120,7 +120,7 @@ If site mode falls back to refusal, no output table — just the framed refusal 
 
 ## Rules
 - **Be honest about scale.** Never say "checked 4,812 links" if the skill body only verified 50.
-- **Rate limit externals** to ~5/s (insert 200ms sleep between curl calls).
+- **Rate limit externals** to ~5/s via `xargs -P 5` with `sleep 0.2` inside the worker (see Mode `local` step 4). Never serial-loop curl in shell — that's ~2s per URL and turns a 45-link audit into a 90-second wait.
 - **Don't auto-edit.** Propose Edit-tool changes; only apply on explicit confirm.
 - **Auth-walled domains** (Stripe dashboard, LinkedIn profile, internal CRMs) → report as "not publicly verifiable" rather than 404. Common false-positive sources: `linkedin.com/in/`, `stripe.com/dashboard`, `notion.so` private pages, `github.com` private repos.
 - **Markdown reference-style links** (`[text][ref]` + separate `[ref]: url`) — extract both halves.
