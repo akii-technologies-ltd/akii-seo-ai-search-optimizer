@@ -4,6 +4,11 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.5] — 2026-05-26
+
+### Changed
+- **`broken-links` skill** now verifies external URLs in parallel (`xargs -P 5` with 200ms stagger per worker) instead of a sequential shell loop. A 45-link repo audit now completes in ~10s instead of ~90s while staying at the documented ~5/s rate limit. Mode `local` step 4, Mode `page` step 3, and the Rules section all reference the same parallel pattern.
+
 ## [2.6.4] — 2026-05-26
 
 ### Changed
