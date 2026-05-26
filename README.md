@@ -11,10 +11,6 @@ Free AI-powered SEO, AEO, and GEO toolkit by [Akii](https://akii.com/?utm_source
 
 Audit websites, plan content strategy, optimize pages, generate schema markup, cluster keywords, track AI visibility across **ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews**, generate `llms.txt`, and apply the GEO rewrite tactics published by the Princeton/IIT Delhi GEO study ([Aggarwal et al., KDD 2024, arXiv:2311.09735](https://arxiv.org/abs/2311.09735)) — all without leaving your terminal or IDE.
 
-<p align="center">
-  <img src="assets/screenshots/02-ai-visibility-score.png" alt="Akii AI Visibility Score output in Claude Code — 0-100 score with four-dimension breakdown" width="780">
-</p>
-
 ## Installation
 
 Install directly from this GitHub repo (run inside Claude Code, not your shell):
