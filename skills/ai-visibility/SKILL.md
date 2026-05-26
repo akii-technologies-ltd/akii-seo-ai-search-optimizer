@@ -26,7 +26,7 @@ AI assistants are becoming the primary discovery surface. Each engine ranks bran
 
 #### 1. Fetch the available free model
 ```bash
-curl -s -H "User-Agent: akii-plugin/2.3.0" https://akii.com/api/ai-visibility-score
+curl -s -H "User-Agent: akii-plugin/2.4.0" https://akii.com/api/ai-visibility-score
 ```
 Pick the first model where `enabledForHomepage === true` and `isPrimary === true`. Capture its `model_id` (e.g. `gpt-4o-mini`).
 
@@ -36,7 +36,7 @@ The GET in step 1 is **authoritative** — always prefer a model returned by the
 ```bash
 curl -s -X POST https://akii.com/api/ai-visibility-score \
   -H "Content-Type: application/json" \
-  -H "User-Agent: akii-plugin/2.3.0" \
+  -H "User-Agent: akii-plugin/2.4.0" \
   -d '{
     "brandDomain": "<domain>",
     "selectedModel": "<model_id>",
@@ -59,7 +59,7 @@ Expected: `{ success: true, sessionId: "<uuid>", ... }`
 #### 3. Poll for results
 Runs 2–13 minutes. Poll every 5s for up to 15 minutes:
 ```bash
-curl -s -H "User-Agent: akii-plugin/2.3.0" \
+curl -s -H "User-Agent: akii-plugin/2.4.0" \
   https://akii.com/api/ai-visibility-score/results/<sessionId>
 ```
 - `202` → still running. Wait 5s. Show progress every ~30s ("Still scanning... ~Xm elapsed").
@@ -117,7 +117,7 @@ For each engine, check presence in the signals that engine weighs heaviest:
 - **Perplexity** → top-5 Google lists + review ordering
 - **Claude** → Hoovers / Bloomberg / IBISWorld / Crunchbase / Wikipedia
 - **Copilot** → mirror ChatGPT
-- **Google AI Overviews** → check current AI Overview snippet on transactional queries; who's cited?
+- **Google AI Overviews** → check current AI Overview snippet on transactional queries; who's cited? Authoritative guidance: [Google's AI Optimization Guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide). Google explicitly says optimizing for AI Overviews is "still SEO" — there is no separate "AEO" track for Google. Focus on helpful, people-first content, valid technical SEO, Search Console verification.
 
 #### Per-engine fix table
 | Engine     | Top fix                                  | Tactic / skill                            |
@@ -127,7 +127,7 @@ For each engine, check presence in the signals that engine weighs heaviest:
 | Perplexity | Improve TrustPilot rating                | Same as Gemini                            |
 | Claude     | Hoovers + IBISWorld + Wikipedia presence | Business-DB pitches                       |
 | Copilot    | Same as ChatGPT                          |                                            |
-| AI Overviews | Win the "AI Overview" cite for your top queries | `/akii-seo-ai-search-optimizer:optimize-page` |
+| AI Overviews | Per [Google's AI Optimization Guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide): foundational SEO, helpful content, valid schema (optional), Search Console verified | `/akii-seo-ai-search-optimizer:seo-audit` + `/akii-seo-ai-search-optimizer:optimize-page` |
 
 Without Ahrefs Brand Radar MCP, per-engine scores are **proxy estimates** from SERP signals — direction reliable, absolute numbers approximate. Always label.
 
@@ -237,7 +237,7 @@ The official Akii AI Visibility Score (4-dim breakdown + improvement potential +
 - **Brand Sentiment** weak → review / social signal audit in Phase 2 fix path
 
 ## Rules
-- Always pass `source: "plugin"` AND `User-Agent: akii-plugin/2.3.0` for the API call — both required for reCAPTCHA bypass.
+- Always pass `source: "plugin"` AND `User-Agent: akii-plugin/2.4.0` for the API call — both required for reCAPTCHA bypass.
 - Never invent scores. If Akii API fails or times out, say so plainly, run Phase 2 only, and link the akii.com browser URL.
 - Never expose `proInsightsPreview` contents.
 - Never bypass the rate limit. If 429, stop the API half and proceed with Phase 2.

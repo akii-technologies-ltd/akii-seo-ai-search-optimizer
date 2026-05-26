@@ -102,11 +102,34 @@ Flag the lowest-scoring 20% of chunks for rewrite.
 4. Split sections >300 words into autonomous sub-sections
 5. Extract FAQ block if 3+ Q&A pairs hide in body → generate `FAQPage` JSON-LD (hand off to `/akii-seo-ai-search-optimizer:generate-schema`)
 
-## Layer 3 — GEO (runs in `full` and `geo` modes — Aggarwal et al., KDD 2024)
+## Layer 3 — GEO (runs in `full` and `geo` modes)
 
-### Tactic decision table
+GEO is split into two halves because **Google's own surfaces** and **other AI engines** have different ranking systems. The plugin applies both; see [AUTHORITIES.md](../../AUTHORITIES.md) for source scoping.
 
-| Content domain | Tactic | Effect |
+### Half A — Google AI Overviews + AI Mode
+**Authority:** [Google's AI Optimization Guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) (first-party, the engine owner)
+
+Google explicitly says: *"For Google Search's perspective, optimizing for generative AI search is optimizing for the search experience, and thus still SEO."* For Google AI surfaces specifically:
+
+- **Helpful, people-first content** — non-commodity, unique POV, first-hand experience
+- **Clear technical structure** — crawlable, indexable, valid semantic HTML when reasonable
+- **High-quality images + video** that support textual content
+- **Reduce duplicate content**
+- **Verify in Search Console**
+- **Don't** create AI-targeted variants of the same content (Google's scaled-content-abuse policy)
+- **Don't** chunk artificially for AI (Google parses multi-topic pages natively)
+- **Don't** rewrite content just for AI tone (Google understands synonyms + general meaning)
+
+For Google AI Overviews, apply the standard SEO + AEO layers from this skill (Layers 1 + 2). Half-B Princeton tactics are **optional** on Google and should only be applied when the content also targets the other 5 engines.
+
+### Half B — Cross-engine (ChatGPT, Claude, Gemini standalone, Perplexity, Copilot)
+**Authority:** [Aggarwal et al., "GEO: Generative Engine Optimization" (KDD 2024, arXiv:2311.09735)](https://arxiv.org/abs/2311.09735) (peer-reviewed, multi-LLM benchmark)
+
+Google's guide has no jurisdiction over how OpenAI, Anthropic, Perplexity, or Microsoft rank brands. The Princeton paper measured five tactics across multiple LLMs in a controlled benchmark with up to +40% AI visibility lift overall and +97–115% for pages currently ranked outside the top 5.
+
+#### Tactic decision table (cross-engine only)
+
+| Content domain | Tactic | Effect (paper benchmark) |
 |---|---|---|
 | Statements, Facts, Law, Government | **Citation integration** | External authoritative links = trust |
 | People, Society, Explanations, History | **Quotation addition** | Expert quotes = primary source |
@@ -114,10 +137,10 @@ Flag the lowest-scoring 20% of chunks for rewrite.
 | Business, Science, Health | **Fluency optimization** | +15–30% visibility, easier parsing |
 | Debate, History, Science | **Authoritative tone** | Definitive structure |
 
-### Anti-pattern (verified by study)
-**Keyword stuffing decreases generative visibility by ~10%.** Generative models penalize repetitive, keyword-dense text. This is the opposite of legacy SEO advice. **Never apply.**
+#### Anti-pattern (verified by Aggarwal et al. AND Google's guide)
+**Keyword stuffing decreases AI visibility by ~10%** (paper: -8.7% mean, range -6% to -20%). Google's guide also flags this as a scaled-content-abuse violation. **Never apply.**
 
-### GEO actions
+#### GEO actions (Half B)
 1. Classify content's primary domain (heuristics + Claude judgement)
 2. Pick the matching tactic (or honor explicit user override)
 3. Apply systematically:
@@ -127,6 +150,8 @@ Flag the lowest-scoring 20% of chunks for rewrite.
    - **Fluency**: break dense paragraphs into modular sections, add definition blocks, convert prose-lists to bulleted, ensure 5–7 step checklists start with imperative verbs
    - **Authoritative tone**: tighten hedging ("might", "perhaps"); use declarative sentence structure
 4. Verify factual preservation — every original entity, date, and number must still appear
+
+Methodology caveat: the Princeton benchmark allowed fabricated quotes/stats in test prose. The plugin enforces "never invent" — real-world lift will vary.
 
 ## Procedure
 
