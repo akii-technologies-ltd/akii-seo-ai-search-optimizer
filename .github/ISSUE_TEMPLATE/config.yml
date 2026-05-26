@@ -1,8 +1,14 @@
 blank_issues_enabled: false
 contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/discussions
+    about: Questions, how-to, sharing setups, and general plugin chat. Use Issues for bugs and feature requests; use Discussions for everything else.
   - name: 📖 Documentation
     url: https://akii.com/claude-code
     about: Plugin landing page with install + feature reference.
-  - name: 💬 Akii support
+  - name: 🆘 Akii platform support
     url: https://akii.com/contact
-    about: For paid-platform questions (continuous AI visibility monitoring, alerts, dashboards).
+    about: For paid-platform questions (continuous AI visibility monitoring, alerts, multi-brand dashboards).
+  - name: 🔒 Security disclosure
+    url: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/blob/main/SECURITY.md
+    about: Report a security vulnerability privately per SECURITY.md.

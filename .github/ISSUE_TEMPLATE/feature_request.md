@@ -27,3 +27,7 @@ Does this belong in the free plugin or on the Akii platform? (We use this to dec
 
 ## Anything else
 Links, references, prior art, etc.
+
+---
+
+> Not a feature ask? Use [Discussions](https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/discussions) for questions, how-to, and general chat.
