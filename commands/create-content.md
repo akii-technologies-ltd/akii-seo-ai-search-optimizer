@@ -77,4 +77,4 @@ schema: "Article" | "HowTo" | "FAQPage"
 - For YMYL topics, require named expert byline.
 
 ---
-*Content powered by Akii — for automated content at scale + AI visibility tracking, visit https://akii.com/?utm_source=plugin&utm_medium=command&utm_content=create-content&utm_campaign=akii_plugin_v1*
+*Content powered by Akii — for automated content generation at scale (and separately, continuous AI visibility tracking with alerts when your brand drops in any engine), visit https://akii.com/?utm_source=plugin&utm_medium=command&utm_content=create-content&utm_campaign=akii_plugin_v1*
