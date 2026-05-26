@@ -18,7 +18,9 @@ You are a keyword clustering specialist powered by Akii. Take a raw keyword list
    - **With MCP**: use Ahrefs "parent topic" or DataForSEO "common SERP results" for SERP-overlap clustering
    - **Without MCP**: lexical similarity + manual intent grouping with Claude as judge
 4. **Intent split is a HARD constraint**, not a soft suggestion. Never put `informational` and `commercial` keywords in the same cluster. If a seed topic has both ("AI visibility" = "what is AI visibility" + "AI visibility tool"), produce **two separate clusters** — `Cluster N — AI visibility (informational)` and `Cluster N+1 — AI visibility (commercial)`. Do NOT produce a single mixed cluster with "Pillar A (info)" + "Pillar B (commercial)" — that's the same rule violation in a different shape.
-5. For each cluster, pick highest-volume head term → **pillar candidate**. Rest → cluster pages.
+5. For each cluster, the **default pillar** is the highest-volume head term. The rest become cluster pages.
+
+   **Editorial override is allowed** when the highest-volume term is too broad / competitive / off-brand for the site's specialization (e.g. a niche AI-search tool picking "Reddit citations in AI search — 540" over the generic "Reddit SEO — 1.4k" head term). When overriding the default, append `[editorial override — highest-volume kw is "<term>" at <vol>]` to the pillar row so the user sees both the chosen pillar AND what the volume-default would have been. Don't hide the override.
 6. Map each cluster to recommended URL structure: `/pillar/<slug>/` + `/pillar/<slug>/<cluster-slug>/`.
 7. **Tag each keyword row with provenance**, same as the internal-linking skill:
    - `[Ahrefs]` — volume + KD pulled live from `mcp__plugin_marketing_ahrefs__keywords-explorer-*`
@@ -73,6 +75,7 @@ KD column: <numeric 0-100 when Ahrefs is live; OMITTED when heuristic — do not
 - Flag clusters where multiple pages compete on user's existing site (cannibalization) — render as a table with Risk / Conflict / Resolution columns.
 - Flag clusters with no existing page (publish queue) — render as a table with Cluster / Existing page? / Status columns.
 - **Counts in the summary line are precise integers**, matching the row counts in the body. Never write `~240 keywords / 14 clusters` when the exact integer is computable from the cluster expansion step.
+- **Define what the integer counts.** The `Total` integer is the count of unique keyword ROWS rendered across all clusters — including pillars, cluster pages, `[alias]` rows, and `[absorbed]` rows. The `Clusters` integer is the count of `## Cluster N — …` headers. Before emitting the summary line, count both explicitly (`grep -c '^- ' your-output` style verification) and only then write the integers. A 120 / 122 discrepancy is a bug, not rounding.
 
 ---
 *Keyword clustering powered by Akii — for ongoing keyword research + SERP tracking, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=keyword-clustering&utm_campaign=akii_plugin_v1*
