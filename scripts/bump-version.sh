@@ -57,9 +57,11 @@ fi
 # Line-iteration is safe here because plugin file paths don't contain newlines;
 # `"$f"` quoting handles spaces (e.g. "AI Search Optimizer/" in user clones).
 UA_FILE_COUNT=0
+# Important: the version match must consume any trailing -prerelease suffix
+# so we don't leave a dangling "-alpha.1" when going from 2.0.0-alpha.1 → 2.2.1.
 while IFS= read -r f; do
   [[ -z "$f" ]] && continue
-  sed_i -E "s|akii-plugin/[0-9]+\.[0-9]+\.[0-9]+|akii-plugin/${NEW}|g" "$f"
+  sed_i -E "s|akii-plugin/[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9.-]+)?|akii-plugin/${NEW}|g" "$f"
   UA_FILE_COUNT=$((UA_FILE_COUNT + 1))
 done < <(grep -RlE 'akii-plugin/[0-9]+\.[0-9]+\.[0-9]+' "$ROOT/skills" "$ROOT/commands" 2>/dev/null || true)
 
