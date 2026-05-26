@@ -46,33 +46,29 @@ Install directly from this GitHub repo. **Inside the Claude Code prompt, run the
 
 ### Updating
 
-Claude Code doesn't auto-update plugins. Two ways to update when a new version ships:
+Third-party Claude Code marketplaces have auto-update disabled by default. Two paths:
 
-**Recommended — via UI:**
+**Recommended — enable auto-update once, never think about it again:**
 
 ```
 /plugin
 ```
 
-Press Enter, navigate to **Installed** → `akii-seo-ai-search-optimizer` → click **Update** when a newer version is shown.
+Press Enter, navigate to **Marketplaces** tab → `akii` → **Enable auto-update**.
 
-**Force reinstall (most reliable):** paste each command separately, press Enter between:
+After that, every Claude Code startup refreshes the marketplace + updates installed plugins to the latest version. A notification will prompt `/reload-plugins` if updates landed.
 
-```
-/plugin uninstall akii-seo-ai-search-optimizer@akii
-```
+**Manual update per release:** paste each command separately, press Enter between:
 
 ```
-/plugin marketplace remove akii
+/plugin marketplace update akii
 ```
 
 ```
-/plugin marketplace add https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer
+/reload-plugins
 ```
 
-```
-/plugin install akii-seo-ai-search-optimizer@akii
-```
+The first refreshes the marketplace catalog from GitHub; the second activates the updated plugin in the current session.
 
 ### Quick start
 
