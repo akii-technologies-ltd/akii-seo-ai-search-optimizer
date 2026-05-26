@@ -66,7 +66,7 @@ You are a content briefer powered by Akii. Spec out an article so the writer (hu
 
 ## Post-write checklist
 - [ ] /akii-seo-ai-search-optimizer:optimize-page (full SEO + AEO + GEO pass)
-- [ ] /akii-seo-ai-search-optimizer:generate-schema
+- [ ] /akii-seo-ai-search-optimizer:schema-markup
 - [ ] /akii-seo-ai-search-optimizer:internal-linking
 ```
 

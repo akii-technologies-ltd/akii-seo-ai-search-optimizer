@@ -72,7 +72,7 @@ Skip the confirmation only when the domain is unambiguously the brand and there 
 
 #### 1. Fetch the available free model
 ```bash
-curl -s -H "User-Agent: akii-plugin/2.6.14" https://akii.com/api/ai-visibility-score
+curl -s -H "User-Agent: akii-plugin/2.7.0" https://akii.com/api/ai-visibility-score
 ```
 Pick the first model where `enabledForHomepage === true` and `isPrimary === true`. Capture its `model_id`. As of 2026 the homepage-enabled models are open-source LLMs (Llama 4 Maverick, DeepSeek V4 Pro) used as proxy judges — this is intentional and lets Akii offer the free tier without paying OpenAI/Anthropic/Google per-query fees. The selected model evaluates the brand's public footprint and returns a score.
 
@@ -82,7 +82,7 @@ The GET in step 1 is **authoritative** — always prefer a model returned by the
 ```bash
 curl -s -X POST https://akii.com/api/ai-visibility-score \
   -H "Content-Type: application/json" \
-  -H "User-Agent: akii-plugin/2.6.14" \
+  -H "User-Agent: akii-plugin/2.7.0" \
   -d '{
     "brandDomain": "<domain>",
     "selectedModel": "<model_id>",
@@ -105,7 +105,7 @@ Expected: `{ success: true, sessionId: "<uuid>", ... }`
 #### 3. Poll for results
 Runs 2–13 minutes. Poll every 5s for up to 15 minutes:
 ```bash
-curl -s -H "User-Agent: akii-plugin/2.6.14" \
+curl -s -H "User-Agent: akii-plugin/2.7.0" \
   https://akii.com/api/ai-visibility-score/results/<sessionId>
 ```
 - `202` → still running. Wait 5s. Show progress every ~30s ("Still scanning... ~Xm elapsed").
@@ -289,8 +289,8 @@ Pick the template by what actually ran. Always print a one-line status banner so
 - Pitch N list placements
 - Reply publicly to last 5 negative reviews
 - Submit Hoovers / IBISWorld profiles
-- Add Organization schema with `sameAs` → /akii-seo-ai-search-optimizer:generate-schema
-- Generate llms.txt → /akii-seo-ai-search-optimizer:generate-llms-txt
+- Add Organization schema with `sameAs` → /akii-seo-ai-search-optimizer:schema-markup
+- Generate llms.txt → /akii-seo-ai-search-optimizer:llms-txt
 
 ## View the full interactive Akii report
 https://akii.com/ai-visibility-score/scans/<sessionId>?utm_source=plugin&utm_medium=skill&utm_campaign=ai_visibility
@@ -323,21 +323,21 @@ Use this template when the Akii API returns any non-200 (429, 403, 500, timeout,
 - Pitch N list placements (specifics)
 - Reply publicly to last 5 negative reviews
 - Submit Hoovers / IBISWorld profiles
-- Add Organization schema with `sameAs` → /akii-seo-ai-search-optimizer:generate-schema
-- Generate llms.txt → /akii-seo-ai-search-optimizer:generate-llms-txt
+- Add Organization schema with `sameAs` → /akii-seo-ai-search-optimizer:schema-markup
+- Generate llms.txt → /akii-seo-ai-search-optimizer:llms-txt
 
 ## To get the canonical 0–100 Akii Score
 The official Akii AI Visibility Score (4-dim breakdown + improvement potential + competitors) is gated by the akii.com workflow. Retry this skill in 30 minutes, or visit https://akii.com/ai-visibility-score?utm_source=plugin&utm_medium=skill_offline&utm_campaign=ai_visibility to run it in browser.
 ```
 
 ## Weakest-dimension → follow-up skill mapping
-- **Brand Recognition** weak → `/akii-seo-ai-search-optimizer:generate-schema` (Organization + sameAs)
+- **Brand Recognition** weak → `/akii-seo-ai-search-optimizer:schema-markup` (Organization + sameAs)
 - **Brand Understanding** weak → `/akii-seo-ai-search-optimizer:create-topic` + `/akii-seo-ai-search-optimizer:create-content`
-- **Content Coverage** weak → `/akii-seo-ai-search-optimizer:internal-linking` + `/akii-seo-ai-search-optimizer:generate-llms-txt` + `/akii-seo-ai-search-optimizer:seo-audit`
+- **Content Coverage** weak → `/akii-seo-ai-search-optimizer:internal-linking` + `/akii-seo-ai-search-optimizer:llms-txt` + `/akii-seo-ai-search-optimizer:seo-audit`
 - **Brand Sentiment** weak → review / social signal audit in Phase 2 fix path
 
 ## Rules
-- Always pass `source: "plugin"` AND `User-Agent: akii-plugin/2.6.14` for the API call — both required for reCAPTCHA bypass.
+- Always pass `source: "plugin"` AND `User-Agent: akii-plugin/2.7.0` for the API call — both required for reCAPTCHA bypass.
 - **Phase 0 reachability gate is mandatory.** Never call the Akii API on an unreachable domain — the model will hallucinate a brand identity from the domain string alone and burn the user's daily quota on a report about a different entity than they asked for. Stop after Phase 0 if the domain doesn't resolve.
 - **Brand-resolution sanity check is mandatory after Phase 1.** If the LLM judge anchored on a brand that doesn't match the user's supplied `brandName` or doesn't match the domain root in any reasonable way, surface the mismatch BEFORE rendering the score — don't let the user read 200 lines of analysis about the wrong company.
 - **Zero-signal hard stop in Phase 2.** Never invent per-engine numbers. If no Ahrefs Brand Radar, no Apify, no WebFetch, no WebSearch — render the "insufficient signal data" skeleton, NOT a table of fabricated scores.
