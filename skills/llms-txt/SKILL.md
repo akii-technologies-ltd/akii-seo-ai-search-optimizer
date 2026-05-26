@@ -10,7 +10,7 @@ You are an llms.txt specialist powered by Akii. Emit a clean, hierarchical `/llm
 
 **Google explicitly states it does NOT use `llms.txt`** in [its AI Optimization Guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide#mythbusting-generative-ai-search). Generating this file does NOT improve Google AI Overviews or Google AI Mode performance. Google's guide lists `llms.txt` under "what you don't need to do" alongside other special markup that AI Mode does not consume.
 
-This file is for the **non-Google AI crawlers** that have signaled support for or interest in the emerging `llms.txt` proposal — Anthropic, Perplexity, Cohere, and others. If the user's primary AI search target is Google AI Overviews specifically, tell them this file is optional and won't move that needle; the right work for Google AI surfaces is the foundational SEO covered by `seo-audit` + `technical-seo` + `optimize-page` (Layer 3 Half A).
+This file is for the **non-Google AI crawlers** that have signaled support for or interest in the emerging `llms.txt` proposal — Anthropic, Perplexity, Cohere, and others. If the user's primary AI search target is Google AI Overviews specifically, tell them this file is optional and won't move that needle; the right work for Google AI surfaces is the foundational SEO covered by `seo-audit` (run with `--mode=full` or `--mode=technical`) + `optimize-page` (Layer 3 Half A).
 
 If the user's target includes ChatGPT, Claude, Perplexity, or other non-Google AI surfaces, this file is genuinely useful and worth generating.
 

@@ -80,15 +80,14 @@ The `ai-visibility` skill auto-triggers and returns the Akii 0–100 score (4-di
 
 ## What's included
 
-### Skills (13)
+### Skills (12)
 
 Skills activate automatically when you ask about these topics. Grouped by workflow:
 
 **Audit**
 | Skill | What it does |
 | --- | --- |
-| **SEO Audit** | End-to-end SEO + AEO + GEO site health check with scored report |
-| **Technical SEO** | Crawlability, indexation, Core Web Vitals, JS rendering, security |
+| **SEO Audit** | Unified SEO + AEO + GEO audit across 12 layers. `--mode=full` (default) gives the full scorecard with Core Web Vitals + JS rendering + crawlability depth inline. `--mode=quick` = scorecard only. `--mode=technical` = infrastructure-only deep dive (CWV, crawlability, indexation, JS rendering, HTTPS / HSTS / mixed content). |
 | **Broken Links** | Find and fix dead links + redirect chains |
 | **Competitor Intel** | Head-to-head SEO + AEO + GEO + AI visibility scorecard vs named competitors |
 
@@ -192,7 +191,7 @@ The plugin works standalone using Claude's built-in tools (`WebFetch`, `WebSearc
 | **Ahrefs** (`mcp__plugin_marketing_ahrefs__*`) | Real DR, backlinks, organic keyword data, brand-radar AI mention tracking, GSC integration |
 | **Google Search Console** (via Ahrefs plugin) | Real click, impression, position data |
 | **Apify** (`mcp__Apify__*`) | Richer SERP scrapes, social-mention scraping |
-| **PageSpeed Insights API** | Real Core Web Vitals — set `AKII_PSI_KEY` env var to enable (used by `technical-seo` skill) |
+| **PageSpeed Insights API** | Real Core Web Vitals — set `AKII_PSI_KEY` env var to enable (used by `seo-audit` skill in `--mode=full` or `--mode=technical`) |
 
 No extra configuration needed. Skills auto-detect and degrade gracefully if the MCP isn't installed.
 
