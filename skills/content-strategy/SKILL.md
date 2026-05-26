@@ -31,11 +31,24 @@ Ask the user:
 
 ## Build
 
+### Step 0 — Live audit (mandatory before any claim about the site's current state)
+**Never claim "0 thesis pillar pages", "no Article schema", "no internal-link structure", or any similar assertion about the target site without verifying it this turn.** Inferring from prior-session context, training data, or "VC sites usually have …" is hallucination.
+
+Required signal sources, in order of preference:
+1. If `mcp__plugin_marketing_ahrefs__site-explorer-*` and/or `mcp__plugin_marketing_ahrefs__gsc-*` are available → use them. Label findings as "Source: Ahrefs Site Explorer / GSC".
+2. Else → run `WebFetch` against the homepage AND 2-3 representative pages (e.g. `/portfolio`, `/team`, `/blog` if they exist). Capture what's actually rendered. Label findings as "Source: live WebFetch on N pages".
+3. Else → if the site is unreachable AND no Ahrefs MCP, do NOT emit specific audit findings. Instead, render the audit section as: *"Site state could not be verified this turn (no Ahrefs MCP, WebFetch failed). Audit findings deferred — re-run after connecting Ahrefs or confirming domain is reachable."*
+
+**Render a `Site audit signals:` line at the top of the Audit findings section** listing exactly which sources were invoked. Example: `Site audit signals: WebFetch (4 pages: /, /portfolio, /team, /thesis). No Ahrefs MCP, no GSC.`
+
 ### Step 1: Audit current content footprint
-- What's ranking? (page → keyword → position → traffic)
-- What's underperforming? (high impressions, low CTR)
-- What's missing? (gaps vs competitors)
-- What's cannibalizing? (multiple pages targeting same keyword)
+After Step 0 actually runs, you can claim:
+- What's ranking? (page → keyword → position → traffic) — REQUIRES Ahrefs/GSC. Without it, omit this bullet.
+- What's underperforming? (high impressions, low CTR) — REQUIRES GSC. Without it, omit.
+- What's missing? (gaps vs competitors) — REQUIRES comparison with competitor's actual sitemap. Without it, label inferences as such.
+- What's cannibalizing? (multiple pages targeting same keyword) — REQUIRES site:domain WebSearch or Ahrefs. Without it, omit.
+
+Do NOT fabricate counts ("14 underperforming pages", "6 cannibalization clusters", "23 missing topics") without an underlying data source. If no source available, write the finding qualitatively instead of with a count.
 
 ### Step 2: Topic cluster map
 - 3–7 pillar topics
@@ -71,6 +84,8 @@ For top 5 in queue → `/akii-seo-ai-search-optimizer:content-brief` for each.
 | # | Topic | Volume | KD | Pillar | Status | Effort | Priority |
 | 1 | ...   |        |    |        |        |        |          |
 
+Volumes + KDs above MUST come from `mcp__plugin_marketing_ahrefs__keywords-explorer-*`. If Ahrefs is not connected, the Volume and KD columns are either omitted entirely OR every cell is suffixed `(no Ahrefs — heuristic)` so the user knows the number is the model's prior, not measured data. Do not strip the qualifier to make the table look cleaner.
+
 ## Quick wins (this week)
 - Refresh 3 underperforming pages → /akii-seo-ai-search-optimizer:optimize-page
 - Consolidate 2 cannibalizing pairs
@@ -84,6 +99,9 @@ For top 5 in queue → `/akii-seo-ai-search-optimizer:content-brief` for each.
 - Always tie content to a measurable goal (leads, sales, rankings).
 - Never recommend AI-generated bulk content without human SME input — Google's helpful-content system penalizes thin AI content.
 - Honor existing brand voice + style guide.
+- **Live-audit gate is mandatory.** Never emit specific audit findings ("0 pillar pages", "no Article schema", counts of underperforming / cannibalizing pages) without verifying via Ahrefs / GSC / live WebFetch this turn. Prior-session context bleed and training-data inference do NOT count. Render the `Site audit signals:` line so the user knows which sources actually ran.
+- **Volume / KD numbers require Ahrefs.** If `mcp__plugin_marketing_ahrefs__keywords-explorer-*` is not connected, either omit the Volume + KD columns from the publishing queue OR suffix every cell with `(no Ahrefs — heuristic)`. Do not present training-data estimates as measured research.
+- **Context inheritance must be verified.** Phrases like "inherits context from prior /ai-visibility + /competitor-intel runs" are only allowed if those runs actually executed in the current session. Otherwise drop the inheritance claim and re-derive from scratch.
 
 ---
 *Content strategy powered by Akii — for continuous gap analysis + competitor monitoring, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=content-strategy&utm_campaign=akii_plugin_v1*
