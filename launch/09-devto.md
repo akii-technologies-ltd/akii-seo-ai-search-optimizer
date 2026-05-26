@@ -43,8 +43,8 @@ akii-seo-ai-search-optimizer/
 ├── .claude-plugin/plugin.json    # Manifest
 ├── hooks/hooks.json              # SessionEnd hook for CTA
 ├── scripts/akii-cta.sh           # Terminal-rendered CTA
-├── skills/                       # 15 model-triggered skills
-├── agents/<name>/AGENT.md        # 5 autonomous agents
+├── skills/<name>/SKILL.md        # 13 model-triggered skills
+├── agents/<name>.md              # 5 autonomous agents (flat files)
 └── commands/<name>.md            # 8 slash commands
 ```
 
@@ -84,7 +84,7 @@ No backend. No API. Just Claude's built-in tools (WebFetch, WebSearch, Bash, Rea
 
 ## The Princeton GEO method (the killer feature)
 
-The Princeton / IIT Delhi / Allen Institute GEO study (2024) ran 10,000+ queries through generative engines and identified five empirically validated tactics:
+The Princeton/IIT Delhi GEO study (2024) ran 10,000+ queries through generative engines and identified five empirically validated tactics:
 
 | Content domain | Tactic | Effect |
 |---|---|---|
@@ -168,7 +168,7 @@ Then ask Claude `"audit my site"`, or run `/ai-visibility-score <yourdomain>`.
 
 ## Sources
 
-- Princeton + IIT-Delhi + Allen Institute GEO study (2024): "GEO: Generative Engine Optimization"
+- Princeton + IIT Delhi GEO study (2024): "GEO: Generative Engine Optimization"
 - Per-engine algorithm weights: synthesized from empirical SERP audits + published research on Bing, Google Gemini, Perplexity, Claude, and Microsoft Copilot ranking signals
 - Schema.org spec for `LocalBusiness`, `Organization`, `FAQPage`, `HowTo`
 - llms.txt proposal: llmstxt.org

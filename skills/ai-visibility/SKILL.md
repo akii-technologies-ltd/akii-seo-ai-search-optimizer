@@ -77,33 +77,33 @@ Cap at 180 polls (15 min). If timed out, tell user and link `https://akii.com/ai
 
 ### Phase 2 — Per-engine vulnerability map (always runs)
 
-#### Per-engine signal weights (empirical, drives recommendations)
+#### Per-engine signal correlations (drives recommendations)
 
-**ChatGPT (Bing-rooted)**
+The percentages below are **observed correlations** from [FirstPageSage's GEO Algorithm Breakdown](https://firstpagesage.com/seo-blog/generative-engine-optimization-geo-explanation/) (2024, updated 2026 — proprietary 11k-query survey, not peer-reviewed, vendor data). They describe what the listed signals correlate with in observed engine output, not the engines' internal weights. Always attribute when surfacing these numbers in user output.
+
+**ChatGPT (Bing-rooted)** — per FirstPageSage 2024
 - 41% authoritative list mentions
 - 18% awards / accreditations
 - 16% third-party reviews (TrustPilot, Capterra, BBB)
 - 11% social sentiment (Reddit, news)
 
-**Google Gemini**
+**Google Gemini** — per FirstPageSage 2024
 - 49% authoritative Google list mentions
 - 23% domain authority
 - **Hard cutoff**: aggregate reviews ≥ 3.5★ or excluded
 - 38% Google Business Profile weight for local queries
 
-**Perplexity**
+**Perplexity** — per FirstPageSage 2024
 - 64% top-5 Google list mentions
 - 31% online reviews (ranking/ordering)
 
-**Anthropic Claude**
+**Anthropic Claude** — per FirstPageSage 2024
 - 68% trusted business databases (Hoovers, Bloomberg, IBISWorld, Crunchbase)
 - 19% awards / affiliations
 - 13% customer usage data
 - Does NOT support hyper-local commercial queries — skews enterprise
 
-**Microsoft Copilot**
-- Bing-rooted, similar to ChatGPT
-- Stronger Microsoft-ecosystem signals
+**Microsoft Copilot** — Bing-rooted, similar to ChatGPT; stronger Microsoft-ecosystem signals (no separate FirstPageSage breakdown — treat as ChatGPT mirror).
 
 #### Data sources (auto-detect, best first)
 - `mcp__plugin_marketing_ahrefs__brand-radar-*` — Ahrefs Brand Radar (gold standard if available): AI responses, cited domains, mentions overview, share-of-voice

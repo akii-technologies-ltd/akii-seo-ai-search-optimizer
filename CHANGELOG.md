@@ -44,7 +44,7 @@ Initial public release.
 - `keyword-clustering` — Intent-matched topical clusters → page mapping
 - `ai-visibility` — Per-engine vulnerability map (ChatGPT / Gemini / Perplexity / Claude / Copilot) using public SERP proxy signals
 - `aeo-optimization` — Chunk-quality auditing + direct-answer leads + FAQ extraction
-- `geo-optimization` — Princeton/IIT-Delhi/Allen Institute GEO method (+40% AI visibility lift)
+- `geo-optimization` — Princeton/IIT Delhi GEO method, Aggarwal et al. KDD 2024 (up to +40% AI visibility lift)
 - `llms-txt` — Generate / maintain `llms.txt` + `llms-full.txt`
 - `content-translation` — Per-locale keyword research + hreflang + cultural adaptation
 

@@ -21,7 +21,7 @@ So we built a free Claude Code plugin that encodes all of it.
 → 13 skills that auto-trigger from natural language
 → 5 autonomous agents for end-to-end audits and content strategy
 → 8 slash commands for focused tasks
-→ The Princeton/IIT-Delhi/Allen Institute GEO method (validated +40% AI visibility lift) built in
+→ The Princeton/IIT Delhi GEO method (validated +40% AI visibility lift) built in
 → Auto-detects your existing Ahrefs, Google Search Console, DataForSEO, and Apify MCPs for real-data outputs
 → A `/ai-visibility-score <domain>` command that returns the same 0–100 score akii.com customers track 24/7
 → MIT-licensed. No login. No signup. No usage cap.

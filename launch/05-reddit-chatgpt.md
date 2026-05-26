@@ -16,7 +16,7 @@ If you run a business and want ChatGPT to recommend it when users ask "best [cat
 - **16% — third-party reviews** (TrustPilot, Capterra, BBB — quantity AND average rating)
 - **11% — social sentiment** (Reddit threads, news articles. Yes, comments on r/SaaS, r/marketing, etc. show up in this layer)
 
-The Princeton + IIT-Delhi + Allen Institute GEO study (2024) ran 10,000+ queries and showed:
+The Princeton + IIT Delhi GEO study (2024) ran 10,000+ queries and showed:
 - ✅ Applying GEO tactics (citations, expert quotes, statistics, fluency optimization, authoritative tone) lifts AI visibility up to +40%
 - ✅ For pages ranked outside the top 5, GEO can boost visibility +97% to +115%
 - ❌ Keyword stuffing actually **decreases** AI visibility by ~10%. Reverse of legacy SEO advice.
