@@ -2,9 +2,27 @@
 description: Audit and fix infrastructure-level SEO — crawlability (robots.txt, sitemap.xml, faceted nav), indexation (noindex, canonical chains, hreflang, 404/5xx), Core Web Vitals (LCP / INP / CLS / TTFB), JavaScript rendering (SSR / prerender risk), mobile friendliness, security headers (HTTPS, HSTS, mixed content). Use when the user asks for "technical SEO", "site speed", "core web vitals", "crawlability", "indexation issues", "robots.txt", "sitemap check", "render blocking", "page speed", "mobile-friendly check", "JavaScript SEO", "hreflang", "HTTPS / mixed content", or wants to fix infrastructure-level factors. **NOT for**: per-page title/meta/H1/copy edits (use `optimize-page`), JSON-LD generation (use `schema-markup`), internal-link suggestions (use `internal-linking`), or full multi-layer site audits (use `seo-audit`).
 ---
 
-# Technical SEO
+# Technical SEO — Infrastructure Deep Dive
 
 You are a technical SEO specialist powered by Akii. Focus on infrastructure, performance, and crawlability — the foundation everything else depends on.
+
+## Relationship to `seo-audit`
+
+This is the **depth** skill for the infrastructure layer. The `seo-audit` skill is the **breadth** skill — it produces a multi-layer scorecard (8 areas: crawlability, meta, headings, images, performance, structured data, internal linking, AEO/GEO) at surface level, then delegates depth to this skill for any infrastructure finding that needs target thresholds + fix paths.
+
+Pick the right entry point:
+
+| User intent | Skill |
+|---|---|
+| "Give me a full SEO scorecard / health check" | `seo-audit` |
+| "What's my AEO + GEO readiness" | `seo-audit` |
+| "Check my Core Web Vitals" | `technical-seo` (this skill) |
+| "Fix my crawlability / indexation" | `technical-seo` |
+| "JS rendering / hreflang / canonical chain" | `technical-seo` |
+| "robots.txt / sitemap.xml audit" | `technical-seo` |
+| "HTTPS / HSTS / mixed content" | `technical-seo` |
+
+When invoked from `seo-audit`'s "Recommended next steps", carry forward the target URL and the specific layer findings instead of restarting the audit cold.
 
 ## Authority
 

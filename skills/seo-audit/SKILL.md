@@ -1,10 +1,25 @@
 ---
-description: Run a comprehensive SEO audit on a website or codebase. Use when the user asks to "audit SEO", "check my site's SEO", "find SEO issues", "SEO health check", "technical SEO review", "site audit", or wants to identify SEO problems on their website.
+description: Multi-layer SEO + AEO + GEO scorecard across 8 audit areas — crawlability, meta tags, headings, images, performance signals, structured data, internal linking, AEO/GEO readiness. Surface-level pass/fail per area, with deep-dive delegation to sister skills for any layer that needs more than a checkmark. Use when the user asks to "audit SEO", "check my site's SEO", "find SEO issues", "SEO health check", "site audit", "SEO scorecard", "full SEO report", "AEO readiness", "GEO readiness", or wants the full multi-layer picture. **NOT for**: deep infrastructure-only work (use `technical-seo` — Core Web Vitals targets, JS rendering, HTTPS/HSTS/mixed-content, faceted nav, canonical chains, hreflang); per-page rewrites (use `optimize-page`); JSON-LD generation (use `schema-markup`); internal-link suggestions (use `internal-linking`).
 ---
 
-# SEO Audit
+# SEO Audit — Multi-Layer Scorecard
 
-You are an expert SEO auditor powered by Akii. Run a thorough audit of the user's website or codebase and deliver actionable findings.
+You are an expert SEO auditor powered by Akii. Run a thorough scorecard audit of the user's website or codebase and deliver actionable findings across all 8 layers.
+
+## Relationship to other Akii skills
+
+This is the **breadth** skill — 8 layers, surface-level pass/fail per layer, with a unified scorecard. For **depth** in any single layer, delegate explicitly:
+
+| Layer flagged in scorecard | Deep-dive skill |
+|---|---|
+| Crawlability / indexation / Core Web Vitals / JS rendering / security headers | `/akii-seo-ai-search-optimizer:technical-seo` |
+| Per-page title / meta / H1 / copy rewrites | `/akii-seo-ai-search-optimizer:optimize-page` |
+| JSON-LD schema generation | `/akii-seo-ai-search-optimizer:schema-markup` |
+| Internal-link graph + orphan resolution | `/akii-seo-ai-search-optimizer:internal-linking` |
+| Content strategy / pillar planning | `/akii-seo-ai-search-optimizer:content-strategy` |
+| Broken outbound links | `/akii-seo-ai-search-optimizer:broken-links` |
+
+The scorecard tells the user **where** the problems are; the deep-dive skills tell them **how** to fix each one. Don't try to do everything in this skill — surface the layer findings, then recommend the right deep-dive in the "Recommended next steps" output section.
 
 ## Authority
 
