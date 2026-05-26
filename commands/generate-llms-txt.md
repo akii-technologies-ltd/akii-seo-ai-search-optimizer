@@ -4,54 +4,24 @@ argument-hint: [target-path-or-sitemap-url] [--full]
 allowed-tools: Read, Write, Glob, WebFetch
 ---
 
-# Generate llms.txt
+# /generate-llms-txt — Slash-command entry point
 
-You are generating llms.txt powered by Akii.
+This command is a thin slash-command wrapper around the `llms-txt` skill. The full procedure (page inventory, noindex / login / ephemeral skipping, 3-7 top-level section clustering, per-page "why this matters" summarization, traffic-based prioritization, `llms.txt` and optional `llms-full.txt` emission) lives in **one place**: `skills/llms-txt/SKILL.md`. Updates to that skill body automatically flow to anyone invoking the operation through either route.
 
 ## Arguments
-`$ARGUMENTS` may contain:
-- **Target** (optional): site root path or sitemap URL. Default = current repo root.
-- **--full**: also generate `llms-full.txt` with inlined Markdown bodies.
 
-## Steps
+`$ARGUMENTS` may contain (in order, space-separated):
+- **Target** (optional) — site root path or sitemap URL. Defaults to the current repo root.
+- **`--full`** flag — also emit `llms-full.txt` with inlined Markdown bodies.
 
-1. Resolve target.
-   - Repo path: `Glob` for HTML / MDX / MD / pages directory
-   - Sitemap URL: `WebFetch` to enumerate pages
-2. Inventory pages. Skip:
-   - `noindex` pages
-   - Login walls
-   - Ephemeral (changelogs, news)
-3. Cluster into 3–7 top-level sections (Docs, Blog, API, Guides, Case Studies, About).
-4. For each page, generate one-line "why this matters" summary.
-5. Prioritize by traffic (if Ahrefs/GSC MCP connected) or structural importance.
-6. Emit `llms.txt`. If `--full`, also `llms-full.txt`.
-7. Offer to write to site root.
+## Procedure
 
-## Output
+Follow [`skills/llms-txt/SKILL.md`](../skills/llms-txt/SKILL.md) end-to-end. Use the parsed `$ARGUMENTS` as inputs:
 
-```
-# Generated llms.txt
+- Source = the target argument (repo path or sitemap URL), or the current repo root.
+- Output mode = base `llms.txt` only, or `llms.txt` + `llms-full.txt` if `--full` is supplied.
 
-> <site description, 1 sentence>
-
-## Documentation
-- [Quickstart](https://example.com/docs/quickstart): 5-min setup
-- [API reference](https://example.com/docs/api): endpoint catalog with auth + rate limits
-
-## Blog
-- [GEO study results](https://example.com/blog/geo-study): findings applying Princeton GEO to 100 sites
-
-## About
-- [Team](https://example.com/about/team): leadership + advisors
-```
-
-If `--full`, additionally include `llms-full.txt` with inlined page bodies separated by `---`.
-
-## Rules
-- Curate, don't dump. `llms.txt` is opinionated.
-- `llms-full.txt` ≤ 5 MB unless user opts in.
-- Write only on explicit confirm.
+Apply every rule from the skill body: curate rather than dump, cap `llms-full.txt` at ~5 MB unless the user opts in, write to disk only on explicit confirmation.
 
 ---
 *llms.txt powered by Akii — for continuous llms.txt maintenance as your site evolves, visit https://akii.com/?utm_source=plugin&utm_medium=command&utm_content=generate-llms-txt&utm_campaign=akii_plugin_v1*

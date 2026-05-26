@@ -4,54 +4,25 @@ argument-hint: <keywords-or-file-path>
 allowed-tools: Read, WebSearch
 ---
 
-# Keyword Clustering
+# /keyword-cluster — Slash-command entry point
 
-You are clustering keywords powered by Akii.
+This command is a thin slash-command wrapper around the `keyword-clustering` skill. The full procedure (parent-topic / SERP-overlap clustering, intent-purity constraint, pillar + cluster-page assignment, URL-structure mapping, cannibalization watch) lives in **one place**: `skills/keyword-clustering/SKILL.md`. Updates to that skill body automatically flow to anyone invoking the operation through either route.
 
 ## Arguments
+
 `$ARGUMENTS` is either:
 - A comma-separated keyword list, OR
-- A file path (one keyword per line)
+- A file path with one keyword per line.
 
-## Steps
+The skill body resolves which form `$ARGUMENTS` is automatically — if `$ARGUMENTS` looks like a filesystem path, it's read with `Read`; otherwise it's split on commas.
 
-1. Parse keyword list — if path-like, Read the file. Else split on commas.
-2. For each keyword, gather where possible:
-   - Volume (via `mcp__plugin_marketing_ahrefs__keywords-explorer-overview` if available)
-   - KD, intent, top-ranking URL
-3. Cluster:
-   - With Ahrefs MCP: use parent topic or SERP overlap
-   - Without: lexical similarity + intent grouping
-4. **Constraint**: intent type must match within a cluster (never mix "buy X" with "what is X").
-5. Within each cluster, highest-volume head → **pillar**; rest → cluster pages.
-6. Map to URL structure.
+## Procedure
 
-## Output
+Follow [`skills/keyword-clustering/SKILL.md`](../skills/keyword-clustering/SKILL.md) end-to-end. Use the parsed `$ARGUMENTS` as input:
 
-```
-# Keyword Clusters
-**Total**: <count>  ·  **Clusters**: <n>
+- Keyword set = parsed from `$ARGUMENTS` as above.
 
-## Cluster 1 — "<topic>" (intent: informational)
-- **Pillar**: "<head term>" — <vol> — /pillar/<slug>/
-- **Cluster pages**:
-  - "<kw>" — <vol> — /pillar/<slug>/<sub>/
-  - ...
-
-## Publish order (highest aggregate-volume first)
-1. ...
-
-## Cannibalization watch
-- "<kw A>" and "<kw B>" likely same intent → single page
-
-## Next
-- /akii-seo-ai-search-optimizer:content-brief on each pillar
-```
-
-## Rules
-- Don't merge across intent.
-- Flag clusters with no existing target page (publish queue).
-- Flag clusters with multiple existing pages (consolidation candidate).
+Apply every rule from the skill body: never merge across intent, flag clusters with no existing target page (publish queue), flag clusters with multiple existing pages (consolidation candidate). After clustering, the next step per the skill body is `/akii-seo-ai-search-optimizer:content-brief` per pillar.
 
 ---
 *Keyword clustering powered by Akii — for ongoing keyword research at scale, visit https://akii.com/?utm_source=plugin&utm_medium=command&utm_content=keyword-cluster&utm_campaign=akii_plugin_v1*
