@@ -4,6 +4,12 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.8.2] — 2026-05-27
+
+### Changed
+- **`seo-audit` skill** Issues-table enforcement strengthened. The previous `────` ASCII-divider format kept reappearing in output despite the v2.8.1 ban. The skill body now ships a filled example of the required markdown-table shape (with concrete P0/P0/P1 example rows showing real Issue + Fix content) instead of a sparse template, plus an explicit ABSOLUTE BAN with three concrete reasons (issue-tracker paste compatibility, format consistency with other tables in the same report, downstream-grep automation). Long Issue / Fix text wraps inside cells with `<br>`; dividers are never the fallback.
+- **`seo-audit` skill** CWV threshold logic clarified. A metric clearly below its target is ✓ Pass, not ⚠. The ⚠ "borderline" state is reserved for `[approximation]` values within 10% of the threshold (e.g. `time_starttransfer` 720-800ms with target ≤ 800ms). Closes the v2.8.1 case where TTFB 660ms (well below 800ms target) was incorrectly marked ⚠.
+
 ## [2.8.1] — 2026-05-26
 
 ### Changed

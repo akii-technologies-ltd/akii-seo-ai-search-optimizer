@@ -222,11 +222,21 @@ When PSI is unavailable, emit `—` for every metric and label Source as `[unmea
 - ...
 
 ## Issues (P0 → P2)
+
+**CRITICAL formatting rule** — this section MUST be a real markdown table. Below is a filled example showing the exact shape required:
+
 | Severity | Category | URL/File | Issue | Fix |
 | --- | --- | --- | --- | --- |
-| P0 | Crawlability | robots.txt + sitemap | ... | ... |
+| P0 | Crawlability | robots.txt + sitemap | `/api/sitemaps/foo` listed in index but blocked by `Disallow: /api/` | Move sub-sitemap out of `/api/` OR add `Allow: /api/sitemaps/` |
+| P0 | Meta tags | /pricing | Title 76 chars, SERP-truncated | Rewrite ≤ 60 chars |
+| P1 | Headings | / | H1 per-word `<span>` elements concatenate in `textContent` | Add space text nodes or `aria-label` on the H1 |
 
-**Render this as a real markdown table** with the `| --- |` separator row. Don't use `────` ASCII dividers between rows — they break copy-paste into issue trackers and downstream tooling expects markdown.
+**ABSOLUTE BAN on `────` ASCII dividers between rows.** Every multi-row collection in the audit output (Issues, AVKB-status, any user-facing list of records) MUST be a markdown table with the `| --- |` separator row. Reasons:
+1. Issue trackers (GitHub, Linear, Jira) parse markdown tables but not divider blocks — pasting a divider-formatted Issues section produces unreadable output.
+2. The Scorecard / CWV / Meta-tags tables in this same skill already use markdown — mixing formats within one report is inconsistent and signals the writer is improvising rather than following spec.
+3. The divider format prevents downstream automation (e.g. a script that wants to grep `^| P0 ` to count critical issues) from working.
+
+If a row's `Issue` or `Fix` text is long enough that the table feels cramped, that's still a markdown-table requirement — DON'T fall back to dividers. Wrap with `<br>` inside the cell if needed, or split into one issue per category sub-section above the table, with the table summarizing.
 
 ## Recommended next steps
 1. <top fix> → run `/akii-seo-ai-search-optimizer:optimize-page`
@@ -301,7 +311,8 @@ When PSI is unavailable, emit `—` for every metric and label Source as `[unmea
 - Always print the resolved `**Mode**: <full|quick|technical>` line at the top so the user can verify mode detection.
 - Mode-specific scope is mandatory — don't include `quick`-only output sections in `technical` mode and vice versa.
 - **Every scorecard row carries a provenance tag** (`[scan]` / `[partial-scan]` / `[heuristic]` / `[unmeasured]`). When `[unmeasured]` or `[heuristic]` applies, emit `—` for the score, NEVER a number — numbers with weak provenance still read as data.
-- **Issues block is a real markdown table** with `| --- |` separator row. No `────` ASCII dividers.
+- **Issues block is a real markdown table** with `| --- |` separator row. No `────` ASCII dividers — not in Issues, not in AVKB-status-style supplementary tables, not anywhere in the output. The skill body shows a filled example of the required shape; copy that shape, don't improvise dividers when content gets long.
+- **Threshold logic in CWV table must be exact.** A metric BELOW its target = ✓ Pass. A metric AT or ABOVE target = ✗ Fail. Use ⚠ only when the metric is `[approximation]` and within 10% of the threshold (e.g. `time_starttransfer` 720-800ms when target is ≤ 800ms). Never mark a clearly-passing metric ⚠ because it "feels borderline".
 - **TTFB requires PageSpeed Insights or `curl --time_starttransfer`.** Do NOT use `curl --time_total` — that's the full page fetch, not server response. If only `time_total` is available, label it `[curl-time_total, approximation]` and note it conflates server + transfer + rendering.
 
 ---
