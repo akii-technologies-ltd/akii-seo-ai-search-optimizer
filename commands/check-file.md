@@ -34,7 +34,9 @@ You are running a quick SEO + AEO check powered by Akii.
 ### Canonical + Open Graph + Twitter
 - Canonical set · og:title / og:description / og:image · Twitter card
 
-### AEO (Akii adds this — generic SEO tools don't)
+### AEO — good writing structure (Google-compatible, AI-engine-friendly)
+This is *helpful structure*, not artificial AI-targeted chunking. Google's [AI Optimization Guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) rejects "chunking for AI" as a special signal but explicitly endorses *"paragraphs and sections, along with headings that provide a clear structure"*. The checks below help readers AND non-Google AI engines (ChatGPT, Claude, Perplexity, Copilot) extract clean answers — never frame them as "AI hacks":
+
 - Direct-answer lead paragraph ≤40 words
 - Each H2/H3 section standalone (could lift into ChatGPT/Perplexity answer)
 - Definition blocks where key terms introduced

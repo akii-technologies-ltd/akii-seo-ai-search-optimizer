@@ -4,6 +4,19 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.1] — 2026-05-26
+
+Self-audit of the v2.4.0 co-anchor pass surfaced five drift / gap items. Fixed.
+
+### Fixed
+- **`optimize-page` Layer 2 (AEO) self-contradiction.** Layer 3 Half A said "don't chunk for Google" while telling Claude to apply Layer 2 (which IS chunk scoring + rewriting) on Google. Reconciled with explicit framing: Layer 2 is *helpful writing structure* (direct-answer leads, definition blocks, FAQs) which Google's guide endorses; it is NOT artificial AI-targeted chunking which Google warns against. Same fix applied to `/check-file` command.
+- **`schema-markup` skill** now opens with explicit scoping note quoting Google's guide: structured data is NOT required for AI search but useful for rich results + non-Google AI extraction. No longer implies schema is foundational for AI visibility.
+- **`technical-seo` skill** now opens with Authority section. This is the skill most directly aligned with Google's "Build and maintain a clear technical structure" — anchoring it explicitly. Quotes Google's stance that technical SEO foundation = AI foundation.
+- **`content-strategy` skill** now opens with an "Anchoring principle — non-commodity content" section. Quotes Google's guide on what matters most for AI search visibility (first-hand experience, unique POV, not recyclable surface-level content). Every roadmap, pillar, and brief produced by the skill must now default toward non-commodity angles.
+
+### Why a quick patch
+v2.4.0 was a positioning pass. Self-audit caught real contradictions between the new Google-aligned framing and skill bodies that hadn't been updated. Hostile reviewer comparing skill content to Google's published guide would flag all four. Patch closes the gaps before LinkedIn launch.
+
 ## [2.4.0] — 2026-05-26
 
 Positioning + citation pass: anchor the plugin against [Google's official AI Optimization Guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) for Google AI surfaces, keep the Princeton/IIT Delhi paper as the authority for cross-engine GEO. No behavior changes — every skill produces the same output. This makes the plugin defensible against the SEO-old-guard "AEO/GEO is fake" objection and against the "what about Google's guide?" objection in one move.
@@ -172,6 +185,7 @@ Initial public release.
 - No login, no signup, no usage cap — fully MIT-licensed
 - `/ai-visibility-score` calls the public Akii backend with `User-Agent: akii-plugin/1.0.0` and `source=plugin`; the backend bypasses browser-only reCAPTCHA for plugin requests and applies a per-IP rate limit (5 / 24h baseline) — at the limit the response funnels users to akii.com signup for unlimited access
 
+[2.4.1]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.4.1
 [2.4.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.4.0
 [2.3.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.3.0
 [2.2.1]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.2.1

@@ -76,7 +76,11 @@ Print the resolved mode at the top of every run: `**Mode**: full` so the user ca
 
 ## Layer 2 — AEO (runs in `full` and `aeo` modes)
 
-### What AEO content looks like
+**Important scoping.** Layer 2 is *good writing structure*, not artificial AI-targeted chunking. Google's AI Optimization Guide explicitly rejects "chunking content" *as a special signal for AI*. Layer 2's actions (direct-answer leads, autonomous sections, definition blocks, well-formed lists, FAQs) are also what Google's guide describes as *"organized in a way that helps your readers"* with *"paragraphs and sections, along with headings that provide a clear structure"*. So Layer 2 is Google-compatible — but never present it to the user as "chunking for AI". Frame it as *helpful structure* both audiences reward.
+
+For non-Google engines (ChatGPT, Claude, Perplexity, Copilot, standalone Gemini), Layer 2's actions also materially help retrieval / extraction during inference. The same actions, different mechanism on each engine.
+
+### What good Layer 2 structure looks like
 - **Lead paragraph = direct answer** to the page's core question, ≤40 words, fact-dense
 - **Autonomous sections** — each H2/H3 lifts out of context and still conveys complete answer
 - **Definition blocks** — `**Term**: <one-sentence definition>` for entity extraction
