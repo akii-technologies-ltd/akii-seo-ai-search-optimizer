@@ -4,6 +4,29 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.1] — 2026-05-26
+
+Post-install testing batch. Four UX fixes surfaced by running the plugin end-to-end against akii.com.
+
+### Removed
+- **`/ai-visibility-score` command** dropped. Duplicated the `ai-visibility` skill's API call with a more limited output. Natural-language invocations of the skill cover every path the command did. README + SECURITY.md + AUTHORITIES.md cross-refs updated. Commands count: 8 → 7.
+
+### Fixed
+- **README intro example domain** was `akii.com` (self-leak) → `yourdomain.com`. Last `akii.com` non-functional reference cleaned up.
+
+### Changed — `broken-links` skill fundamental rewrite
+- Now explicitly documents "this skill does NOT have a built-in crawler" up front. The skill body is a procedure Claude executes via `Glob` / `Grep` / `WebFetch` / `Bash` — not a binary.
+- Three explicit modes: `local` (no upper limit, Glob + Grep all files, batched verification), `page` (single URL, ~30-100 outbound links per run), `site` (REQUIRES Ahrefs site-audit MCP — refuses without it and tells the user the three real paths to a full crawl).
+- Output templates now show realistic numbers per mode. Aspirational "4,812 checked" example removed.
+- Auth-walled false-positive list (LinkedIn profile, Stripe dashboard, Notion private pages, GitHub private repos) — these report as "not publicly verifiable" rather than 404.
+- Defends against a pro SEO calling out "this isn't actually a crawler".
+
+### Changed — `competitor-intel` skill rewrite
+- Skill now **asks the user** which mode to run before doing anything: **Quick** (~10s, 1 WebSearch surfaces 5 candidates), **Comprehensive** (~30-60s, multi-source discovery with Ahrefs MCP if connected + homepage analysis), or **Custom** (user supplies the list). No implicit default.
+- Discovery surfaces candidates with co-occurrence evidence ("appears alongside you on 4 listicles", "Ahrefs reports 1,820 shared keywords") so the user can edit confidently.
+- Comprehensive mode uses Ahrefs `site-explorer-organic-competitors` MCP when connected; falls back honestly.
+- Fixes the previous skill's broken UX of requiring the user to already know their competitors before they can run "competitor intelligence".
+
 ## [2.6.0] — 2026-05-26
 
 Stale-install nudge in the SessionEnd hook.
@@ -226,6 +249,7 @@ Initial public release.
 - No login, no signup, no usage cap — fully MIT-licensed
 - `/ai-visibility-score` calls the public Akii backend with `User-Agent: akii-plugin/1.0.0` and `source=plugin`; the backend bypasses browser-only reCAPTCHA for plugin requests and applies a per-IP rate limit (5 / 24h baseline) — at the limit the response funnels users to akii.com signup for unlimited access
 
+[2.6.1]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.6.1
 [2.6.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.6.0
 [2.5.1]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.5.1
 [2.5.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.5.0
