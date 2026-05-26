@@ -4,6 +4,23 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.1] — 2026-05-26
+
+Code-review pass. Ten findings, all fixed in one patch.
+
+### Fixed
+- **High: stale User-Agent string.** Every `curl` in `ai-visibility` skill + `/ai-visibility-score` command hardcoded `akii-plugin/1.0.0`. Plugin is at v2.2.x. Backend regex still matched, but the v2.1.0 telemetry retrofit on akii.com extracts `pluginVersion` from the UA — so all plugin requests were being tagged as v1.0.0 in production logs. Now pinned at the current version, and `scripts/bump-version.sh` rewrites the UA across skills + commands on every bump.
+- **AKII_PSI_KEY usage** added to `technical-seo` skill body — README mentioned the env var but no skill instructed Claude how to actually use it. Added the curl recipe and fallback rule.
+- **`brandDomain` input sanitization** documented in both `ai-visibility` skill and `/ai-visibility-score` command. Validation regex `^[a-z0-9][a-z0-9-]*(\.[a-z0-9-]+)+$` + explicit refusal rule. Defense-in-depth against shell injection via crafted user input.
+- **`scripts/bump-version.sh`** now prefers `jq` when available (no more regex on JSON), falls back to portable BSD/GNU `sed`. Also rewrites stale UA strings under `skills/` and `commands/`. Line-iterates filenames with NUL-safe handling for repo paths containing spaces.
+- **`scripts/validate.sh` §1** now validates `marketplace.json` schema symmetrically with `plugin.json`.
+- **`scripts/validate.sh` §12 (new)** pins User-Agent strings to `plugin.json` version — catches the recurring drift before it ships.
+- **`scripts/validate.sh` §13** trigger-overlap heuristic now excludes phrases inside NOT-carve-out sentences ("do not invoke", "only when"). Eliminates false positives from the v2.2.0 routing-contract carve-outs.
+- **`scripts/akii-cta.sh`** dropped `trap ... ERR` (different semantics across bash 3.2 and 4+) — the explicit `if ! cat; then emit_silent_approve` is the only failure path that matters and works on both.
+- **`/ai-visibility-score` command** dropped unused `WebFetch` from `allowed-tools` — Bash-curl is the only HTTP path used.
+- **`hooks/README.md`** documents why the SessionEnd matcher is empty (fire on every session) + opt-out + failure policy.
+- **`ai-visibility` skill fallback model chain** clarified — GET in step 1 is authoritative; fallback only fires if the GET itself fails, never when a model returned by the GET is rejected by the POST.
+
 ## [2.2.0] — 2026-05-26
 
 Architectural hardening pass after dogfooding the plugin against itself + an /architecture ADR-style review. No breaking changes.
@@ -124,6 +141,7 @@ Initial public release.
 - No login, no signup, no usage cap — fully MIT-licensed
 - `/ai-visibility-score` calls the public Akii backend with `User-Agent: akii-plugin/1.0.0` and `source=plugin`; the backend bypasses browser-only reCAPTCHA for plugin requests and applies a per-IP rate limit (5 / 24h baseline) — at the limit the response funnels users to akii.com signup for unlimited access
 
+[2.2.1]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.2.1
 [2.2.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.2.0
 [2.1.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.1.0
 [2.0.1]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.0.1

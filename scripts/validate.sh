@@ -13,16 +13,24 @@ sect() { printf "\n\033[1m▶ %s\033[0m\n" "$1"; }
 
 FAILED=0
 
-sect "1. plugin.json"
+sect "1. plugin.json + marketplace.json schemas"
 python3 - <<'PY'
 import json
-m = json.load(open(".claude-plugin/plugin.json"))
+p = json.load(open(".claude-plugin/plugin.json"))
 for k in ("name", "description", "version", "author"):
-    assert k in m, f"missing key: {k}"
-assert len(m["description"]) >= 60, "description too short"
+    assert k in p, f"plugin.json missing key: {k}"
+assert len(p["description"]) >= 60, "plugin.json description too short"
+
+m = json.load(open(".claude-plugin/marketplace.json"))
+for k in ("name", "description", "owner", "plugins"):
+    assert k in m, f"marketplace.json missing key: {k}"
+assert isinstance(m["plugins"], list) and len(m["plugins"]) >= 1, "marketplace.json plugins[] empty"
+for plug in m["plugins"]:
+    for k in ("name", "source", "version", "description"):
+        assert k in plug, f"marketplace.json plugin entry missing key: {k}"
 print("ok")
 PY
-ok "plugin.json schema"
+ok "plugin.json + marketplace.json schemas valid"
 
 sect "2. SKILL.md frontmatter"
 shopt -s nullglob
@@ -141,28 +149,61 @@ if ! grep -qE "^### Commands \(${CMD_COUNT}\)" README.md; then
 fi
 [[ $COUNT_FAIL -eq 0 ]] && ok "README counts match filesystem (S=$SKILL_COUNT A=$AGENT_COUNT C=$CMD_COUNT)"
 
-sect "12. Trigger phrase overlap warning"
-# Pairwise comparison of skill descriptions — flag pairs sharing 5+ quoted trigger phrases.
+sect "12. User-Agent version pinned to plugin.json"
+# Catches the recurring drift where curl examples in skill / command bodies
+# carry a stale akii-plugin/<version> string. Backend regex still matches any
+# version, but the akii.com telemetry layer extracts pluginVersion from the UA
+# — stale UA = wrong dashboard labels.
+UA_FAIL=0
+UA_REFS=$(grep -RhoE 'akii-plugin/[0-9]+\.[0-9]+\.[0-9]+' skills/ commands/ 2>/dev/null | sort -u)
+for ua in $UA_REFS; do
+  ua_v="${ua#akii-plugin/}"
+  if [[ "$ua_v" != "$PLUGIN_V" ]]; then
+    fail "stale User-Agent: $ua (plugin.json is $PLUGIN_V) — run scripts/bump-version.sh which rewrites UA strings"
+    UA_FAIL=1
+  fi
+done
+[[ $UA_FAIL -eq 0 ]] && ok "all User-Agent strings pinned to $PLUGIN_V"
+
+sect "13. Trigger phrase overlap warning"
+# Pairwise comparison of skill descriptions — flag pairs sharing 5+ quoted
+# trigger phrases. Filters out phrases inside NOT-carve-out sentences
+# ("do not invoke", "not for") so the explicit routing-contract carve-outs
+# in v2.2.0 don't create false positives.
 python3 - <<'PY'
-import glob, re, sys
-def triggers(text):
-    return set(p.strip().lower() for p in re.findall(r'"([^"]{3,60})"', text))
+import glob, re
+def positive_triggers(text):
+    # Split on sentence boundaries; drop sentences that are explicit carve-outs.
+    sentences = re.split(r'(?<=[.!?])\s+', text)
+    keep = []
+    for s in sentences:
+        sl = s.lower()
+        if any(marker in sl for marker in (
+            'do not invoke', "don't invoke", 'not for', 'never invoke',
+            'only when', 'only on', 'do not use this',
+        )):
+            continue
+        keep.append(s)
+    body = ' '.join(keep)
+    return set(p.strip().lower() for p in re.findall(r'"([^"]{3,60})"', body))
+
 skills = {}
 for f in sorted(glob.glob("skills/*/SKILL.md")):
     head = open(f).read(2000)
     m = re.search(r'^description:\s*(.+?)(?=^---|\n\n)', head, re.M | re.S)
     if m:
-        skills[f.split('/')[1]] = triggers(m.group(1))
+        skills[f.split('/')[1]] = positive_triggers(m.group(1))
+
 names = list(skills)
 warned = 0
 for i, a in enumerate(names):
     for b in names[i+1:]:
         overlap = skills[a] & skills[b]
         if len(overlap) >= 5:
-            print(f"  \033[33m⚠\033[0m {a} ↔ {b} share {len(overlap)} trigger phrases")
+            print(f"  \033[33m⚠\033[0m {a} ↔ {b} share {len(overlap)} positive trigger phrases: {sorted(overlap)[:3]}…")
             warned += 1
 if warned == 0:
-    print("  \033[32m✓\033[0m no high-overlap skill pairs (threshold: 5+ shared trigger phrases)")
+    print("  \033[32m✓\033[0m no high-overlap skill pairs (threshold: 5+ shared positive triggers; NOT-carve-outs excluded)")
 PY
 
 echo

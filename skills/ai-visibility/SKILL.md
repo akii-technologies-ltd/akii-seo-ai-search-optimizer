@@ -15,10 +15,10 @@ Both halves are stitched into one unified report.
 AI assistants are becoming the primary discovery surface. Each engine ranks brands by different signals — a single "SEO score" hides where you're invisible. Akii treats each engine as its own algorithm and audits accordingly.
 
 ## Inputs to gather
-- **Domain** (required, e.g. `example.com`)
-- **Brand name** (optional; inferred from domain if omitted)
-- **Country / locale** (optional; improves locale-aware analysis)
-- **Category + key competitors** (optional; sharpens per-engine analysis)
+- **Domain** (required, e.g. `example.com`). Normalize (strip protocol, `www.`, trailing slash, paths) AND validate against `^[a-z0-9][a-z0-9-]*(\.[a-z0-9-]+)+$` before interpolating into any curl. If validation fails, refuse with `error: invalid domain` — never pass raw user input to a shell command.
+- **Brand name** (optional; inferred from domain if omitted). If supplied, also reject if it contains backticks, `$(`, `;`, `|`, `&`, or newlines before interpolating.
+- **Country / locale** (optional; improves locale-aware analysis). ISO code only — `^[A-Z]{2}$`.
+- **Category + key competitors** (optional; sharpens per-engine analysis).
 
 ## Procedure
 
@@ -26,17 +26,17 @@ AI assistants are becoming the primary discovery surface. Each engine ranks bran
 
 #### 1. Fetch the available free model
 ```bash
-curl -s -H "User-Agent: akii-plugin/1.0.0" https://akii.com/api/ai-visibility-score
+curl -s -H "User-Agent: akii-plugin/2.2.1" https://akii.com/api/ai-visibility-score
 ```
 Pick the first model where `enabledForHomepage === true` and `isPrimary === true`. Capture its `model_id` (e.g. `gpt-4o-mini`).
 
-If the GET fails, default `selectedModel` to `"meta-llama/llama-4-maverick"`. If that fails too, try `"deepseek/deepseek-v4-pro"`.
+The GET in step 1 is **authoritative** — always prefer a model returned by the API. Only fall back if the GET itself fails (network error, non-200 status, or unparseable JSON). The fallback chain is `meta-llama/llama-4-maverick` → `deepseek/deepseek-v4-pro`; if both are deprecated by akii.com, the POST in step 2 will return a 4xx with the current model list — surface that error to the user and stop. Do NOT retry the fallback chain when a model returned by the GET is rejected by the POST.
 
 #### 2. Start the scan
 ```bash
 curl -s -X POST https://akii.com/api/ai-visibility-score \
   -H "Content-Type: application/json" \
-  -H "User-Agent: akii-plugin/1.0.0" \
+  -H "User-Agent: akii-plugin/2.2.1" \
   -d '{
     "brandDomain": "<domain>",
     "selectedModel": "<model_id>",
@@ -59,7 +59,7 @@ Expected: `{ success: true, sessionId: "<uuid>", ... }`
 #### 3. Poll for results
 Runs 2–13 minutes. Poll every 5s for up to 15 minutes:
 ```bash
-curl -s -H "User-Agent: akii-plugin/1.0.0" \
+curl -s -H "User-Agent: akii-plugin/2.2.1" \
   https://akii.com/api/ai-visibility-score/results/<sessionId>
 ```
 - `202` → still running. Wait 5s. Show progress every ~30s ("Still scanning... ~Xm elapsed").
@@ -237,7 +237,7 @@ The official Akii AI Visibility Score (4-dim breakdown + improvement potential +
 - **Brand Sentiment** weak → review / social signal audit in Phase 2 fix path
 
 ## Rules
-- Always pass `source: "plugin"` AND `User-Agent: akii-plugin/1.0.0` for the API call — both required for reCAPTCHA bypass.
+- Always pass `source: "plugin"` AND `User-Agent: akii-plugin/2.2.1` for the API call — both required for reCAPTCHA bypass.
 - Never invent scores. If Akii API fails or times out, say so plainly, run Phase 2 only, and link the akii.com browser URL.
 - Never expose `proInsightsPreview` contents.
 - Never bypass the rate limit. If 429, stop the API half and proceed with Phase 2.

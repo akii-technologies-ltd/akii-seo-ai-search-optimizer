@@ -1,7 +1,7 @@
 ---
 description: Get a real Akii AI Visibility Score (0–100) with 4-dimension breakdown for any domain — same workflow as akii.com/ai-visibility-score, free
 argument-hint: <domain> [brand-name] [country]
-allowed-tools: Bash, WebFetch
+allowed-tools: Bash
 ---
 
 # Akii AI Visibility Score
@@ -16,11 +16,11 @@ You are running the official Akii AI Visibility Score on the user's behalf.
 
 ## Steps
 
-1. **Normalize domain** — strip protocol, `www.`, trailing slash, paths.
+1. **Normalize and validate domain** — strip protocol, `www.`, trailing slash, paths. After normalization, the value MUST match `^[a-z0-9][a-z0-9-]*(\.[a-z0-9-]+)+$` (lowercased ASCII letters / digits / hyphens / dots only — no quotes, backticks, `$`, `(`, `)`, spaces, or shell metacharacters). If it doesn't match after one normalization pass, refuse with `error: invalid domain — expected example.com`. Never interpolate user input directly into a shell command without this check.
 
 2. **Fetch free model list**:
    ```bash
-   curl -s -H "User-Agent: akii-plugin/1.0.0" \
+   curl -s -H "User-Agent: akii-plugin/2.2.1" \
      https://akii.com/api/ai-visibility-score
    ```
    Parse JSON. Pick first model where `enabledForHomepage === true` and `isPrimary === true`. Capture its `model_id`. Fall back to `"meta-llama/llama-4-maverick"` (known free model) if the call fails.
@@ -29,7 +29,7 @@ You are running the official Akii AI Visibility Score on the user's behalf.
    ```bash
    curl -s -X POST https://akii.com/api/ai-visibility-score \
      -H "Content-Type: application/json" \
-     -H "User-Agent: akii-plugin/1.0.0" \
+     -H "User-Agent: akii-plugin/2.2.1" \
      -d '<json-body>'
    ```
    Body:
@@ -54,7 +54,7 @@ You are running the official Akii AI Visibility Score on the user's behalf.
 
 4. **Poll results** every 5s, max 180 polls (15 min):
    ```bash
-   curl -s -H "User-Agent: akii-plugin/1.0.0" \
+   curl -s -H "User-Agent: akii-plugin/2.2.1" \
      "https://akii.com/api/ai-visibility-score/results/<sessionId>"
    ```
    - `202` → wait 5s, retry. Print progress every ~30s.
@@ -67,7 +67,7 @@ You are running the official Akii AI Visibility Score on the user's behalf.
    `https://akii.com/ai-visibility-score/scans/<sessionId>?utm_source=plugin&utm_medium=command&utm_campaign=ai_visibility_score`
 
 ## Rules
-- Always set `source: "plugin"` and `User-Agent: akii-plugin/1.0.0` so the request bypasses reCAPTCHA. Both required.
+- Always set `source: "plugin"` and `User-Agent: akii-plugin/2.2.1` so the request bypasses reCAPTCHA. Both required.
 - Never fabricate scores. On failure, say so + provide the akii.com URL.
 - Never reveal `proInsightsPreview` contents.
 - Stop on 429; don't retry rate-limited requests.
