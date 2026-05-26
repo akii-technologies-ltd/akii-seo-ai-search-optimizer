@@ -21,14 +21,21 @@ See [AUTHORITIES.md](./AUTHORITIES.md) for how each source is scoped (Google gui
 
 ## Installation
 
-Install directly from this GitHub repo (run inside Claude Code, not your shell):
+Install directly from this GitHub repo. **Inside the Claude Code prompt, run these as two separate commands — paste the first, press Enter, then paste the second.** Pasting both at once concatenates them with a space and Claude Code treats the whole blob as one broken `/plugin marketplace add` call.
+
+**Step 1 — add the marketplace:**
 
 ```
 /plugin marketplace add https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer
+```
+
+**Step 2 — install the plugin:**
+
+```
 /plugin install akii-seo-ai-search-optimizer@akii
 ```
 
-> The full `https://` URL is recommended because the short `owner/repo` form makes Claude Code clone via SSH on some systems, which fails if you don't have a GitHub SSH key configured.
+> Use the full `https://` URL above — the short `owner/repo` form makes Claude Code clone via SSH on some systems and fails if you don't have a GitHub SSH key configured.
 
 > Submitted to the [Anthropic community marketplace](https://github.com/anthropics/claude-plugins-community) — pending review. Once accepted, you'll also be able to install with:
 >
