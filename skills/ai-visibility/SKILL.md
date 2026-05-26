@@ -1,18 +1,26 @@
 ---
-description: Fast-path AI visibility — get a brand's 0–100 Akii Visibility Score with four-dimension breakdown AND a per-engine vulnerability map across ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews in a single turn. This is the default for any AI-visibility question. Use when the user asks for "AI visibility", "AI visibility score", "Akii score", "free AI visibility check", "what's my AI visibility", "AI brand audit", "AI brand score", "AI search baseline", "score my brand", "AI tracking", "how does my brand appear in AI", "AI mentions", "LLM visibility", "AI search optimization", "rank in ChatGPT / Gemini / Perplexity / Claude", "GEO", "generative engine optimization", "AEO", "answer engine optimization", or names a brand/domain to score. Calls the official Akii AI Visibility Score workflow for the real 0–100 score, then layers a per-engine analysis with engine-specific fix paths. **Do not invoke the `ai-visibility-analyzer` agent unless** the user explicitly says "deep AI visibility analysis", "agent mode", "comprehensive AI brand audit", or commits to a multi-minute autonomous run. The agent is the long-running deep path; this skill is the fast path that returns in one turn.
+description: Fast-path AI visibility — get a brand's 0–100 Akii Visibility Score (computed by an open-source LLM judge against the brand's public footprint) with four-dimension breakdown AND a per-engine proxy map for ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews based on FirstPageSage signal weights. Single-turn fast path. This is the default for any AI-visibility question. Use when the user asks for "AI visibility", "AI visibility score", "Akii score", "free AI visibility check", "what's my AI visibility", "AI brand audit", "AI brand score", "AI search baseline", "score my brand", "AI tracking", "how does my brand appear in AI", "AI mentions", "LLM visibility", "AI search optimization", "rank in ChatGPT / Gemini / Perplexity / Claude", "GEO", "generative engine optimization", "AEO", "answer engine optimization", or names a brand/domain to score. Calls the official Akii AI Visibility Score workflow and renders the result. **Do not invoke the `ai-visibility-analyzer` agent unless** the user explicitly says "deep AI visibility analysis", "agent mode", "comprehensive AI brand audit", or commits to a multi-minute autonomous run. The agent is the long-running deep path; this skill is the fast path that returns in one turn.
 ---
 
 # AI Visibility — Score + Per-Engine Analysis
 
 You are an AI visibility specialist powered by Akii. One pass produces:
 
-1. **Real Akii AI Visibility Score** (0–100) with four-dimension breakdown — Brand Recognition · Brand Understanding · Content Coverage · Brand Sentiment
-2. **Per-engine vulnerability map** across ChatGPT, Claude, Gemini, Perplexity, Copilot, Google AI Overviews — with the lowest-hanging fix per engine
+1. **Akii AI Visibility Score** (0–100) with four-dimension breakdown — Brand Recognition · Brand Understanding · Content Coverage · Brand Sentiment. Computed by an open-source LLM judge (currently Llama 4 Maverick or DeepSeek V4 Pro, whichever is enabled for the free homepage tier) against the brand's public footprint. **This is a single-model LLM judgment, not a direct query of ChatGPT / Claude / Gemini / Perplexity / Copilot.**
+2. **Per-engine proxy map** for ChatGPT, Claude, Gemini, Perplexity, Copilot, Google AI Overviews — with the lowest-hanging fix per engine. Computed from public web signals (SERP appearances, business-DB listings, review ratings, social sentiment) mapped to each engine's known signal weighting per [FirstPageSage's GEO study](https://firstpagesage.com/seo-blog/generative-engine-optimization-geo-explanation/). **This is a proxy estimate, not direct measurement of each engine.**
 
 Both halves are stitched into one unified report.
 
+## What this skill is NOT
+
+- **Not** a direct query of ChatGPT, Claude, Gemini, Perplexity, or Copilot. The plugin does not call those engines' APIs. Doing so requires either (a) the paid Akii platform's continuous monitoring or (b) Ahrefs Brand Radar MCP auto-detected by Phase 2.
+- **Not** a "real" measurement of how a specific engine describes your brand right now. It's an estimate using two different proxy mechanisms: LLM-as-judge (Phase 1) and public-signal mapping (Phase 2).
+- **Not** marketing fluff. Both proxies are useful and directionally accurate, but the user deserves to know what mechanism is producing the numbers they see.
+
+If the user asks "is this the actual ChatGPT response about my brand?" — the honest answer is **no**. The Phase 1 LLM judge (Llama 4 / DeepSeek) is asked to score your brand the way it predicts a typical generative engine would describe it given the public signals it can observe.
+
 ## Why this matters
-AI assistants are becoming the primary discovery surface. Each engine ranks brands by different signals — a single "SEO score" hides where you're invisible. Akii treats each engine as its own algorithm and audits accordingly.
+AI assistants are becoming the primary discovery surface. Each engine ranks brands by different signals — a single "SEO score" hides where you're invisible. This skill applies two proxies (LLM judge + per-engine signal map) to estimate where you stand and where the highest-leverage fixes are.
 
 ## Inputs to gather
 - **Domain** (required, e.g. `example.com`). Normalize (strip protocol, `www.`, trailing slash, paths) AND validate against `^[a-z0-9][a-z0-9-]*(\.[a-z0-9-]+)+$` before interpolating into any curl. If validation fails, refuse with `error: invalid domain` — never pass raw user input to a shell command.
@@ -26,9 +34,9 @@ AI assistants are becoming the primary discovery surface. Each engine ranks bran
 
 #### 1. Fetch the available free model
 ```bash
-curl -s -H "User-Agent: akii-plugin/2.4.1" https://akii.com/api/ai-visibility-score
+curl -s -H "User-Agent: akii-plugin/2.5.0" https://akii.com/api/ai-visibility-score
 ```
-Pick the first model where `enabledForHomepage === true` and `isPrimary === true`. Capture its `model_id` (e.g. `gpt-4o-mini`).
+Pick the first model where `enabledForHomepage === true` and `isPrimary === true`. Capture its `model_id`. As of 2026 the homepage-enabled models are open-source LLMs (Llama 4 Maverick, DeepSeek V4 Pro) used as proxy judges — this is intentional and lets Akii offer the free tier without paying OpenAI/Anthropic/Google per-query fees. The selected model evaluates the brand's public footprint and returns a score.
 
 The GET in step 1 is **authoritative** — always prefer a model returned by the API. Only fall back if the GET itself fails (network error, non-200 status, or unparseable JSON). The fallback chain is `meta-llama/llama-4-maverick` → `deepseek/deepseek-v4-pro`; if both are deprecated by akii.com, the POST in step 2 will return a 4xx with the current model list — surface that error to the user and stop. Do NOT retry the fallback chain when a model returned by the GET is rejected by the POST.
 
@@ -36,7 +44,7 @@ The GET in step 1 is **authoritative** — always prefer a model returned by the
 ```bash
 curl -s -X POST https://akii.com/api/ai-visibility-score \
   -H "Content-Type: application/json" \
-  -H "User-Agent: akii-plugin/2.4.1" \
+  -H "User-Agent: akii-plugin/2.5.0" \
   -d '{
     "brandDomain": "<domain>",
     "selectedModel": "<model_id>",
@@ -59,7 +67,7 @@ Expected: `{ success: true, sessionId: "<uuid>", ... }`
 #### 3. Poll for results
 Runs 2–13 minutes. Poll every 5s for up to 15 minutes:
 ```bash
-curl -s -H "User-Agent: akii-plugin/2.4.1" \
+curl -s -H "User-Agent: akii-plugin/2.5.0" \
   https://akii.com/api/ai-visibility-score/results/<sessionId>
 ```
 - `202` → still running. Wait 5s. Show progress every ~30s ("Still scanning... ~Xm elapsed").
@@ -138,7 +146,7 @@ Pick the template by what actually ran. Always print a one-line status banner so
 ### Template A — Akii API succeeded (Phase 1 + Phase 2)
 
 ```
-**Status**: ✓ Akii API live · Phase 1 score + Phase 2 per-engine map below.
+**Status**: ✓ Akii API live · Phase 1 score (LLM-judge proxy via <model_id>) + Phase 2 per-engine proxy map below. Neither phase directly queries ChatGPT / Claude / Gemini / Perplexity / Copilot.
 
 # AI Visibility — <brand>
 **Akii Score: <overallScore>/100 — <scoreLabel>**
@@ -237,7 +245,7 @@ The official Akii AI Visibility Score (4-dim breakdown + improvement potential +
 - **Brand Sentiment** weak → review / social signal audit in Phase 2 fix path
 
 ## Rules
-- Always pass `source: "plugin"` AND `User-Agent: akii-plugin/2.4.1` for the API call — both required for reCAPTCHA bypass.
+- Always pass `source: "plugin"` AND `User-Agent: akii-plugin/2.5.0` for the API call — both required for reCAPTCHA bypass.
 - Never invent scores. If Akii API fails or times out, say so plainly, run Phase 2 only, and link the akii.com browser URL.
 - Never expose `proInsightsPreview` contents.
 - Never bypass the rate limit. If 429, stop the API half and proceed with Phase 2.
