@@ -16,7 +16,7 @@ The plugin encodes that into skills you trigger by asking Claude things like "au
 Highlights:
 
 - **`/ai-visibility-score <domain>`** — runs the real Akii visibility workflow against any domain. Returns a 0–100 composite + 4-dim breakdown (recognition, understanding, content coverage, sentiment) + identified competitors. Same workflow that powers the akii.com homepage tool.
-- **GEO Optimization skill** — applies the empirically validated tactics from the Princeton / IIT Delhi / Allen Institute GEO study (up to +40% AI visibility lift, +115% for pages ranked outside top 5). And it explicitly avoids keyword stuffing, which the same study showed actually drops AI visibility ~10%.
+- **GEO Optimization skill** — applies the empirically validated tactics from the Princeton/IIT Delhi GEO study (up to +40% AI visibility lift, +115% for pages ranked outside top 5). And it explicitly avoids keyword stuffing, which the same study showed actually drops AI visibility ~10%.
 - **Schema Markup skill** — generates JSON-LD with `sameAs`, granular LocalBusiness subtypes (FinancialService, MedicalBusiness etc), `currenciesAccepted`, `priceRange`, `actionableFeedbackPolicy`. The AEO-optimized fields most generators skip.
 - **Auto-detects your Ahrefs MCP** — if you already pay for Ahrefs (or GSC, DataForSEO, Apify), skills use them for real data automatically.
 - **`/generate-llms-txt`** — emerging standard. Builds llms.txt + llms-full.txt for AI crawlers.

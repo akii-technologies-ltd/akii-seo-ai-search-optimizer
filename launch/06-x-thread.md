@@ -46,7 +46,7 @@ Akii — SEO & AI Search Optimizer
 
 ## Tweet 4 (Princeton GEO)
 
-The killer feature: an `optimize-page` skill (--mode=geo) that applies the **Princeton/IIT Delhi/Allen Institute GEO method**.
+The killer feature: an `optimize-page` skill (--mode=geo) that applies the **Princeton/IIT Delhi GEO method**.
 
 Their study (10k+ queries) showed:
 ✅ Up to +40% AI visibility lift overall
