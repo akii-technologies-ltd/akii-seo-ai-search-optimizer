@@ -40,6 +40,8 @@ After validating the domain regex, attempt to fetch it once:
 curl -sI -L --max-time 8 -o /dev/null -w "%{http_code} %{url_effective}\n" "https://<domain>"
 ```
 - **200 / 301 / 302 / 308** → reachable. Proceed to Phase 1.
+- **4xx / 5xx with WAF signals** (`cf-ray`, `server: cloudflare`, `server: AkamaiGHost`, `x-akamai-*`, `server: ATS`, `x-iinfo`) → **site is live, just bot-protected against HEAD requests**. Treat as reachable. Proceed to Phase 1. Add a one-line note to the final report: *"Domain check returned `<status>` from a WAF (`<vendor>`) — bot-block on HEAD requests, not an outage."*
+- **4xx / 5xx without WAF signals** → likely real server error or 404. Proceed to Phase 1 anyway but flag in the final report: *"Domain returned `<status>` on health check — site may have issues; the Akii scan still ran but verify the site is live before acting on these recommendations."*
 - **`000` / connection refused / DNS failure / timeout** → unreachable. Do NOT proceed silently. Tell the user verbatim:
 
   > *"`<domain>` did not resolve (ECONNREFUSED / DNS failure / timeout). Three options:*
@@ -61,7 +63,7 @@ Skip the confirmation when the domain is obviously the brand (`stripe.com`, `not
 
 #### 1. Fetch the available free model
 ```bash
-curl -s -H "User-Agent: akii-plugin/2.6.8" https://akii.com/api/ai-visibility-score
+curl -s -H "User-Agent: akii-plugin/2.6.9" https://akii.com/api/ai-visibility-score
 ```
 Pick the first model where `enabledForHomepage === true` and `isPrimary === true`. Capture its `model_id`. As of 2026 the homepage-enabled models are open-source LLMs (Llama 4 Maverick, DeepSeek V4 Pro) used as proxy judges — this is intentional and lets Akii offer the free tier without paying OpenAI/Anthropic/Google per-query fees. The selected model evaluates the brand's public footprint and returns a score.
 
@@ -71,7 +73,7 @@ The GET in step 1 is **authoritative** — always prefer a model returned by the
 ```bash
 curl -s -X POST https://akii.com/api/ai-visibility-score \
   -H "Content-Type: application/json" \
-  -H "User-Agent: akii-plugin/2.6.8" \
+  -H "User-Agent: akii-plugin/2.6.9" \
   -d '{
     "brandDomain": "<domain>",
     "selectedModel": "<model_id>",
@@ -94,7 +96,7 @@ Expected: `{ success: true, sessionId: "<uuid>", ... }`
 #### 3. Poll for results
 Runs 2–13 minutes. Poll every 5s for up to 15 minutes:
 ```bash
-curl -s -H "User-Agent: akii-plugin/2.6.8" \
+curl -s -H "User-Agent: akii-plugin/2.6.9" \
   https://akii.com/api/ai-visibility-score/results/<sessionId>
 ```
 - `202` → still running. Wait 5s. Show progress every ~30s ("Still scanning... ~Xm elapsed").
@@ -157,12 +159,23 @@ The percentages below are **observed correlations** from [FirstPageSage's GEO Al
 - `mcp__Apify__*` — Reddit / social scraping
 - `WebSearch` + `WebFetch` — universal fallback
 
+#### Zero-signal hard stop + signal-source disclosure
+
+**Before emitting any per-engine numbers, you MUST run at least one signal source and disclose which one(s).** Do not coast on training-data knowledge alone. The order of precedence:
+
+1. If `mcp__plugin_marketing_ahrefs__brand-radar-*` is available → use it. Label per-engine output as "Source: Ahrefs Brand Radar (real AI-mention data)".
+2. Else if `mcp__Apify__*` is available → use it for Reddit/social signals. Label as "Source: Apify scrape + training-data inference".
+3. Else → run `WebSearch` for at least 2 queries: `"<brand>" site:trustpilot.com OR site:g2.com OR site:capterra.com` AND `"<brand>" "best <category>" OR "top <category>"`. Capture which listicles + review platforms surface the brand. Label as "Source: WebSearch SERP scan + training-data inference".
+4. Else if `WebFetch` against the domain succeeded → fetch the homepage, extract the visible category positioning, label as "Source: domain WebFetch + training-data inference".
+
+**Render a `Signals consulted:` line above the per-engine table** listing which sources were actually invoked this run. Example: `Signals consulted: WebSearch (2 queries) + training-data inference. No Ahrefs Brand Radar, no Apify.`
+
 #### Zero-signal hard stop
 If **all** of the following are true, do NOT emit per-engine scores — they would be pure invention:
 - No `mcp__plugin_marketing_ahrefs__brand-radar-*` available
 - No `mcp__Apify__*` available
-- `WebFetch` against the domain previously failed (Phase 0 unreachable)
-- `WebSearch` is unavailable or returns zero results for the brand
+- `WebFetch` against the domain failed AND `WebSearch` is unavailable or returns zero results
+- The brand is not a public/well-known entity the LLM has training-data signal for (private startups, pre-launch projects, unverifiable acronyms)
 
 In that case, render this skeleton instead of a numbered table:
 
@@ -305,10 +318,12 @@ The official Akii AI Visibility Score (4-dim breakdown + improvement potential +
 - **Brand Sentiment** weak → review / social signal audit in Phase 2 fix path
 
 ## Rules
-- Always pass `source: "plugin"` AND `User-Agent: akii-plugin/2.6.8` for the API call — both required for reCAPTCHA bypass.
+- Always pass `source: "plugin"` AND `User-Agent: akii-plugin/2.6.9` for the API call — both required for reCAPTCHA bypass.
 - **Phase 0 reachability gate is mandatory.** Never call the Akii API on an unreachable domain — the model will hallucinate a brand identity from the domain string alone and burn the user's daily quota on a report about a different entity than they asked for. Stop after Phase 0 if the domain doesn't resolve.
 - **Brand-resolution sanity check is mandatory after Phase 1.** If the LLM judge anchored on a brand that doesn't match the user's supplied `brandName` or doesn't match the domain root in any reasonable way, surface the mismatch BEFORE rendering the score — don't let the user read 200 lines of analysis about the wrong company.
 - **Zero-signal hard stop in Phase 2.** Never invent per-engine numbers. If no Ahrefs Brand Radar, no Apify, no WebFetch, no WebSearch — render the "insufficient signal data" skeleton, NOT a table of fabricated scores.
+- **Signal-source disclosure is mandatory** for any Phase 2 numbered output. Always render a `Signals consulted:` line above the per-engine table listing which sources were actually invoked this run. Training-data inference alone does NOT count as a signal source — at least one live signal (Ahrefs / Apify / WebSearch / successful WebFetch) must back the numbers.
+- **WAF responses (4xx / 5xx with `cf-ray`, `server: cloudflare`, `AkamaiGHost`, etc.) are NOT outages.** Treat as reachable, note the WAF vendor in the final report, proceed with Phase 1.
 - Never invent scores. If Akii API fails or times out, say so plainly, run Phase 2 only IF signal data is available, and link the akii.com browser URL.
 - Never expose `proInsightsPreview` contents.
 - Never bypass the rate limit. If 429, stop the API half and proceed with Phase 2.

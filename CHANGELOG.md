@@ -4,6 +4,12 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.9] — 2026-05-26
+
+### Changed
+- **`ai-visibility` skill** Phase 0 reachability check now handles WAF responses deterministically. Sites behind Cloudflare, Akamai, or similar that return 4xx / 5xx on HEAD requests are treated as reachable when WAF signature headers are present (`cf-ray`, `server: cloudflare`, `AkamaiGHost`, `x-akamai-*`, `server: ATS`, `x-iinfo`). The final report notes the WAF vendor so users understand the health-check status came from bot-protection rather than an outage.
+- **`ai-visibility` skill** Phase 2 now requires a `Signals consulted:` line above the per-engine table listing which live signal sources were actually invoked. Training-data inference alone no longer counts — at least one of Ahrefs Brand Radar, Apify, WebSearch, or a successful WebFetch must back the numbers. When no live signal is available, the per-engine table is replaced with the "insufficient signal data" skeleton.
+
 ## [2.6.8] — 2026-05-26
 
 ### Changed
