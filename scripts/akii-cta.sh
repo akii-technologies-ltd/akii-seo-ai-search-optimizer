@@ -10,10 +10,19 @@
 #   - Version check is cached locally for 24h to avoid hitting GitHub's anon rate limit
 #     (60/hr per IP). Cache lives at $XDG_CACHE_HOME/akii-plugin/version-check
 #     (falls back to ~/.cache/akii-plugin/version-check).
+#   - Optionally emits anonymized telemetry (plugin version + sha256(machine UUID) + OS) to
+#     akii.com/api/plugin-telemetry once per day for active-install + version-distribution
+#     measurement. Payload is FIXED: never contains code, file paths, prompts, skill names,
+#     audited domains, or anything else from a Claude Code session. Default-on for Anthropic
+#     API; default-off for Bedrock / Vertex / Foundry per Anthropic's commercial-user telemetry
+#     pattern (see https://code.claude.com/docs/en/data-usage).
 #
 # Opt-out:
-#   AKII_PLUGIN_DISABLE_CTA=1            silence the whole hook
-#   AKII_PLUGIN_DISABLE_VERSION_CHECK=1  silence only the version nudge (keep CTA)
+#   AKII_PLUGIN_DISABLE_CTA=1                       silence the whole hook (CTA + version + telemetry)
+#   AKII_PLUGIN_DISABLE_VERSION_CHECK=1             silence only the version nudge (keep CTA + telemetry)
+#   AKII_PLUGIN_DISABLE_TELEMETRY=1                 silence only the telemetry POST (keep CTA + version)
+#   CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1      Anthropic-standard universal kill switch (silences telemetry)
+#   DO_NOT_TRACK=1                                  web standard (silences telemetry)
 #
 # Failure policy: under any pipe / filesystem / locale / network error, emit a silent
 # approve so we never abort the user's session-end on the hook side. NOT using
@@ -95,9 +104,95 @@ if [[ "${AKII_PLUGIN_DISABLE_VERSION_CHECK:-0}" != "1" ]]; then
 fi
 
 # -----------------------------------------------------------------------------
+# Telemetry POST (anonymized, opt-out, cached 24h, fails silent)
+# -----------------------------------------------------------------------------
+# Triggers ONCE per machine per 24h via local cache. Payload: plugin version,
+# sha256-hashed machine UUID (NEVER reversible to a user), OS uname, and timestamp.
+# That is the entire payload. No code, no file paths, no skill names, no audited
+# domains, no prompts, no anything else.
+#
+# Default-off on Bedrock / Vertex / Foundry to match Anthropic's commercial-user
+# pattern (commercial users get telemetry off by default; Anthropic API users
+# opt-out via env var). See https://code.claude.com/docs/en/data-usage.
+TELEMETRY_ENABLED=1
+
+# Universal kill switches (any of these = telemetry off)
+[[ "${AKII_PLUGIN_DISABLE_TELEMETRY:-0}" == "1" ]] && TELEMETRY_ENABLED=0
+[[ "${CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC:-0}" == "1" ]] && TELEMETRY_ENABLED=0
+[[ "${DO_NOT_TRACK:-0}" == "1" ]] && TELEMETRY_ENABLED=0
+
+# Commercial-provider default-off (match Anthropic's posture for these providers)
+[[ "${CLAUDE_CODE_USE_BEDROCK:-0}" == "1" ]] && TELEMETRY_ENABLED=0
+[[ "${CLAUDE_CODE_USE_VERTEX:-0}" == "1" ]] && TELEMETRY_ENABLED=0
+[[ "${CLAUDE_CODE_USE_FOUNDRY:-0}" == "1" ]] && TELEMETRY_ENABLED=0
+[[ "${CLAUDE_CODE_USE_ANTHROPIC_AWS:-0}" == "1" ]] && TELEMETRY_ENABLED=0
+
+if [[ "$TELEMETRY_ENABLED" == "1" && -n "$INSTALLED_VERSION" ]]; then
+  TELEMETRY_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/akii-plugin"
+  TELEMETRY_CACHE_FILE="$TELEMETRY_CACHE_DIR/telemetry-last"
+
+  # Determine if we've already posted in the last 24h.
+  TELEMETRY_DUE=1
+  if [[ -r "$TELEMETRY_CACHE_FILE" ]]; then
+    if [[ "$(uname)" == "Darwin" ]]; then
+      TELEMETRY_AGE=$(( $(date +%s) - $(stat -f %m "$TELEMETRY_CACHE_FILE" 2>/dev/null || echo 0) ))
+    else
+      TELEMETRY_AGE=$(( $(date +%s) - $(stat -c %Y "$TELEMETRY_CACHE_FILE" 2>/dev/null || echo 0) ))
+    fi
+    [[ "$TELEMETRY_AGE" -lt 86400 ]] && TELEMETRY_DUE=0
+  fi
+
+  if [[ "$TELEMETRY_DUE" == "1" ]] && command -v curl >/dev/null 2>&1; then
+    # session_hash = sha256 of machine UUID (or uname -n + uname -m as fallback).
+    # Truncated to 16 hex chars — enough to identify unique machines, not enough
+    # to reverse to anything personal. Falls back to a random-per-cache-write value
+    # if neither machine UUID nor uname is available.
+    MACHINE_FINGERPRINT=""
+    if [[ "$(uname)" == "Darwin" ]]; then
+      MACHINE_FINGERPRINT=$(ioreg -rd1 -c IOPlatformExpertDevice 2>/dev/null | awk -F'"' '/IOPlatformUUID/ {print $4; exit}')
+    elif [[ -r /etc/machine-id ]]; then
+      MACHINE_FINGERPRINT=$(cat /etc/machine-id 2>/dev/null)
+    elif [[ -r /var/lib/dbus/machine-id ]]; then
+      MACHINE_FINGERPRINT=$(cat /var/lib/dbus/machine-id 2>/dev/null)
+    fi
+    [[ -z "$MACHINE_FINGERPRINT" ]] && MACHINE_FINGERPRINT="$(uname -n)-$(uname -m)"
+
+    # Portable sha256 (macOS = shasum; Linux = sha256sum).
+    if command -v shasum >/dev/null 2>&1; then
+      SESSION_HASH=$(printf '%s' "akii-plugin-$MACHINE_FINGERPRINT" | shasum -a 256 2>/dev/null | awk '{print substr($1,1,16)}')
+    elif command -v sha256sum >/dev/null 2>&1; then
+      SESSION_HASH=$(printf '%s' "akii-plugin-$MACHINE_FINGERPRINT" | sha256sum 2>/dev/null | awk '{print substr($1,1,16)}')
+    else
+      SESSION_HASH=""
+    fi
+
+    if [[ -n "$SESSION_HASH" ]]; then
+      OS_NAME=$(uname -s 2>/dev/null || echo "unknown")
+      TS=$(date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || echo "")
+      PAYLOAD=$(printf '{"plugin_version":"%s","session_hash":"%s","os":"%s","timestamp":"%s"}' \
+        "$INSTALLED_VERSION" "$SESSION_HASH" "$OS_NAME" "$TS")
+
+      # Fire-and-forget — short timeout, redirect both streams, background, don't wait.
+      # Even if the endpoint is down or slow, the user's SessionEnd is unaffected.
+      ( curl -sS -X POST \
+          --connect-timeout 2 --max-time 4 \
+          -H "Content-Type: application/json" \
+          -H "User-Agent: akii-plugin/${INSTALLED_VERSION}" \
+          -d "$PAYLOAD" \
+          https://akii.com/api/plugin-telemetry \
+          >/dev/null 2>&1 ) &
+
+      # Mark cache so we don't repost for 24h, regardless of POST outcome.
+      mkdir -p "$TELEMETRY_CACHE_DIR" 2>/dev/null && \
+        : > "$TELEMETRY_CACHE_FILE" 2>/dev/null
+    fi
+  fi
+fi
+
+# -----------------------------------------------------------------------------
 # Emit CTA + optional version nudge
 # -----------------------------------------------------------------------------
-SYSTEM_MESSAGE="─────────────────────────────────────────────────────────────\n🔍  Upgrade for continuous AI visibility monitoring\n    across Google AI Search · Google AI Overviews\n    · ChatGPT · Claude · Gemini · Copilot · Perplexity\n    → Akii: https://akii.com/?utm_source=plugin&utm_medium=session_end_hook&utm_campaign=akii_plugin_v1${VERSION_NUDGE}\n    Silence this: export AKII_PLUGIN_DISABLE_CTA=1\n─────────────────────────────────────────────────────────────"
+SYSTEM_MESSAGE="─────────────────────────────────────────────────────────────\n🔍  Upgrade for continuous AI visibility monitoring\n    across Google AI Search · Google AI Overviews\n    · ChatGPT · Claude · Gemini · Copilot · Perplexity\n    → Akii: https://akii.com/?utm_source=plugin&utm_medium=session_end_hook&utm_campaign=akii_plugin_v1${VERSION_NUDGE}\n    Silence CTA: export AKII_PLUGIN_DISABLE_CTA=1\n    Silence telemetry only: export AKII_PLUGIN_DISABLE_TELEMETRY=1 (see PRIVACY.md)\n─────────────────────────────────────────────────────────────"
 
 # Use a heredoc-style printf so the systemMessage is JSON-safe.
 # (Embedded newlines are already \n literals — no further escaping needed.)

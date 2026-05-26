@@ -4,6 +4,14 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0] — 2026-05-27
+
+### Added
+- **Anonymized SessionEnd telemetry** to count active installs and version distribution. The hook (`scripts/akii-cta.sh`) POSTs a fixed 4-field payload — `plugin_version`, `session_hash` (16-hex sha256 prefix of the machine UUID), `os` (uname -s), and ISO 8601 timestamp — to `akii.com/api/plugin-telemetry` at most once per machine per 24 hours. The full implementation is in one bash file, the full payload is documented in `PRIVACY.md`, and four independent opt-out env vars are honored: `AKII_PLUGIN_DISABLE_TELEMETRY=1`, `AKII_PLUGIN_DISABLE_CTA=1`, `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1`, `DO_NOT_TRACK=1`. Telemetry is **default-off** on Amazon Bedrock, Google Cloud Vertex, Microsoft Foundry, and Claude Platform on AWS, matching Anthropic's own posture for commercial-provider users per [code.claude.com/docs/en/data-usage](https://code.claude.com/docs/en/data-usage). The plugin never sends code, file paths, prompts, skill outputs, audited domains, or bash commands — only the four fields above.
+- **`PRIVACY.md`** — the canonical reference for what the telemetry payload contains, what it explicitly does not contain, when it is sent, how to opt out at every level, default-off cases, retention policy at akii.com (90-day raw row retention, then aggregation), and how to verify the implementation locally.
+- **README "Telemetry" section** — summary of the payload + opt-out matrix linked to the full `PRIVACY.md` doc.
+- **`plugin.json` description** updated to mention telemetry in the marketplace card description (visible at `/plugin install`), so users see the disclosure before clicking install rather than after.
+
 ## [2.8.3] — 2026-05-27
 
 ### Changed
