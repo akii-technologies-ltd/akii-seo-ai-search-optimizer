@@ -4,6 +4,21 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.0] — 2026-05-26
+
+Stale-install nudge in the SessionEnd hook.
+
+### Added
+- `scripts/akii-cta.sh` now performs a cached version check (24h TTL) against the GitHub Releases API. When the locally installed plugin version is behind the latest release, the SessionEnd CTA appends a one-line nudge: *"Update available: vX.Y.Z installed · vA.B.C released — Open /plugin → Update, or run /plugin update akii-seo-ai-search-optimizer@akii"*.
+- New env var `AKII_PLUGIN_DISABLE_VERSION_CHECK=1` silences just the nudge while keeping the CTA (the existing `AKII_PLUGIN_DISABLE_CTA=1` still silences the whole hook).
+- Cache lives at `$XDG_CACHE_HOME/akii-plugin/version-check` (falls back to `~/.cache/akii-plugin/version-check`).
+
+### Why
+Claude Code doesn't auto-update plugins. Users who installed early stay on stale versions until they manually open `/plugin`. This nudge surfaces updates at SessionEnd — when the user is already done and ready for a small interruption — without aggressive auto-update mechanics that would be a trust issue. 24h cache keeps GitHub anon rate-limit (60 req/hr per IP) untouched at any realistic scale.
+
+### Failure policy
+Network failures, missing curl, locked cache dir, missing `CLAUDE_PLUGIN_ROOT` — all silently skip the version check and fall back to the plain CTA. Hook never aborts the user's session-end.
+
 ## [2.5.1] — 2026-05-26
 
 Scope the LLM-judge wording from v2.5.0 to the AI Visibility Score only.
@@ -211,6 +226,7 @@ Initial public release.
 - No login, no signup, no usage cap — fully MIT-licensed
 - `/ai-visibility-score` calls the public Akii backend with `User-Agent: akii-plugin/1.0.0` and `source=plugin`; the backend bypasses browser-only reCAPTCHA for plugin requests and applies a per-IP rate limit (5 / 24h baseline) — at the limit the response funnels users to akii.com signup for unlimited access
 
+[2.6.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.6.0
 [2.5.1]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.5.1
 [2.5.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.5.0
 [2.4.1]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.4.1
