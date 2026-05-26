@@ -15,13 +15,15 @@ A clear, concise description of what's broken.
 3. Expected … but got …
 
 ## Plugin version
-Output of `claude plugin list | grep akii-seo`:
+Inside Claude Code, run `/plugin` and open the **Installed** tab. Paste the version number shown next to `akii-seo-ai-search-optimizer`:
+
 ```
-<paste here>
+v?.?.?
 ```
 
 ## Claude Code version
-Output of `claude --version`:
+In your shell, run `claude --version`:
+
 ```
 <paste here>
 ```
@@ -31,10 +33,14 @@ Output of `claude --version`:
 - Terminal: (iTerm2 / Terminal.app / Windows Terminal / …)
 
 ## Connected MCPs (if relevant)
-`claude plugin list` and any MCPs the skill auto-detects (Ahrefs, Apify, etc.)
+Any MCPs the skill auto-detects (Ahrefs, Apify, etc.) — visible in `/plugin` → **Installed**.
 
 ## Logs / screenshots
-Paste relevant transcript or screenshot. Strip any secrets.
+Paste the relevant transcript or screenshot. Strip any secrets.
 
 ## Anything else
 Notes, suspected cause, etc.
+
+---
+
+> Not a bug? Use [Discussions](https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/discussions) for questions, how-to, and general chat. Use a [security disclosure](https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/blob/main/SECURITY.md) for vulnerabilities.
