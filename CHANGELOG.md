@@ -4,6 +4,18 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] — 2026-05-26
+
+Tech-debt Phase 1 — CI + tests + governance docs. No functional/skill changes.
+
+### Added
+- **`.github/workflows/validate.yml`** — CI runs `bash scripts/validate.sh` + `bash scripts/test-bump-version.sh` on every PR and push to main. Catches drift before merge.
+- **`scripts/test-bump-version.sh`** — self-test for bump-version.sh. Covers basic X.Y.Z bump, prerelease round-trip (regression for the v2.2.1 hotfix), input validation, and validator §12 drift detection.
+- **`scripts/validate.sh` §0** — preflight check that `python3`, `jq`, `grep`, `sed` are on PATH. Warns if `grep` is actually `ugrep` (Homebrew gotcha that bit us earlier).
+- **`CONTRIBUTING.md`** — repo layout, validator gate, skill / agent / command authoring conventions, citation rules, branch + commit conventions, release process.
+- **`SECURITY.md`** — supported-versions table, responsible-disclosure address (security@akii.com), threat model with mitigations, out-of-scope list.
+- **`COMPATIBILITY.md`** — Claude Code version matrix, OS coverage, required shell tooling, third-party MCP table, known incompatibilities.
+
 ## [2.2.1] — 2026-05-26
 
 Code-review pass. Ten findings, all fixed in one patch.
@@ -141,6 +153,7 @@ Initial public release.
 - No login, no signup, no usage cap — fully MIT-licensed
 - `/ai-visibility-score` calls the public Akii backend with `User-Agent: akii-plugin/1.0.0` and `source=plugin`; the backend bypasses browser-only reCAPTCHA for plugin requests and applies a per-IP rate limit (5 / 24h baseline) — at the limit the response funnels users to akii.com signup for unlimited access
 
+[2.3.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.3.0
 [2.2.1]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.2.1
 [2.2.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.2.0
 [2.1.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.1.0
