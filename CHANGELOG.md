@@ -4,6 +4,11 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.1] — 2026-05-27
+
+### Changed
+- **README** Telemetry section is now actually present. v2.9.0 had this section drafted but the Edit operation silently failed against a duplicate `## Compatibility` heading and the section was never written; the README shipped without any telemetry disclosure. v2.9.1 adds the full Telemetry section (payload + opt-out matrix + link to PRIVACY.md) and collapses the two `## Compatibility` H2s into a single one with the tested-against table plus a link to `COMPATIBILITY.md` for the full matrix.
+
 ## [2.9.0] — 2026-05-27
 
 ### Added
