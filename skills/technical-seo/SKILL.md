@@ -16,7 +16,7 @@ Anchor every recommendation in this skill to that guidance. Don't invent AI-spec
 - `mcp__plugin_marketing_ahrefs__site-audit-*` — if user has Ahrefs site-audit, pull real crawl issues
 - **PageSpeed Insights** — if `AKII_PSI_KEY` env var is set, fetch real Core Web Vitals via `Bash` (or `WebFetch` if available):
   ```bash
-  curl -s "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=<url>&key=$AKII_PSI_KEY&strategy=mobile&category=performance" \
+  curl -s "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=<url>&key=${AKII_PSI_KEY}&strategy=mobile&category=performance" \
     | jq '.lighthouseResult.audits | {LCP: ."largest-contentful-paint".displayValue, INP: ."interaction-to-next-paint".displayValue, CLS: ."cumulative-layout-shift".displayValue, TTFB: ."server-response-time".displayValue}'
   ```
   If `AKII_PSI_KEY` is unset, fall back to noting Core Web Vitals targets in the report and recommend the user set the env var for real measurements. Do NOT invent CWV numbers.

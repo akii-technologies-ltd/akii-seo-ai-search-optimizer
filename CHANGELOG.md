@@ -4,6 +4,12 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.7] — 2026-05-26
+
+### Changed
+- **`broken-links` skill** parallel-verify shell pattern switched from bare `$1` / `$0` positional references to the curly-brace form (`${1}` / `${0}`). Claude Code's skill renderer strips bare positional-argument tokens from loaded skill bodies, which silently left the shipped command with empty quotes (`""`) and a missing `${url}` payload in the `-w` format string. The curly-brace form survives the renderer and runs correctly.
+- **`technical-seo` skill** PageSpeed Insights example switched from `$AKII_PSI_KEY` to `${AKII_PSI_KEY}` defensively against the same renderer behavior.
+
 ## [2.6.6] — 2026-05-26
 
 ### Changed

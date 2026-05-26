@@ -42,12 +42,12 @@ Detect from target shape if not specified explicitly. Default order: `local` if 
    - `old.example.com`, `<domain>`, `<url>`, `your-site.com`, `yourdomain.com`
    - Bare `web.archive.org/` (no snapshot path)
    - URLs ending with template tokens like `?url=` or `/scans/` or `/results/` (placeholder shape)
-   - URLs with empty UTM values (`utm_content=&` or `utm_content=$`)
+   - URLs with empty UTM values (trailing `utm_content=` or `utm_content=&`)
 5. **Verify externals in parallel** — single Bash call, 5 concurrent workers, 200ms stagger. Write URLs (one per line, no quoting) to a temp file then:
    ```bash
-   xargs -P 5 -n 1 sh -c 'sleep 0.2; curl -sIL --max-time 10 -o /dev/null -w "%{http_code} $1\n" "$1"' _ < /tmp/urls.txt
+   xargs -P 5 -n 1 sh -c 'sleep 0.2; curl -sIL --max-time 10 -o /dev/null -w "%{http_code} ${1}\n" "${1}"' _ < /tmp/urls.txt
    ```
-   **Pattern explainer:** `-n 1` passes one URL per worker; `sh -c '...' _` uses `_` as `$0` so the URL lands in `$1` without shell expansion. **Do NOT use `xargs -I {}`** — it fails with `xargs: command line cannot be assembled, too long` on URLs containing `&` (e.g. `?utm_medium=skill&utm_campaign=...`).
+   **Pattern explainer:** `-n 1` passes one URL per worker; `sh -c '...' _` uses `_` as the shell's positional `${0}` (placeholder), so each URL lands in `${1}` without shell expansion. Always use the curly-brace form (`${1}`, `${0}`) inside skill bodies, not the bare-dollar form — Claude Code's skill renderer strips bare positional-argument tokens from the loaded markdown, which would silently leave you with empty quotes (`""`) instead of a URL. **Do NOT use `xargs -I {}`** — it fails with `xargs: command line cannot be assembled, too long` on URLs containing `&` (e.g. `?utm_medium=skill&utm_campaign=...`).
 
    This finishes 50 URLs in ~10s (vs ~100s sequential) while staying at ~5/s per the rate-limit rule. **Do not** loop curl serially in shell — that's the slow trap.
 6. **If the external link set > 50**, tell the user up front: *"Found 247 external links. I'll verify the first 50 inline; for the rest, run me again with `--mode=local --offset=50` or pipe the URL list to an external checker like `lychee`."*
