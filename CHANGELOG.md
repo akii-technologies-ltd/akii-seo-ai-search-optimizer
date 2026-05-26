@@ -4,6 +4,16 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] — 2026-05-26
+
+Pre-launch citation hotfix. No functional changes.
+
+### Fixed
+- `optimize-page` skill, CHANGELOG, and 5 launch docs no longer credit "Allen Institute" for the GEO study. Aggarwal et al., *GEO: Generative Engine Optimization* (KDD 2024, [arXiv:2311.09735](https://arxiv.org/abs/2311.09735)) is Princeton + IIT Delhi + Independent (Seattle) + Georgia Tech.
+- `ai-visibility` skill now attributes per-engine signal numbers to their actual source ([FirstPageSage GEO Algorithm Breakdown, 2024](https://firstpagesage.com/seo-blog/generative-engine-optimization-geo-explanation/)) and reframes them as "observed correlations, not model internals". Skill instructs Claude to attribute when surfacing the numbers.
+- `optimize-page` adds methodology caveat next to the +40% lift claim: the paper allowed fabricated quotes/stats; the plugin enforces "never invent" so real-world lift varies.
+- `launch/09-devto.md`: stale "15 model-triggered skills" → 13. Wrong agent file path (`agents/<name>/AGENT.md`) → canonical flat `agents/<name>.md`.
+
 ## [2.0.0] — 2026-05-26
 
 Pre-launch surface restructure. Reduces plugin from 15 skills to 13 by merging redundant on-page optimization skills and unifying AI-visibility entry points. Adds `competitor-intel`. **Breaking** — skill slugs `on-page-seo`, `aeo-optimization`, `geo-optimization`, `ai-visibility-score` (skill) are removed.
@@ -79,5 +89,6 @@ Initial public release.
 - No login, no signup, no usage cap — fully MIT-licensed
 - `/ai-visibility-score` calls the public Akii backend with `User-Agent: akii-plugin/1.0.0` and `source=plugin`; the backend bypasses browser-only reCAPTCHA for plugin requests and applies a per-IP rate limit (5 / 24h baseline) — at the limit the response funnels users to akii.com signup for unlimited access
 
+[2.0.1]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.0.1
 [2.0.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.0.0
 [1.0.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v1.0.0
