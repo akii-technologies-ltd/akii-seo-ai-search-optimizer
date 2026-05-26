@@ -44,6 +44,36 @@ Install directly from this GitHub repo. **Inside the Claude Code prompt, run the
 > /plugin install akii-seo-ai-search-optimizer@claude-community
 > ```
 
+### Updating
+
+Claude Code doesn't auto-update plugins. Two ways to update when a new version ships:
+
+**Recommended — via UI:**
+
+```
+/plugin
+```
+
+Press Enter, navigate to **Installed** → `akii-seo-ai-search-optimizer` → click **Update** when a newer version is shown.
+
+**Force reinstall (most reliable):** paste each command separately, press Enter between:
+
+```
+/plugin uninstall akii-seo-ai-search-optimizer@akii
+```
+
+```
+/plugin marketplace remove akii
+```
+
+```
+/plugin marketplace add https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer
+```
+
+```
+/plugin install akii-seo-ai-search-optimizer@akii
+```
+
 ### Quick start
 
 After install, try this first to see what the plugin does — just ask in natural language:

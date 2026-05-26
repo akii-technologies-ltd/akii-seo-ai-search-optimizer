@@ -23,7 +23,7 @@ After emitting the CTA, the hook checks whether the locally installed plugin ver
 
 ```
 ⚙  Update available: v2.5.1 installed · v2.6.0 released
-   Open /plugin → Update, or run /plugin update akii-seo-ai-search-optimizer@akii
+   To update: open /plugin → Installed → akii-seo-ai-search-optimizer → Update
 ```
 
 - Version check is cached for **24h** at `$XDG_CACHE_HOME/akii-plugin/version-check` (fallback `~/.cache/akii-plugin/version-check`) — well within GitHub's anon rate limit of 60 req/hr per IP.
