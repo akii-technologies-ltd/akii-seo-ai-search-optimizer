@@ -1,6 +1,6 @@
 {
   "name": "akii-seo-ai-search-optimizer",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "description": "Free SEO + AEO + GEO toolkit by Akii. All skills run on your Claude Code session model (Claude Sonnet / Opus / etc). Aligned with Google's AI Optimization Guide for Google AI Overviews + AI Mode. Audit sites, plan content, optimize pages, generate schema, cluster keywords. AI Visibility Score specifically calls the Akii backend (Llama 4 / DeepSeek as LLM judge against public footprint) + per-engine public-signal proxy — not direct queries of ChatGPT / Claude / Gemini / Perplexity / Copilot (those are an Akii platform feature). Auto-detects Ahrefs, GSC, Apify MCPs for richer data.",
   "keywords": [
     "seo",

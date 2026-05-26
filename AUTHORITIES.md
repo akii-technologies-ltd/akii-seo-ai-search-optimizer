@@ -58,7 +58,7 @@ Critical methodology note — read this before drawing conclusions from the AI V
 
 **The plugin is markdown.** Every skill, agent, and command is markdown that gets executed by your Claude Code session model (Claude Sonnet / Opus / Haiku — whichever you have selected). There is no separate inference happening for 12 of 13 skills, all 5 agents, and 7 of 8 commands. They run on your Claude.
 
-The exception is the AI Visibility Score (the `ai-visibility` skill's Phase 1, and the `/ai-visibility-score` command) — which calls the akii.com backend. That backend uses a different model (Llama 4 / DeepSeek V4 Pro) as a judge. Details below.
+The exception is the AI Visibility Score (the `ai-visibility` skill's Phase 1) — which calls the akii.com backend. That backend uses a different model (Llama 4 / DeepSeek V4 Pro) as a judge. Details below.
 
 ### Phase 1 — Akii API score (the 0–100 number)
 - **Mechanism:** an open-source LLM (currently Llama 4 Maverick or DeepSeek V4 Pro, whichever is enabled for the free homepage tier) acts as a judge. It is shown your brand's public footprint and asked to score it across four dimensions: Brand Recognition, Brand Understanding, Content Coverage, Brand Sentiment.

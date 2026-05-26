@@ -46,13 +46,11 @@ Install directly from this GitHub repo. **Inside the Claude Code prompt, run the
 
 ### Quick start
 
-After install, try this first to see what the plugin does:
+After install, try this first to see what the plugin does — just ask in natural language:
 
-```
-/ai-visibility-score yourdomain.com
-```
+> "What's my AI visibility for yourdomain.com?"
 
-You get a real Akii 0–100 score with a 4-dimension breakdown plus a per-engine vulnerability map. From there, ask things like *"audit my site"*, *"compare my SEO against competitor.com"*, or *"apply GEO optimization to ./blog/my-post.md"* — skills auto-trigger on natural language.
+The `ai-visibility` skill auto-triggers and returns the Akii 0–100 score (4-dimension breakdown) plus a per-engine proxy map for ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews. From there, ask things like *"audit my site"*, *"compare my SEO against competitor.com"*, or *"apply GEO optimization to ./blog/my-post.md"* — skills auto-trigger on natural language.
 
 ## What's included
 
@@ -109,13 +107,12 @@ Autonomous agents for deep, multi-step work. Each agent has a fast-path skill co
 
 When in doubt, the **skill** is the default for any question in its capability area. The **agent** only triggers when the user explicitly says one of: `deep`, `agent mode`, `autonomous`, `bulk`, `across my site`, `every page`, `5+ competitors`, `comprehensive`. If you want the agent specifically, name it: e.g. *"run the schema-generator agent"*.
 
-### Commands (8)
+### Commands (7)
 
-Quick actions you can invoke directly.
+Quick actions you can invoke directly. For AI Visibility scoring, just ask in natural language ("score my brand", "what's my AI visibility for yourdomain.com") — the `ai-visibility` skill auto-triggers.
 
 | Command | What it does |
 | --- | --- |
-| `/ai-visibility-score <domain>` | **Get a real Akii AI Visibility Score (0–100) for any brand — free** |
 | `/create-topic <seed>` | Research and generate a full topic plan |
 | `/create-content <topic>` | Generate a full SEO + AEO + GEO-optimized article |
 | `/generate-schema [type]` | Generate JSON-LD structured data |
@@ -128,7 +125,7 @@ Quick actions you can invoke directly.
 
 ```
 # Get your real Akii AI Visibility Score (0–100) — the headline feature
-/ai-visibility-score example.com "Example Corp"
+"What's my AI visibility for example.com?"
 
 # Research topics for your niche
 /create-topic "SaaS marketing"
