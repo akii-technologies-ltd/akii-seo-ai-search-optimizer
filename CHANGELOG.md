@@ -4,6 +4,25 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.0] — 2026-05-26
+
+Positioning + citation pass: anchor the plugin against [Google's official AI Optimization Guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) for Google AI surfaces, keep the Princeton/IIT Delhi paper as the authority for cross-engine GEO. No behavior changes — every skill produces the same output. This makes the plugin defensible against the SEO-old-guard "AEO/GEO is fake" objection and against the "what about Google's guide?" objection in one move.
+
+### Added
+- **`AUTHORITIES.md`** — explicit source matrix scoping each citation: Google guide → Google AI Overviews + AI Mode; Princeton paper → cross-engine GEO tactics (ChatGPT, Claude, Perplexity, Copilot, standalone Gemini); FirstPageSage breakdown → per-engine signal correlations. Documents where the sources agree, where they disagree, and how we handle the disagreements.
+
+### Changed
+- **README intro** now leads with "Aligned with Google's AI Optimization Guide" + extends to the 5 other engines where Google has no jurisdiction. Links to `AUTHORITIES.md` for source scoping.
+- **`skills/optimize-page/SKILL.md`** Layer 3 (GEO) split into two halves:
+  - **Half A — Google AI Overviews + AI Mode**: Authority is Google's guide. Foundational SEO, helpful content, no chunking-for-AI, no rewriting-for-AI. Princeton tactics are optional on Google.
+  - **Half B — Cross-engine (ChatGPT, Claude, Gemini standalone, Perplexity, Copilot)**: Authority is the Princeton paper. Five tactics with the +40% benchmark and the keyword-stuffing -10% anti-pattern.
+- **`skills/llms-txt/SKILL.md`** opens with an explicit scoping note: Google's guide says `llms.txt` is NOT used by Google AI. The file is for non-Google AI crawlers (Anthropic, Perplexity, Cohere). If the user's target is Google AI specifically, recommend foundational SEO instead.
+- **`skills/ai-visibility/SKILL.md`** per-engine fix table: Google AI Overviews row now cites Google's guide as authority and points at `seo-audit` + `optimize-page` for the fix, not generic "win the AI Overview cite".
+- **`skills/seo-audit/SKILL.md`** now opens with an Authority section linking Google's guide + `AUTHORITIES.md` and quotes Google's "it's still SEO" stance to frame the audit.
+
+### Why this matters
+Google's AI Optimization Guide (published 2026) explicitly says optimizing for Google's AI surfaces "is still SEO" and rejects several practices that "AEO/GEO" marketing leans on heavily — chunking, rewriting for AI, llms.txt as a special signal, overfocusing on structured data. SEOs who trust Google's published guidance distrust generic "AEO/GEO" pitches. Anchoring the plugin to Google's guide for Google AI surfaces — and using the peer-reviewed Princeton paper for the other 5 engines where Google has no authority — makes the plugin credible to both audiences simultaneously.
+
 ## [2.3.0] — 2026-05-26
 
 Tech-debt Phase 1 — CI + tests + governance docs. No functional/skill changes.
@@ -153,6 +172,7 @@ Initial public release.
 - No login, no signup, no usage cap — fully MIT-licensed
 - `/ai-visibility-score` calls the public Akii backend with `User-Agent: akii-plugin/1.0.0` and `source=plugin`; the backend bypasses browser-only reCAPTCHA for plugin requests and applies a per-IP rate limit (5 / 24h baseline) — at the limit the response funnels users to akii.com signup for unlimited access
 
+[2.4.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.4.0
 [2.3.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.3.0
 [2.2.1]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.2.1
 [2.2.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.2.0

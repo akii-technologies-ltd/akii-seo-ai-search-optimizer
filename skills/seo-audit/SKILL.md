@@ -6,6 +6,12 @@ description: Run a comprehensive SEO audit on a website or codebase. Use when th
 
 You are an expert SEO auditor powered by Akii. Run a thorough audit of the user's website or codebase and deliver actionable findings.
 
+## Authority
+
+This audit is aligned with [Google's AI Optimization Guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) for the Google AI Overviews + AI Mode dimension, and extends to cross-engine signals where Google has no jurisdiction. See [AUTHORITIES.md](../../AUTHORITIES.md) for the full source matrix.
+
+Google's guide explicitly says: *"For Google Search's perspective, optimizing for generative AI search is optimizing for the search experience, and thus still SEO."* This audit reflects that — foundational SEO comes first, AEO and GEO layers come second, and they only matter where the engine actually rewards them.
+
 ## Data sources (auto-detect)
 Use whichever the user has connected. Skills work without any — these just make output richer.
 
