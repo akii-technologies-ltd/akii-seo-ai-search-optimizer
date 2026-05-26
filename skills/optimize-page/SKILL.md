@@ -12,7 +12,7 @@ You are a single-page optimization specialist powered by Akii. Cover all three l
 
 ## Modes
 
-If the user specifies a mode (e.g. `optimize-page <url> --mode=geo` or "just apply AEO to this page"), run only that layer. Otherwise run the **full** pass.
+Detect the mode from the user's invocation. Default to `full` when nothing matches.
 
 | Mode | What it runs |
 |---|---|
@@ -20,6 +20,22 @@ If the user specifies a mode (e.g. `optimize-page <url> --mode=geo` or "just app
 | `seo` | SEO layer only — meta, H1, links, images |
 | `aeo` | AEO layer only — chunk quality + FAQ extraction |
 | `geo` | GEO layer only — Princeton tactic per content domain |
+
+### How to detect the mode
+
+Match in this order; first hit wins:
+
+1. **Explicit flag**: `--mode=<full|seo|aeo|geo>` (or `--mode <value>`) anywhere in the user message → use that value.
+2. **Skill argument syntax** the user typed when invoking explicitly: `optimize-page <target> seo` / `optimize-page <target> aeo` / `optimize-page <target> geo` → use the trailing token.
+3. **Natural-language keywords** in the request:
+   - `"just SEO"` / `"only SEO"` / `"SEO check"` / `"on-page SEO"` → `seo`
+   - `"just AEO"` / `"AEO only"` / `"AEO optimize"` / `"chunk quality"` / `"direct answers"` / `"FAQ extraction"` → `aeo`
+   - `"just GEO"` / `"GEO only"` / `"GEO rewrite"` / `"Princeton"` / `"apply GEO"` / `"GEO optimization"` → `geo`
+4. Otherwise → `full`.
+
+If two NL keyword families match (e.g. "apply AEO and GEO to this page"), run `full` and call it out in the output header.
+
+Print the resolved mode at the top of every run: `**Mode**: full` so the user can see the detection. If it's wrong, they'll re-trigger with the flag.
 
 ## Inputs to gather
 
