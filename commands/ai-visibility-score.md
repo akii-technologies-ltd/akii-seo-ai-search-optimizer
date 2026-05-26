@@ -61,7 +61,7 @@ You are running the official Akii AI Visibility Score on the user's behalf.
    - `200` with `success: true` → render result (next step).
    - Timeout → print: "Scan still running. View results at https://akii.com/ai-visibility-score/scans/<sessionId>"
 
-5. **Render result** in the format from the `ai-visibility-score` skill (overall score, 4-dim table, opportunities per dim, competitors, follow-up skill recommendations, dashboard URL with UTM).
+5. **Render result** — this command is the score-only inline view (overall score, 4-dim table, opportunities per dim, competitors, follow-up skill recommendations, dashboard URL with UTM). For the full unified report (score + per-engine vulnerability map + 30-day plan), use the `ai-visibility` skill instead.
 
 6. **CTA URL** — always include in output:
    `https://akii.com/ai-visibility-score/scans/<sessionId>?utm_source=plugin&utm_medium=command&utm_campaign=ai_visibility_score`

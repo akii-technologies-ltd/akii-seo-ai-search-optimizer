@@ -28,26 +28,41 @@ Audit websites, plan content strategy, optimize pages, generate schema markup, c
 
 ## What's included
 
-### Skills (15)
+### Skills (13)
 
-Skills activate automatically when you ask about these topics.
+Skills activate automatically when you ask about these topics. Grouped by workflow:
 
+**Audit**
 | Skill | What it does |
 | --- | --- |
-| **Akii AI Visibility Score** | **Real** 0–100 score (4-dim breakdown) via the official Akii workflow — same as akii.com/ai-visibility-score |
-| **SEO Audit** | Comprehensive SEO + AEO + GEO site health check |
-| **Technical SEO** | Core Web Vitals, crawlability, indexation, JS rendering, security |
-| **On-Page SEO** | Optimize individual pages for target keywords |
+| **SEO Audit** | End-to-end SEO + AEO + GEO site health check with scored report |
+| **Technical SEO** | Crawlability, indexation, Core Web Vitals, JS rendering, security |
 | **Broken Links** | Find and fix dead links + redirect chains |
-| **Internal Linking** | Orphans, anchor diversity, link-equity flow |
+| **Competitor Intel** | Head-to-head SEO + AEO + GEO + AI visibility scorecard vs named competitors |
+
+**Optimize**
+| Skill | What it does |
+| --- | --- |
+| **Optimize Page** | Full SEO + AEO + GEO pass on a single page — title/meta/H1/links + chunk-quality + Princeton-validated GEO rewrites (`--mode=full\|seo\|aeo\|geo`) |
 | **Schema Markup** | Generate JSON-LD with `sameAs`, granular LocalBusiness, AEO fields |
+| **Internal Linking** | Orphans, anchor diversity, link-equity flow |
+
+**Content**
+| Skill | What it does |
+| --- | --- |
 | **Content Strategy** | Data-grounded content roadmap with pillars + clusters |
 | **Content Brief** | Detailed briefs for writers (human or AI) |
 | **Keyword Clustering** | Intent-matched topical clusters → pillar + cluster pages |
-| **AI Visibility (proxy)** | Per-engine breakdown across ChatGPT/Gemini/Perplexity/Claude/Copilot using public SERP signals |
-| **AEO Optimization** | Chunk-quality auditing + direct-answer leads + FAQ extraction |
-| **GEO Optimization** | Princeton-validated tactics (+40% AI visibility lift) |
+
+**AI Search**
+| Skill | What it does |
+| --- | --- |
+| **AI Visibility** | **Real** Akii 0–100 score (4-dim breakdown) + per-engine vulnerability map across ChatGPT, Claude, Gemini, Perplexity, Copilot, Google AI Overviews |
 | **llms.txt** | Generate/maintain `llms.txt` + `llms-full.txt` |
+
+**Localization**
+| Skill | What it does |
+| --- | --- |
 | **Content Translation** | Localize with per-locale keyword research + hreflang |
 
 ### Agents (5)
@@ -73,7 +88,7 @@ Quick actions you can invoke directly.
 | `/create-content <topic>` | Generate a full SEO + AEO + GEO-optimized article |
 | `/generate-schema [type]` | Generate JSON-LD structured data |
 | `/keyword-cluster <keywords>` | Cluster keywords into content groups |
-| `/seo-check [file]` | Quick SEO + AEO check on a page |
+| `/check-file [file]` | Quick SEO + AEO check on a single file |
 | `/translate-content <language>` | Translate content with multilingual SEO |
 | `/generate-llms-txt` | Generate llms.txt + llms-full.txt |
 
@@ -93,7 +108,7 @@ Quick actions you can invoke directly.
 /create-content "how to improve website speed"
 
 # Quick check on the open file
-/seo-check src/app/page.tsx
+/check-file src/app/page.tsx
 
 # Per-engine AI visibility breakdown
 "How does my brand rank in ChatGPT vs Gemini vs Perplexity vs Claude?"
@@ -111,7 +126,7 @@ Quick actions you can invoke directly.
 "Compare my SEO against competitor1.com and competitor2.com"
 
 # Apply Princeton GEO method to a blog post
-"Apply GEO optimization to ./blog/my-post.md"
+"Apply GEO optimization to ./blog/my-post.md"  # routes to optimize-page --mode=geo
 
 # Generate llms.txt for the AI crawlers
 /generate-llms-txt

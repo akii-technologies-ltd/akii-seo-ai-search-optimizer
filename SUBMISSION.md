@@ -36,7 +36,7 @@ Verifies:
 - [ ] No MCP shipped → no OAuth, no static API keys, no auth risk
 
 ### Standalone operation
-- [ ] All 15 skills work using only Claude built-ins (`Read`, `Glob`, `Grep`, `Bash`, `WebFetch`, `WebSearch`)
+- [ ] All 13 skills work using only Claude built-ins (`Read`, `Glob`, `Grep`, `Bash`, `WebFetch`, `WebSearch`)
 - [ ] All 5 agents have `tools:` array declared
 - [ ] All 8 commands work without external services (`/ai-visibility-score` calls the public akii.com workflow with no auth)
 - [ ] Skills opt-in detect and use third-party MCPs (Ahrefs, GSC, Apify, DataForSEO) when present; degrade gracefully when not
@@ -56,7 +56,7 @@ Verifies:
 | Plugin name | `akii-seo-ai-search-optimizer` |
 | Display name | `Akii — SEO & AI Search Optimizer` |
 | Description | (see `.claude-plugin/plugin.json` description) |
-| Version | `1.0.0` |
+| Version | `2.0.0` |
 | Category | SEO / Marketing / Developer Tools |
 | Homepage | https://akii.com/claude-code |
 | Repo | https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer |

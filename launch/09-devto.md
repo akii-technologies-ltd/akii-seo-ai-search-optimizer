@@ -34,7 +34,7 @@ Three reasons:
 
 1. **Distribution**: developers already use Claude Code daily. Friction = 30 seconds. No signup. Compared to launching a SaaS, this is orders of magnitude faster to validate.
 2. **Surface area**: skills auto-trigger from natural language. A user types "audit my site" and the plugin's `seo-audit` skill activates without any UI work.
-3. **Composability**: skills can recommend other skills. `/ai-visibility-score` outputs a fix list that references `/akii-seo-ai-search-optimizer:geo-optimization` for content rewrites and `/akii-seo-ai-search-optimizer:schema-markup` for schema gaps. Each skill ~5KB markdown.
+3. **Composability**: skills can recommend other skills. `/ai-visibility-score` outputs a fix list that references `/akii-seo-ai-search-optimizer:optimize-page (--mode=geo)` for content rewrites and `/akii-seo-ai-search-optimizer:schema-markup` for schema gaps. Each skill ~5KB markdown.
 
 ## Plugin architecture
 
@@ -98,7 +98,7 @@ Aggregate lift: up to **+40%** in AI responses, up to **+115%** for pages curren
 
 And critically: **keyword stuffing decreases AI visibility ~10%** — the opposite of legacy SEO advice.
 
-We encoded this into the `geo-optimization` skill. The skill classifies the content's domain, picks the matching tactic, applies the rewrite via Claude's text generation, and shows a unified diff.
+We encoded this into the `optimize-page` skill (--mode=geo). The skill classifies the content's domain, picks the matching tactic, applies the rewrite via Claude's text generation, and shows a unified diff.
 
 ## Auto-detecting third-party MCPs (the BYOD wedge)
 

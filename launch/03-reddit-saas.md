@@ -22,7 +22,7 @@ Concrete things it does for SaaS founders:
 
 1. **`/ai-visibility-score example.com`** — get a real 0–100 score for your brand with 4-dim breakdown. Same workflow that powers akii.com.
 2. **`/akii-seo-ai-search-optimizer:ai-visibility`** — full per-engine vulnerability map with a 30-day fix plan.
-3. **`/akii-seo-ai-search-optimizer:geo-optimization`** — apply Princeton-validated tactics to a blog post (up to +40% AI visibility lift in their controlled study).
+3. **`/akii-seo-ai-search-optimizer:optimize-page (--mode=geo)`** — apply Princeton-validated tactics to a blog post (up to +40% AI visibility lift in their controlled study).
 4. **`/generate-schema organization`** — Organization JSON-LD with `sameAs` linking to your Crunchbase, Wikipedia, LinkedIn, X — the cross-corroboration AI engines look for.
 5. **`/generate-llms-txt`** — generates the emerging llms.txt standard so AI crawlers know which of your docs/blog posts to ingest.
 

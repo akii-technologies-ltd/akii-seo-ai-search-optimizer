@@ -18,7 +18,7 @@ So we built a free Claude Code plugin that encodes all of it.
 
 **Akii — SEO & AI Search Optimizer**
 
-→ 15 skills that auto-trigger from natural language
+→ 13 skills that auto-trigger from natural language
 → 5 autonomous agents for end-to-end audits and content strategy
 → 8 slash commands for focused tasks
 → The Princeton/IIT-Delhi/Allen Institute GEO method (validated +40% AI visibility lift) built in
@@ -28,7 +28,7 @@ So we built a free Claude Code plugin that encodes all of it.
 
 Five concrete things this unlocks for your team:
 
-1. **Pre-launch audits inside your IDE.** Run `/seo-check` before deploying a landing page. Catches missing schema, weak meta, AEO chunk-quality issues.
+1. **Pre-launch audits inside your IDE.** Run `/check-file` before deploying a landing page. Catches missing schema, weak meta, AEO chunk-quality issues.
 
 2. **Per-engine visibility maps.** Ask Claude "how does my brand rank across ChatGPT, Gemini, Perplexity, and Claude?" — get a 30-day fix plan tailored to each engine.
 

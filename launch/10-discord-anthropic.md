@@ -6,7 +6,7 @@ Post in #showcase / #plugins / #community-projects. Don't pitch. Share a fact + 
 
 Just shipped a Claude Code plugin: **Akii — SEO & AI Search Optimizer**.
 
-15 skills + 5 agents + 8 commands for SEO/AEO/GEO across ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews.
+13 skills + 5 agents + 8 commands for SEO/AEO/GEO across ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews.
 
 Free, MIT, no login.
 

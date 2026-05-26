@@ -16,10 +16,10 @@ Hi HN — we just open-sourced an SEO + AEO + GEO toolkit as a Claude Code plugi
 
 What's in it:
 
-- **15 skills** that auto-trigger from natural language (`"audit my site"`, `"why am I not in ChatGPT?"`, `"generate llms.txt"`, etc.)
+- **13 skills** that auto-trigger from natural language (`"audit my site"`, `"why am I not in ChatGPT?"`, `"generate llms.txt"`, etc.)
 - **8 slash commands** including `/ai-visibility-score <domain>` which calls the same workflow that powers akii.com's homepage tool — returns a real 0–100 score across 4 dimensions (recognition, understanding, content coverage, sentiment)
 - **5 autonomous agents** for end-to-end audits, content strategy, competitor analysis
-- **Princeton GEO method** encoded in the `geo-optimization` skill — the study showed up to +40% AI visibility lift (+115% for pages currently outside the top 5); keyword stuffing actually decreases visibility ~10%
+- **Princeton GEO method** encoded in the `optimize-page` skill (--mode=geo) — the study showed up to +40% AI visibility lift (+115% for pages currently outside the top 5); keyword stuffing actually decreases visibility ~10%
 - **Per-engine algorithm awareness** — encodes empirical signal weights (ChatGPT 41% on authoritative lists, Gemini hard cutoff at 3.5★, Claude 68% on Hoovers/Bloomberg/IBISWorld, etc.)
 - **Auto-detects your existing Ahrefs / GSC / Apify / DataForSEO MCPs** — if you already pay for them, the skills use them for real data; otherwise falls back to WebSearch/WebFetch
 

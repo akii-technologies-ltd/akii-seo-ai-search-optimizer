@@ -2,7 +2,7 @@
 
 ## Title
 ```
-Shipped: free Claude Code plugin for SEO + AEO + GEO (15 skills, 5 agents, 8 commands)
+Shipped: free Claude Code plugin for SEO + AEO + GEO (13 skills, 5 agents, 8 commands)
 ```
 
 ## Body
@@ -20,11 +20,11 @@ Most SEO tools are $99–$999/mo and only cover SEO. Founders can't afford that 
 **Solution**: A free, no-login, MIT-licensed Claude Code plugin that covers all three.
 
 What's in it:
-- 15 skills (auto-trigger from natural language)
+- 13 skills (auto-trigger from natural language)
 - 5 autonomous agents (full audits, content strategy, competitor analysis)
 - 8 slash commands (`/ai-visibility-score`, `/generate-schema`, `/create-content`, etc.)
 - Auto-detects your existing Ahrefs / GSC / Apify MCPs for real data
-- Princeton GEO method (+40% AI visibility lift) encoded in `/akii-seo-ai-search-optimizer:geo-optimization`
+- Princeton GEO method (+40% AI visibility lift) encoded in `/akii-seo-ai-search-optimizer:optimize-page (--mode=geo)`
 - Stop hook funnel back to akii.com for the continuous-monitoring paid tier
 
 **How we monetize**: The free plugin handles one-off work. The paid Akii platform adds 24/7 monitoring + real-time alerts + multi-brand dashboards. The plugin's session-end hook + UTM-tagged CTAs drive plugin → akii.com → waitlist → paid signup.
