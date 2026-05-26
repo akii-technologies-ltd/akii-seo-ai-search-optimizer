@@ -195,7 +195,33 @@ The plugin works standalone using Claude's built-in tools (`WebFetch`, `WebSearc
 
 No extra configuration needed. Skills auto-detect and degrade gracefully if the MCP isn't installed.
 
-## Compatibility (versions)
+## Telemetry
+
+The plugin sends a single anonymized HTTP POST to `https://akii.com/api/plugin-telemetry` at most **once per machine per 24 hours** from the SessionEnd hook. The full payload is:
+
+```json
+{
+  "plugin_version": "2.9.0",
+  "session_hash": "<16-hex-char sha256 prefix of machine UUID>",
+  "os": "Darwin",
+  "timestamp": "2026-05-27T18:00:00Z"
+}
+```
+
+That is the entire payload. The plugin never sends code, file paths, prompts, skill outputs, audited domains, bash commands, or anything else from your session. We use this to count active installs and version distribution. Full details — what's collected field-by-field, what isn't, why, and how to verify the implementation locally — are in [PRIVACY.md](./PRIVACY.md).
+
+**To disable**, set any one of:
+
+| Env var | Scope |
+| --- | --- |
+| `AKII_PLUGIN_DISABLE_TELEMETRY=1` | Disables telemetry only |
+| `AKII_PLUGIN_DISABLE_CTA=1` | Disables the entire SessionEnd hook (CTA + version nudge + telemetry) |
+| `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1` | Anthropic's standard universal kill switch |
+| `DO_NOT_TRACK=1` | Web standard |
+
+Telemetry is **default-off** on Amazon Bedrock, Google Cloud Vertex, Microsoft Foundry, and Claude Platform on AWS, matching Anthropic's own posture for commercial-provider users.
+
+## Compatibility
 
 | Surface | Tested against |
 | --- | --- |
@@ -203,7 +229,7 @@ No extra configuration needed. Skills auto-detect and degrade gracefully if the 
 | Plugin spec | `marketplace.json` v1, `plugin.json` v1, `hooks.json` v1 |
 | OS | macOS, Linux. Windows untested (the hook uses POSIX `bash`; should work under WSL). |
 
-If you hit a compatibility issue with a newer Claude Code release, please open an issue with `claude --version` output.
+If you hit a compatibility issue with a newer Claude Code release, please open an issue with `claude --version` output. Full compatibility matrix (MCPs, env vars, known limitations) is in [COMPATIBILITY.md](./COMPATIBILITY.md).
 
 ## What this plugin covers vs the [Akii](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) platform
 
@@ -239,10 +265,6 @@ PRs welcome. See [CONTRIBUTING.md](./CONTRIBUTING.md) for repo layout, validator
 ## Security
 
 Report vulnerabilities privately per [SECURITY.md](./SECURITY.md). Please do not open a public issue.
-
-## Compatibility
-
-Tested Claude Code versions, OS coverage, required shell tooling, and known incompatibilities are documented in [COMPATIBILITY.md](./COMPATIBILITY.md).
 
 ## License
 
