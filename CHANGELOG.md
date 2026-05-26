@@ -4,6 +4,15 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.7.3] — 2026-05-26
+
+### Changed
+- **`keyword-clustering` skill** intent-purity rule is now explicitly a hard constraint. A topic with both informational and commercial intent (e.g. "AI visibility" → "what is AI visibility" + "AI visibility tool") now produces two separate clusters rather than one cluster with "Pillar A (info) + Pillar B (commercial)". The two-pillar workaround was the same rule violation in a different shape and is explicitly banned in the skill body.
+- **`keyword-clustering` skill** every volume + KD cell now carries a provenance tag (`[Ahrefs]` for live MCP data, `[heuristic]` for training-data estimates) plus optional `[alias]` (keyword shares the pillar URL) and `[absorbed]` (head-term variant the pillar targets directly) tags. Brings the skill in line with the v2.7.2 internal-linking provenance pattern.
+- **`keyword-clustering` skill** KD column is numeric (0-100) only when Ahrefs is connected. The skill no longer substitutes qualitative L/M/H labels when Ahrefs is unavailable — the column is omitted and the omission is disclosed in the header. Qualitative substitutes look like data but aren't.
+- **`keyword-clustering` skill** "expand from seed topics" is now an explicit accepted input alongside the file-path / pasted-list forms.
+- **`keyword-clustering` skill** summary counts are precise integers matching the body row counts. Cannibalization watch and cluster-gap analysis are rendered as tables with explicit columns.
+
 ## [2.7.2] — 2026-05-26
 
 ### Changed
