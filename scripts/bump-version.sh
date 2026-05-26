@@ -42,12 +42,33 @@ sed_i() {
   fi
 }
 
-sed_i -E "s/(\"version\": *\")[^\"]+(\")/\\1${NEW}\\2/" "$PLUGIN_JSON"
-sed_i -E "s/(\"version\": *\")[^\"]+(\")/\\1${NEW}\\2/" "$MARKETPLACE_JSON"
+# Prefer jq when available — manifests are JSON, regex on JSON is fragile.
+if command -v jq >/dev/null 2>&1; then
+  tmp="$(mktemp)"
+  jq --arg v "$NEW" '.version = $v' "$PLUGIN_JSON" > "$tmp" && mv "$tmp" "$PLUGIN_JSON"
+  jq --arg v "$NEW" '.plugins[0].version = $v' "$MARKETPLACE_JSON" > "$tmp" && mv "$tmp" "$MARKETPLACE_JSON"
+else
+  sed_i -E "s/(\"version\": *\")[^\"]+(\")/\\1${NEW}\\2/" "$PLUGIN_JSON"
+  sed_i -E "s/(\"version\": *\")[^\"]+(\")/\\1${NEW}\\2/" "$MARKETPLACE_JSON"
+fi
+
+# Rewrite stale akii-plugin/<version> UA strings across skills + commands.
+# Catches the recurring drift where a skill body keeps an old version after a release.
+# Line-iteration is safe here because plugin file paths don't contain newlines;
+# `"$f"` quoting handles spaces (e.g. "AI Search Optimizer/" in user clones).
+UA_FILE_COUNT=0
+while IFS= read -r f; do
+  [[ -z "$f" ]] && continue
+  sed_i -E "s|akii-plugin/[0-9]+\.[0-9]+\.[0-9]+|akii-plugin/${NEW}|g" "$f"
+  UA_FILE_COUNT=$((UA_FILE_COUNT + 1))
+done < <(grep -RlE 'akii-plugin/[0-9]+\.[0-9]+\.[0-9]+' "$ROOT/skills" "$ROOT/commands" 2>/dev/null || true)
 
 echo "bumped $OLD_PLUGIN → $NEW"
 echo "  $PLUGIN_JSON"
 echo "  $MARKETPLACE_JSON"
+if [[ $UA_FILE_COUNT -gt 0 ]]; then
+  echo "  + User-Agent strings rewritten in $UA_FILE_COUNT file(s) under skills/ + commands/"
+fi
 echo ""
 echo "next:"
 echo "  1. add a CHANGELOG entry for v${NEW}"
