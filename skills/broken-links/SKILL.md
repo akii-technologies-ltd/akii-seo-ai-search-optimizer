@@ -37,12 +37,20 @@ Detect from target shape if not specified explicitly. Default order: `local` if 
 3. **Split internal vs external:**
    - Internal (relative paths, same-domain) → walk repo with `Glob` to confirm the target file exists
    - External (`https?://`) → verify via Bash curl
-4. **Verify externals in parallel** — single Bash call, 5 concurrent workers, 200ms stagger. Write URLs to a temp file then:
+4. **Pre-filter template placeholders** before verification. Strip URLs that match obvious docs-sample patterns — they're not real links and verifying them will produce false-positive 404s/connection errors:
+   - `example.com`, `example.org`, `example.net` (RFC 2606 reserved)
+   - `old.example.com`, `<domain>`, `<url>`, `your-site.com`, `yourdomain.com`
+   - Bare `web.archive.org/` (no snapshot path)
+   - URLs ending with template tokens like `?url=` or `/scans/` or `/results/` (placeholder shape)
+   - URLs with empty UTM values (`utm_content=&` or `utm_content=$`)
+5. **Verify externals in parallel** — single Bash call, 5 concurrent workers, 200ms stagger. Write URLs (one per line, no quoting) to a temp file then:
    ```bash
-   xargs -P 5 -I {} sh -c 'sleep 0.2; curl -sIL --max-time 10 -o /dev/null -w "%{http_code} {}\n" "{}"' < /tmp/urls.txt
+   xargs -P 5 -n 1 sh -c 'sleep 0.2; curl -sIL --max-time 10 -o /dev/null -w "%{http_code} $1\n" "$1"' _ < /tmp/urls.txt
    ```
+   **Pattern explainer:** `-n 1` passes one URL per worker; `sh -c '...' _` uses `_` as `$0` so the URL lands in `$1` without shell expansion. **Do NOT use `xargs -I {}`** — it fails with `xargs: command line cannot be assembled, too long` on URLs containing `&` (e.g. `?utm_medium=skill&utm_campaign=...`).
+
    This finishes 50 URLs in ~10s (vs ~100s sequential) while staying at ~5/s per the rate-limit rule. **Do not** loop curl serially in shell — that's the slow trap.
-5. **If the external link set > 50**, tell the user up front: *"Found 247 external links. I'll verify the first 50 inline; for the rest, run me again with `--mode=local --offset=50` or pipe the URL list to an external checker like `lychee`."*
+6. **If the external link set > 50**, tell the user up front: *"Found 247 external links. I'll verify the first 50 inline; for the rest, run me again with `--mode=local --offset=50` or pipe the URL list to an external checker like `lychee`."*
 
 ### Mode `page` — single live URL
 
@@ -72,6 +80,7 @@ Never invent a crawled result. Never pretend to have visited pages the skill bod
 | 3xx with ≥ 3 redirect hops | optimize | P2 — recommend direct link to final |
 | Mixed content (`http://` resource on `https://` page) | security | P1 |
 | 200 from auth-walled domain (Stripe dashboard, LinkedIn profile, etc.) | unverifiable | note, don't flag |
+| 403 from Cloudflare / WAF-protected domain on HEAD request | unverifiable | note as "bot-block false positive", don't flag |
 | Affiliate / tracker URLs with cleartext UTM | leave | don't flag unless user opts in |
 
 ## Output
@@ -123,6 +132,8 @@ If site mode falls back to refusal, no output table — just the framed refusal 
 - **Rate limit externals** to ~5/s via `xargs -P 5` with `sleep 0.2` inside the worker (see Mode `local` step 4). Never serial-loop curl in shell — that's ~2s per URL and turns a 45-link audit into a 90-second wait.
 - **Don't auto-edit.** Propose Edit-tool changes; only apply on explicit confirm.
 - **Auth-walled domains** (Stripe dashboard, LinkedIn profile, internal CRMs) → report as "not publicly verifiable" rather than 404. Common false-positive sources: `linkedin.com/in/`, `stripe.com/dashboard`, `notion.so` private pages, `github.com` private repos.
+- **Cloudflare / WAF bot blocks** → 403 on `curl -sIL` from domains like `firstpagesage.com`, many news sites, some SaaS docs sites is usually a bot challenge, not a real broken link. Test in a browser before flagging. Pattern: 403 + `cf-ray` or `server: cloudflare` in response headers. Report as "WAF-protected, not publicly verifiable".
+- **Pre-filter template placeholders** (see Mode `local` step 4) — never curl `example.com/<path>`, `<url>`, `your-site.com`, bare `web.archive.org/`, or URLs ending in `?url=` / `/scans/` / `/results/`. They produce false-positive failures and pollute the report.
 - **Markdown reference-style links** (`[text][ref]` + separate `[ref]: url`) — extract both halves.
 - **Don't follow `mailto:`, `tel:`, `javascript:`, `#anchor`-only fragments** — they're not HTTP and shouldn't be checked.
 
