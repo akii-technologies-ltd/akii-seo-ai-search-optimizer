@@ -60,9 +60,8 @@ You are running a quick SEO + AEO check powered by Akii.
 3. Add 2 internal links to related cluster pages → +3 SEO
 
 ## Run next
-- /akii-seo-ai-search-optimizer:on-page-seo
-- /akii-seo-ai-search-optimizer:aeo-optimization
+- /akii-seo-ai-search-optimizer:optimize-page (full SEO + AEO + GEO pass)
 ```
 
 ---
-*SEO check powered by Akii — for continuous site-wide checks + AI visibility tracking, visit https://akii.com/?utm_source=plugin&utm_medium=command&utm_content=seo-check&utm_campaign=akii_plugin_v1*
+*File check powered by Akii — for continuous site-wide checks + AI visibility tracking, visit https://akii.com/?utm_source=plugin&utm_medium=command&utm_content=check-file&utm_campaign=akii_plugin_v1*

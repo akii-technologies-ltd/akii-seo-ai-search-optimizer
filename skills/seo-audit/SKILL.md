@@ -93,7 +93,7 @@ For every page:
 | Severity | Category | URL/File | Issue | Fix |
 
 ## Recommended next steps
-1. <top fix> → run `/akii-seo-ai-search-optimizer:on-page-seo`
+1. <top fix> → run `/akii-seo-ai-search-optimizer:optimize-page`
 2. ...
 ```
 
