@@ -17,12 +17,14 @@ Audit websites, plan content strategy, optimize pages, generate schema markup, c
 
 ## Installation
 
-Install directly from this GitHub repo:
+Install directly from this GitHub repo (run inside Claude Code, not your shell):
 
-```bash
-/plugin marketplace add akii-technologies-ltd/akii-seo-ai-search-optimizer
+```
+/plugin marketplace add https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer
 /plugin install akii-seo-ai-search-optimizer@akii
 ```
+
+> The full `https://` URL is recommended because the short `owner/repo` form makes Claude Code clone via SSH on some systems, which fails if you don't have a GitHub SSH key configured.
 
 > Submitted to the [Anthropic community marketplace](https://github.com/anthropics/claude-plugins-community) — pending review. Once accepted, you'll also be able to install with:
 >
