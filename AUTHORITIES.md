@@ -50,11 +50,33 @@ Each engine sits in a different authority window:
 
 The plugin enforces these in skill rules.
 
+## What this plugin actually measures
+
+Critical methodology note — read this before drawing conclusions from the AI Visibility Score.
+
+### Phase 1 — Akii API score (the 0–100 number)
+- **Mechanism:** an open-source LLM (currently Llama 4 Maverick or DeepSeek V4 Pro, whichever is enabled for the free homepage tier) acts as a judge. It is shown your brand's public footprint and asked to score it across four dimensions: Brand Recognition, Brand Understanding, Content Coverage, Brand Sentiment.
+- **What this IS:** a directionally useful estimate of how a generative engine would likely describe your brand, computed by a single open-source model.
+- **What this is NOT:** a direct query of ChatGPT, Claude, Gemini, Perplexity, or Copilot. The plugin does not call those engines' APIs at any point.
+- **Why open-source:** lets Akii offer the free tier without paying OpenAI / Anthropic / Google per-query fees.
+
+### Phase 2 — Per-engine vulnerability map
+- **Mechanism:** the plugin gathers public web signals (SERP appearances, business-DB listings, review ratings, social sentiment) and maps them to each engine's known signal weighting per [FirstPageSage's GEO study](https://firstpagesage.com/seo-blog/generative-engine-optimization-geo-explanation/).
+- **What this IS:** a per-engine score derived from observed correlations between public signals and engine output.
+- **What this is NOT:** a direct query of any of the named engines. The Ahrefs Brand Radar MCP, if connected, replaces the proxy with direct measurement for ChatGPT / Claude / Gemini / Perplexity.
+
+### What direct multi-engine querying requires
+- **Paid Akii platform** — continuous monitoring tier queries the named engines directly on a schedule and reports actual responses, share-of-voice over time, and alerts.
+- **Ahrefs Brand Radar MCP** — connect it and Phase 2 auto-detects and uses real Brand Radar data instead of the SERP-signal proxy.
+
+The free plugin is honest about being a proxy. Both proxies are useful (Akii uses them in production), but the user deserves to know what's producing the numbers they see.
+
 ## What we don't claim
 
 - We do **not** claim the Princeton paper validated the Akii plugin. The paper validated the *tactics*; the plugin implements them.
 - We do **not** claim Google endorses or has reviewed the plugin. We align with Google's guidance because it's the authoritative source for Google's own surfaces.
 - We do **not** treat FirstPageSage's per-engine percentages as model internals. They're observed correlations from a vendor's survey. We attribute inline whenever we surface the numbers.
+- We do **not** claim the free plugin directly queries ChatGPT, Claude, Gemini, Perplexity, or Copilot. See "What this plugin actually measures" above.
 
 ## How to verify
 

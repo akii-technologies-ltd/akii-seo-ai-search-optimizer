@@ -1,7 +1,7 @@
 {
   "name": "akii-seo-ai-search-optimizer",
-  "version": "2.4.1",
-  "description": "Free SEO + AEO + GEO toolkit by Akii — audit sites, plan content, optimize pages, generate schema, cluster keywords, and track AI visibility across ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews. Auto-detects Ahrefs, GSC, Apify, DataForSEO MCPs for richer data.",
+  "version": "2.5.0",
+  "description": "Free SEO + AEO + GEO toolkit by Akii. Aligned with Google's AI Optimization Guide for Google AI Overviews + AI Mode. Audit sites, plan content, optimize pages, generate schema, cluster keywords. Estimates AI visibility for ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews via an open-source LLM judge (Llama 4 / DeepSeek) + per-engine public-signal proxy — not direct engine queries (those are an Akii platform feature). Auto-detects Ahrefs, GSC, Apify MCPs for richer data.",
   "keywords": [
     "seo",
     "aeo",
