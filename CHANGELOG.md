@@ -4,6 +4,13 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.7.6] — 2026-05-26
+
+### Changed
+- **`seo-audit` description** rewritten to position the skill explicitly as a multi-layer scorecard (8 areas covering SEO + AEO + GEO at surface level) with explicit `NOT for` carve-outs pointing at the deep-dive sister skills. The previous overlap-prone trigger phrase `"technical SEO review"` was removed; users with infrastructure intent now route correctly to `technical-seo`.
+- **`seo-audit` skill body** adds a "Relationship to other Akii skills" section at the top mapping each scorecard layer to its deep-dive skill (`technical-seo`, `optimize-page`, `schema-markup`, `internal-linking`, `content-strategy`, `broken-links`). Clarifies that this skill surfaces the findings; depth lives in the sister skills.
+- **`technical-seo` skill body** adds a parallel "Relationship to `seo-audit`" section explaining the breadth-vs-depth split with a user-intent → skill routing table. Carries forward target URL + layer findings when invoked from `seo-audit`'s recommended-next-steps, instead of restarting the audit cold.
+
 ## [2.7.5] — 2026-05-26
 
 ### Changed
