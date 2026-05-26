@@ -155,7 +155,9 @@ sect "12. User-Agent version pinned to plugin.json"
 # version, but the akii.com telemetry layer extracts pluginVersion from the UA
 # — stale UA = wrong dashboard labels.
 UA_FAIL=0
-UA_REFS=$(grep -RhoE 'akii-plugin/[0-9]+\.[0-9]+\.[0-9]+' skills/ commands/ 2>/dev/null | sort -u)
+# Match full semver including optional -prerelease suffix; if we only matched
+# X.Y.Z we'd silently accept "akii-plugin/2.2.1-alpha.1" as if it were 2.2.1.
+UA_REFS=$(grep -RhoE 'akii-plugin/[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9.-]+)?' skills/ commands/ 2>/dev/null | sort -u)
 for ua in $UA_REFS; do
   ua_v="${ua#akii-plugin/}"
   if [[ "$ua_v" != "$PLUGIN_V" ]]; then
