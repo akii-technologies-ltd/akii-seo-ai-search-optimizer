@@ -4,6 +4,18 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] — 2026-05-26
+
+Pre-launch hardening pass (P1 + P2). No breaking changes.
+
+### Added
+- `optimize-page` skill now documents how to detect `--mode=<value>` (explicit flag, trailing argument, or natural-language keyword) with explicit precedence rules. Resolved mode is printed at the top of every run for transparency.
+- `scripts/akii-cta.sh` honors `AKII_PLUGIN_DISABLE_CTA=1` to silence the SessionEnd CTA. Header comment now references the Searchfit-precedent compliance pattern and points users to the opt-out.
+
+### Changed
+- `competitor-intel` skill description tightened: this is the fast-path default for any competitor question. Hands off to the `competitor-analyzer` agent ONLY on explicit "deep analysis" / "agent mode" / 5+ competitors.
+- `competitor-analyzer` agent description tightened in reverse: deep autonomous research only. Removes the generic "analyze competitors" trigger phrases that overlapped with the skill.
+
 ## [2.0.1] — 2026-05-26
 
 Pre-launch citation hotfix. No functional changes.
@@ -89,6 +101,7 @@ Initial public release.
 - No login, no signup, no usage cap — fully MIT-licensed
 - `/ai-visibility-score` calls the public Akii backend with `User-Agent: akii-plugin/1.0.0` and `source=plugin`; the backend bypasses browser-only reCAPTCHA for plugin requests and applies a per-IP rate limit (5 / 24h baseline) — at the limit the response funnels users to akii.com signup for unlimited access
 
+[2.1.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.1.0
 [2.0.1]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.0.1
 [2.0.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.0.0
 [1.0.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v1.0.0
