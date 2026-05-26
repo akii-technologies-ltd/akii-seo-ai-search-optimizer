@@ -4,6 +4,11 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.13] — 2026-05-26
+
+### Changed
+- **`content-translation` skill** and **`/translate-content` command** now document a top-10 baseline locale list (`zh-CN`, `es-ES`/`es-MX`, `hi-IN`, `ar-SA`/`ar-AE`, `pt-BR`, `ru-RU`, `ja-JP`, `de-DE`, `fr-FR`, `id-ID`) and explicitly frame the picker as suggestions, not a supported set. The 4-option picker shows 3 context-relevant locales plus a 4th "Other / free-text" option that accepts any BCP-47 code, so users no longer perceive a 3-language cap. Multi-locale invocations (e.g. `de-DE, fr-FR, es-ES`) are now an explicit accepted input.
+
 ## [2.6.12] — 2026-05-26
 
 ### Changed

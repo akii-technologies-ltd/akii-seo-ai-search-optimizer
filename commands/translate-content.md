@@ -14,6 +14,15 @@ You are localizing content powered by Akii.
 - **Market** (optional): country/locale (e.g., Spain, Mexico, Germany) — affects keyword research and cultural adaptation
 - **File** (optional): source path. Default = current file.
 
+## Locale support — any BCP-47 code accepted
+
+This command accepts **any BCP-47 locale**, not a fixed list. When prompting the user for the target, surface a broad default set so the picker doesn't imply only a few languages are supported. Always include an "Other / free-text" option referencing the top-10 baseline below.
+
+**Top 10 baseline locales** (by combined speaker count + SEO commercial value + AI-engine coverage):
+`zh-CN` Mandarin · `es-ES` / `es-MX` Spanish · `hi-IN` Hindi · `ar-SA` / `ar-AE` Arabic · `pt-BR` Portuguese · `ru-RU` Russian · `ja-JP` Japanese · `de-DE` German · `fr-FR` French · `id-ID` Indonesian.
+
+Claude Code's question picker is capped at 4 options per call. Show 3 context-relevant locales (or the first 3 from the baseline if no context bias) + a 4th "Other / free-text" option referencing the full top-10 set. Never imply only the 3 displayed locales are supported.
+
 ## Steps
 
 1. Read source.
