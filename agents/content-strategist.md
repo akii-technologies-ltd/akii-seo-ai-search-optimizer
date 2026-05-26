@@ -1,6 +1,6 @@
 ---
 name: content-strategist
-description: Analyze a website and create a complete content strategy. Use when user asks to "create a content plan", "content strategy for my site", "what should I write about", "content gap analysis", "plan my blog", "editorial roadmap", or wants a comprehensive content plan. Autonomously researches the site and competitors and delivers a complete strategy.
+description: Deep autonomous content strategy — multi-pass site crawl, competitor content audit, full keyword + topic gap analysis, pillar + cluster topology, and 90-day publishing queue grounded in real GSC/SERP data. Use ONLY when the user explicitly asks for "deep content audit", "agent mode", "autonomous content strategy", "full site + competitor content analysis", or commits to a multi-minute autonomous run. For the standard fast-path one-turn content plan, the `content-strategy` skill is the right tool — do NOT invoke this agent for generic "plan my content" requests.
 tools:
   - Read
   - Glob

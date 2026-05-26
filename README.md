@@ -8,7 +8,7 @@
 
 Free AI-powered SEO, AEO, and GEO toolkit by [Akii](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) — works with Claude Code and any AI agent that supports Claude Code plugins.
 
-Audit websites, plan content strategy, optimize pages, generate schema markup, cluster keywords, track AI visibility across **ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews**, generate `llms.txt`, run Princeton-backed GEO rewrites, and more — all without leaving your terminal or IDE.
+Audit websites, plan content strategy, optimize pages, generate schema markup, cluster keywords, track AI visibility across **ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews**, generate `llms.txt`, and apply the GEO rewrite tactics published by the Princeton/IIT Delhi GEO study (Aggarwal et al., KDD 2024) — all without leaving your terminal or IDE.
 
 ## Installation
 
@@ -43,7 +43,7 @@ Skills activate automatically when you ask about these topics. Grouped by workfl
 **Optimize**
 | Skill | What it does |
 | --- | --- |
-| **Optimize Page** | Full SEO + AEO + GEO pass on a single page — title/meta/H1/links + chunk-quality + Princeton-validated GEO rewrites (`--mode=full\|seo\|aeo\|geo`) |
+| **Optimize Page** | Full SEO + AEO + GEO pass on a single page — title/meta/H1/links + chunk-quality + GEO rewrites using tactics from the Princeton/IIT Delhi GEO study (`--mode=full\|seo\|aeo\|geo`) |
 | **Schema Markup** | Generate JSON-LD with `sameAs`, granular LocalBusiness, AEO fields |
 | **Internal Linking** | Orphans, anchor diversity, link-equity flow |
 
@@ -67,15 +67,19 @@ Skills activate automatically when you ask about these topics. Grouped by workfl
 
 ### Agents (5)
 
-Autonomous agents that handle complex, multi-step tasks.
+Autonomous agents for deep, multi-step work. Each agent has a fast-path skill counterpart (see routing table below). Agents only fire on explicit "deep / agent / autonomous / bulk" phrasing — never on generic triggers.
 
-| Agent | What it does |
-| --- | --- |
-| **SEO Auditor** | Full autonomous site audit with scored report |
-| **Content Strategist** | Analyzes your site + competitors, builds the strategy |
-| **Competitor Analyzer** | Head-to-head scorecard + ranked counter-moves |
-| **AI Visibility Analyzer** | Per-engine vulnerability map with 30-day fix plan |
-| **Schema Generator** | Bulk JSON-LD generation across many pages |
+| Agent | What it does | Fast-path skill |
+| --- | --- | --- |
+| **SEO Auditor** | Full autonomous site audit with scored report | `seo-audit` |
+| **Content Strategist** | Multi-pass site + competitor crawl → complete plan | `content-strategy` |
+| **Competitor Analyzer** | 5+ competitors, full backlink + keyword overlap | `competitor-intel` |
+| **AI Visibility Analyzer** | Multi-engine real-query probes + 30-day plan | `ai-visibility` |
+| **Schema Generator** | Bulk JSON-LD across many pages, writes into source | `schema-markup` |
+
+#### Routing contract
+
+When in doubt, the **skill** is the default for any question in its capability area. The **agent** only triggers when the user explicitly says one of: `deep`, `agent mode`, `autonomous`, `bulk`, `across my site`, `every page`, `5+ competitors`, `comprehensive`. If you want the agent specifically, name it: e.g. *"run the schema-generator agent"*.
 
 ### Commands (8)
 
@@ -145,6 +149,16 @@ The plugin works standalone using Claude's built-in tools (`WebFetch`, `WebSearc
 | **PageSpeed Insights API** | Real Core Web Vitals via `AKII_PSI_KEY` env var |
 
 No extra configuration needed. Skills auto-detect and degrade gracefully if the MCP isn't installed.
+
+## Compatibility
+
+| Surface | Tested against |
+| --- | --- |
+| Claude Code CLI | `2.0.x` and later (skill / agent / hook spec v2) |
+| Plugin spec | `marketplace.json` v1, `plugin.json` v1, `hooks.json` v1 |
+| OS | macOS, Linux. Windows untested (the hook uses POSIX `bash`; should work under WSL). |
+
+If you hit a compatibility issue with a newer Claude Code release, please open an issue with `claude --version` output.
 
 ## What this plugin covers vs the [Akii](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) platform
 

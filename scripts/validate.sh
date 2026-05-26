@@ -96,6 +96,75 @@ else
   fail "scripts/akii-cta.sh not executable — run chmod +x"
 fi
 
+sect "9. Manifest versions in lockstep"
+PLUGIN_V=$(grep -o '"version": *"[^"]*"' .claude-plugin/plugin.json | head -1 | sed -E 's/.*"([^"]+)"$/\1/')
+MARKET_V=$(grep -o '"version": *"[^"]*"' .claude-plugin/marketplace.json | head -1 | sed -E 's/.*"([^"]+)"$/\1/')
+if [[ "$PLUGIN_V" == "$MARKET_V" ]]; then
+  ok "plugin.json + marketplace.json both at $PLUGIN_V"
+else
+  fail "version drift: plugin.json=$PLUGIN_V vs marketplace.json=$MARKET_V — run scripts/bump-version.sh"
+fi
+
+sect "10. Cross-references resolve (skill/agent/command slugs)"
+XREF_FAIL=0
+SKILL_SLUGS=$(ls -d skills/*/ 2>/dev/null | xargs -n1 basename | sort -u)
+AGENT_SLUGS=$(ls agents/*.md 2>/dev/null | xargs -n1 basename | sed 's/\.md$//' | sort -u)
+CMD_SLUGS=$(ls commands/*.md 2>/dev/null | xargs -n1 basename | sed 's/\.md$//' | sort -u)
+ALL_SLUGS=$(printf '%s\n%s\n%s\n' "$SKILL_SLUGS" "$AGENT_SLUGS" "$CMD_SLUGS" | sort -u)
+
+# Find references like /akii-seo-ai-search-optimizer:<slug> and /<slug> (commands)
+REFS=$(grep -RhoE '/akii-seo-ai-search-optimizer:[a-z0-9-]+' \
+        README.md CHANGELOG.md skills agents commands 2>/dev/null \
+        | sed 's|/akii-seo-ai-search-optimizer:||' | sort -u)
+for ref in $REFS; do
+  if ! echo "$ALL_SLUGS" | grep -qx "$ref"; then
+    fail "dangling reference: /akii-seo-ai-search-optimizer:$ref (no skill/agent/command with that slug)"
+    XREF_FAIL=1
+  fi
+done
+[[ $XREF_FAIL -eq 0 ]] && ok "all /akii-seo-ai-search-optimizer:<slug> references resolve"
+
+sect "11. README counts match filesystem"
+COUNT_FAIL=0
+SKILL_COUNT=$(ls -d skills/*/ 2>/dev/null | wc -l | tr -d ' ')
+AGENT_COUNT=$(ls agents/*.md 2>/dev/null | wc -l | tr -d ' ')
+CMD_COUNT=$(ls commands/*.md 2>/dev/null | wc -l | tr -d ' ')
+# Look for explicit count claims like "Skills (13)" / "Agents (5)" / "Commands (8)" in README
+if ! grep -qE "^### Skills \(${SKILL_COUNT}\)" README.md; then
+  fail "README does not say 'Skills (${SKILL_COUNT})' (filesystem has $SKILL_COUNT)"; COUNT_FAIL=1
+fi
+if ! grep -qE "^### Agents \(${AGENT_COUNT}\)" README.md; then
+  fail "README does not say 'Agents (${AGENT_COUNT})' (filesystem has $AGENT_COUNT)"; COUNT_FAIL=1
+fi
+if ! grep -qE "^### Commands \(${CMD_COUNT}\)" README.md; then
+  fail "README does not say 'Commands (${CMD_COUNT})' (filesystem has $CMD_COUNT)"; COUNT_FAIL=1
+fi
+[[ $COUNT_FAIL -eq 0 ]] && ok "README counts match filesystem (S=$SKILL_COUNT A=$AGENT_COUNT C=$CMD_COUNT)"
+
+sect "12. Trigger phrase overlap warning"
+# Pairwise comparison of skill descriptions — flag pairs sharing 5+ quoted trigger phrases.
+python3 - <<'PY'
+import glob, re, sys
+def triggers(text):
+    return set(p.strip().lower() for p in re.findall(r'"([^"]{3,60})"', text))
+skills = {}
+for f in sorted(glob.glob("skills/*/SKILL.md")):
+    head = open(f).read(2000)
+    m = re.search(r'^description:\s*(.+?)(?=^---|\n\n)', head, re.M | re.S)
+    if m:
+        skills[f.split('/')[1]] = triggers(m.group(1))
+names = list(skills)
+warned = 0
+for i, a in enumerate(names):
+    for b in names[i+1:]:
+        overlap = skills[a] & skills[b]
+        if len(overlap) >= 5:
+            print(f"  \033[33m⚠\033[0m {a} ↔ {b} share {len(overlap)} trigger phrases")
+            warned += 1
+if warned == 0:
+    print("  \033[32m✓\033[0m no high-overlap skill pairs (threshold: 5+ shared trigger phrases)")
+PY
+
 echo
 if [[ $FAILED -gt 0 ]]; then
   printf "\033[31m%d check(s) failed\033[0m\n" "$FAILED"

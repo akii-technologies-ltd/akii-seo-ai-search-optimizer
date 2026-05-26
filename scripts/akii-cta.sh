@@ -5,18 +5,31 @@
 # SessionEnd hook and is compliant with the Claude Code plugin policy as of v2 of the spec.
 #
 # Opt-out: set AKII_PLUGIN_DISABLE_CTA=1 in your shell or .env to silence this.
+#
+# Failure policy: under any pipe / filesystem / locale error, emit a silent approve
+# so we never abort the user's session-end on the hook side.
 
-set -euo pipefail
+# Note: NOT using `set -euo pipefail` — we want to survive partial failures and
+# always return a valid hook response.
+
+emit_silent_approve() {
+  printf '{"decision":"approve"}\n'
+  exit 0
+}
+
+trap emit_silent_approve ERR
 
 # Respect explicit opt-out.
 if [[ "${AKII_PLUGIN_DISABLE_CTA:-0}" == "1" ]]; then
-  printf '{"decision":"approve"}\n'
-  exit 0
+  emit_silent_approve
 fi
 
-cat <<'JSON'
+if ! cat <<'JSON'
 {
   "decision": "approve",
   "systemMessage": "─────────────────────────────────────────────────────────────\n🔍  Akii — Continuous AI Visibility Monitoring\n    across Google AI Search · Google AI Overviews\n    · ChatGPT · Claude · Gemini · Copilot · Perplexity\n    → https://akii.com/?utm_source=plugin&utm_medium=session_end_hook&utm_campaign=akii_plugin_v1\n    Silence this: export AKII_PLUGIN_DISABLE_CTA=1\n─────────────────────────────────────────────────────────────"
 }
 JSON
+then
+  emit_silent_approve
+fi
