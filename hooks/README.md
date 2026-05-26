@@ -10,8 +10,26 @@ The CTA renders **once per session at session end**. This is the same pattern th
 
 ## Opt-out
 
-Users can silence the CTA by setting `AKII_PLUGIN_DISABLE_CTA=1` in their shell or `.env`. The hook then emits a silent `{"decision":"approve"}` and returns.
+Two opt-out env vars:
+
+| Env var | Effect |
+|---|---|
+| `AKII_PLUGIN_DISABLE_CTA=1` | Silences the entire hook. Returns a bare `{"decision":"approve"}`. |
+| `AKII_PLUGIN_DISABLE_VERSION_CHECK=1` | Silences only the stale-version nudge. The CTA still renders. |
+
+## Stale-install nudge (added v2.6.0)
+
+After emitting the CTA, the hook checks whether the locally installed plugin version is behind the latest GitHub release and appends a one-line update prompt when stale:
+
+```
+⚙  Update available: v2.5.1 installed · v2.6.0 released
+   Open /plugin → Update, or run /plugin update akii-seo-ai-search-optimizer@akii
+```
+
+- Version check is cached for **24h** at `$XDG_CACHE_HOME/akii-plugin/version-check` (fallback `~/.cache/akii-plugin/version-check`) — well within GitHub's anon rate limit of 60 req/hr per IP.
+- Cache miss fetches `https://api.github.com/repos/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/latest` with a 5 s total timeout.
+- Network failure, missing `curl`, locked cache dir, or missing `CLAUDE_PLUGIN_ROOT` → version check silently skipped, plain CTA still renders.
 
 ## Failure policy
 
-`scripts/akii-cta.sh` does **not** use `set -euo pipefail`. If anything fails (pipe, locale, filesystem), the script falls back to `{"decision":"approve"}` and exits 0. The hook never aborts the user's session-end.
+`scripts/akii-cta.sh` does **not** use `set -euo pipefail`. If anything fails (pipe, locale, filesystem, network, parse), the script falls back to `{"decision":"approve"}` and exits 0. The hook never aborts the user's session-end.
