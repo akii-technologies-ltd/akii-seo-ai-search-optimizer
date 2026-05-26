@@ -2,13 +2,18 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![Version](https://img.shields.io/github/v/release/akii-technologies-ltd/akii-seo-ai-search-optimizer?display_name=tag&sort=semver)](https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases)
+[![CI](https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/actions/workflows/validate.yml/badge.svg)](https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/actions/workflows/validate.yml)
 [![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-Plugin-7c3aed)](https://code.claude.com/docs/en/plugins)
 [![SEO + AEO + GEO](https://img.shields.io/badge/SEO%20%C2%B7%20AEO%20%C2%B7%20GEO-toolkit-22c55e)](https://akii.com/claude-code)
 [![Stars](https://img.shields.io/github/stars/akii-technologies-ltd/akii-seo-ai-search-optimizer?style=social)](https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/stargazers)
 
-Free AI-powered SEO, AEO, and GEO toolkit by [Akii](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) — works with Claude Code and any AI agent that supports Claude Code plugins.
+Free AI-powered SEO, AEO, and GEO toolkit by [Akii](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) for [Claude Code](https://code.claude.com/docs/en/plugins).
 
-Audit websites, plan content strategy, optimize pages, generate schema markup, cluster keywords, track AI visibility across **ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews**, generate `llms.txt`, and apply the GEO rewrite tactics published by the Princeton/IIT Delhi GEO study (Aggarwal et al., KDD 2024) — all without leaving your terminal or IDE.
+Audit websites, plan content strategy, optimize pages, generate schema markup, cluster keywords, track AI visibility across **ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews**, generate `llms.txt`, and apply the GEO rewrite tactics published by the Princeton/IIT Delhi GEO study ([Aggarwal et al., KDD 2024, arXiv:2311.09735](https://arxiv.org/abs/2311.09735)) — all without leaving your terminal or IDE.
+
+<p align="center">
+  <img src="assets/screenshots/02-ai-visibility-score.png" alt="Akii AI Visibility Score output in Claude Code — 0-100 score with four-dimension breakdown" width="780">
+</p>
 
 ## Installation
 
@@ -25,6 +30,16 @@ Install directly from this GitHub repo:
 > /plugin marketplace add anthropics/claude-plugins-community
 > /plugin install akii-seo-ai-search-optimizer@claude-community
 > ```
+
+### Quick start
+
+After install, try this first to see what the plugin does:
+
+```
+/ai-visibility-score yourdomain.com
+```
+
+You get a real Akii 0–100 score with a 4-dimension breakdown plus a per-engine vulnerability map. From there, ask things like *"audit my site"*, *"compare my SEO against competitor.com"*, or *"apply GEO optimization to ./blog/my-post.md"* — skills auto-trigger on natural language.
 
 ## What's included
 
@@ -117,8 +132,8 @@ Quick actions you can invoke directly.
 # Per-engine AI visibility breakdown
 "How does my brand rank in ChatGPT vs Gemini vs Perplexity vs Claude?"
 
-# Localize for Mexico
-/translate-content Spanish --market Mexico
+# Localize for Mexico (positional: language [market] [file])
+/translate-content Spanish Mexico
 
 # Cluster keywords
 /keyword-cluster "seo tools, best seo software, seo audit, website optimization, keyword research tool"
@@ -145,8 +160,7 @@ The plugin works standalone using Claude's built-in tools (`WebFetch`, `WebSearc
 | **Ahrefs** (`mcp__plugin_marketing_ahrefs__*`) | Real DR, backlinks, organic keyword data, brand-radar AI mention tracking, GSC integration |
 | **Google Search Console** (via Ahrefs plugin) | Real click, impression, position data |
 | **Apify** (`mcp__Apify__*`) | Richer SERP scrapes, social-mention scraping |
-| **DataForSEO** | SERP, keyword, backlink data at scale |
-| **PageSpeed Insights API** | Real Core Web Vitals via `AKII_PSI_KEY` env var |
+| **PageSpeed Insights API** | Real Core Web Vitals — set `AKII_PSI_KEY` env var to enable (used by `technical-seo` skill) |
 
 No extra configuration needed. Skills auto-detect and degrade gracefully if the MCP isn't installed.
 
@@ -168,7 +182,7 @@ If you hit a compatibility issue with a newer Claude Code release, please open a
 | Schema, AEO, GEO optimization | ✅ | ✅ |
 | Content briefs + content generation | ✅ | ✅ |
 | Keyword clustering | ✅ | ✅ |
-| AI visibility — one-shot proxy estimate | ✅ | ✅ |
+| AI visibility — real 0–100 score + proxy per-engine map (one-shot) | ✅ | ✅ |
 | AI visibility — **continuous 24/7 multi-engine tracking** | — | ✅ |
 | Real-time alerts when visibility drops | — | ✅ |
 | Multi-brand / agency dashboard | — | ✅ |
@@ -178,16 +192,30 @@ If you hit a compatibility issue with a newer Claude Code release, please open a
 | Team collaboration + role permissions | — | ✅ |
 | Historical trend data + reporting | — | ✅ |
 
+If you outgrow the one-shot plugin, the [Akii platform](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) automates these continuously across multiple brands with alerts, dashboards, and direct per-engine querying.
+
 ## Why free?
 
 We believe every website deserves great SEO + AEO + GEO. This toolkit gives you professional-grade visibility capabilities right inside your AI assistant — with no login, no signup, no usage cap.
 
 For automated, continuous AI visibility monitoring at scale across Google AI Search, Google AI Overviews, ChatGPT, Claude, Gemini, Copilot, and Perplexity — with alerts, multi-brand dashboards, automated remediation, and team features — check out the full [Akii](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) platform.
 
+## Contributing
+
+PRs welcome. See [CONTRIBUTING.md](./CONTRIBUTING.md) for repo layout, validator gate, skill / agent / command authoring conventions, citation rules, and the release process.
+
+## Security
+
+Report vulnerabilities privately per [SECURITY.md](./SECURITY.md). Please do not open a public issue.
+
+## Compatibility
+
+Tested Claude Code versions, OS coverage, required shell tooling, and known incompatibilities are documented in [COMPATIBILITY.md](./COMPATIBILITY.md).
+
 ## License
 
-MIT — see [LICENSE](./LICENSE).
+[MIT](./LICENSE) — free for personal and commercial use.
 
 ---
 
-Made with AI by [Akii](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) — *continuous AI visibility monitoring for the AI-first internet*.
+Built by [Akii](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) — *continuous AI visibility monitoring for the AI-first internet*.
