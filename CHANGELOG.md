@@ -4,6 +4,11 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.7.1] — 2026-05-26
+
+### Changed
+- `scripts/validate.sh` Cross-references check (§10) now scans `README.md`, `skills/`, `agents/`, `commands/` only — `CHANGELOG.md` is excluded. The changelog is the project's historical record and legitimately mentions slugs that have been removed (e.g. migration blocks for collapsed commands). Active runtime references in the source surfaces continue to be enforced.
+
 ## [2.7.0] — 2026-05-26
 
 ### Removed
