@@ -89,7 +89,7 @@ if [[ "${AKII_PLUGIN_DISABLE_VERSION_CHECK:-0}" != "1" ]]; then
     # the marketplace card update prompt is what users actually click. We just
     # want to nudge that there's something to update.
     if [[ -n "$LATEST_VERSION" && "$INSTALLED_VERSION" != "$LATEST_VERSION" ]]; then
-      VERSION_NUDGE="\n    ⚙  Update available: v${INSTALLED_VERSION} installed · v${LATEST_VERSION} released\n        Open /plugin → Update, or run /plugin update akii-seo-ai-search-optimizer@akii"
+      VERSION_NUDGE="\n    ⚙  Update available: v${INSTALLED_VERSION} installed · v${LATEST_VERSION} released\n        To update: open /plugin → Installed → akii-seo-ai-search-optimizer → Update"
     fi
   fi
 fi
