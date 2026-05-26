@@ -1,6 +1,6 @@
 ---
 name: competitor-analyzer
-description: Analyze competitors' SEO, AEO, GEO, and AI visibility. Use when the user asks to "analyze competitors", "competitor analysis", "compare SEO with competitors", "what are competitors doing", "competitive audit", "competitor research", "competitor gap analysis", or names competitors. Autonomous research + side-by-side scorecard + ranked counter-move plan.
+description: Deep autonomous competitor research — multi-pass crawl across 5+ competitors with full backlink delta, 1000+-term keyword overlap, schema coverage scan, and review-platform delta. Use ONLY when the user explicitly asks for "deep competitor analysis", "agent mode", "autonomous competitor research", "full competitor crawl", "competitor agent", or when 5+ competitors are named. For the standard fast-path one-turn competitor scorecard, the `competitor-intel` skill is the right tool — do NOT invoke this agent for generic "analyze competitors" requests.
 tools:
   - Read
   - Glob
