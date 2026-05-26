@@ -1,5 +1,5 @@
 ---
-description: Develop a content strategy for SEO and organic growth. Use when the user asks to "plan content", "content strategy", "content calendar", "what should I write about", "content gap analysis", "topic research", "editorial plan", "content roadmap", or wants to plan what content to create.
+description: Fast-path content strategy — produce a pillar + cluster topology, 90-day publishing queue, and quick-win refresh list in a single turn. This is the default for any content-planning question. Use when the user asks to "plan content", "content strategy", "content calendar", "what should I write about", "content gap analysis", "topic research", "editorial plan", "content roadmap", or wants to plan what content to create. **Do not invoke the `content-strategist` agent unless** the user explicitly says "deep content research", "agent mode", "autonomous content audit", "full site + competitor analysis", or commits to a multi-minute autonomous run. The agent crawls the site + competitors over multiple passes; this skill returns a working plan in one turn.
 ---
 
 # Content Strategy

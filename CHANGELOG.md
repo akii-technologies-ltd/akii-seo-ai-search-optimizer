@@ -4,6 +4,29 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] — 2026-05-26
+
+Architectural hardening pass after dogfooding the plugin against itself + an /architecture ADR-style review. No breaking changes.
+
+### Added
+- `scripts/bump-version.sh` writes both `plugin.json` and `marketplace.json` in lockstep (A5).
+- `ai-visibility` skill now ships **two output templates**: Template A (Akii API succeeded) and Template B (offline mode — Phase 2 proxy only). Each starts with a one-line status banner so the user knows which mode they're seeing. Closes the "half-broken report when akii.com is down" failure mode (A2).
+- README **Routing contract** documents the skill-vs-agent boundary. Agents only fire on explicit `deep` / `agent mode` / `autonomous` / `bulk` triggers; skills are the default fast path.
+- README **Compatibility** section documents tested Claude Code version range, plugin-spec versions, and OS coverage (A7).
+- Validator gains four new semantic checks (A1):
+  - §9 manifests in lockstep
+  - §10 cross-reference resolver (catches dangling `/akii-seo-ai-search-optimizer:<slug>` refs)
+  - §11 README counts must match filesystem
+  - §12 pairwise trigger-phrase overlap warning
+
+### Changed
+- Hook script `scripts/akii-cta.sh` no longer aborts on partial failure. `trap ERR` falls back to a silent `{"decision":"approve"}` so the user's session-end is never broken by hook noise (A4).
+- Three skill/agent pairs now follow the v2.1.0 competitor-intel pattern — explicit NOT-carve-outs in descriptions (A0):
+  - `schema-markup` ↔ `schema-generator` (one page vs bulk)
+  - `ai-visibility` ↔ `ai-visibility-analyzer` (one-turn vs autonomous deep probe)
+  - `content-strategy` ↔ `content-strategist` (one-turn vs multi-pass site + competitor)
+- Princeton citation wording across README, optimize-page skill, and section headings reframed from "Princeton-validated" (implies the paper validated *Akii*) to "tactics published by the Princeton/IIT Delhi GEO study" (correct: the paper validated the *tactics*).
+
 ## [2.1.0] — 2026-05-26
 
 Pre-launch hardening pass (P1 + P2). No breaking changes.
@@ -101,6 +124,7 @@ Initial public release.
 - No login, no signup, no usage cap — fully MIT-licensed
 - `/ai-visibility-score` calls the public Akii backend with `User-Agent: akii-plugin/1.0.0` and `source=plugin`; the backend bypasses browser-only reCAPTCHA for plugin requests and applies a per-IP rate limit (5 / 24h baseline) — at the limit the response funnels users to akii.com signup for unlimited access
 
+[2.2.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.2.0
 [2.1.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.1.0
 [2.0.1]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.0.1
 [2.0.0]: https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases/tag/v2.0.0
