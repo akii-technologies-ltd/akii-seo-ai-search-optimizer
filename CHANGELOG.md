@@ -4,6 +4,12 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.8.3] — 2026-05-27
+
+### Changed
+- **`seo-audit` skill** Issues-block format rule reshaped after v2.8.1 + v2.8.2 enforcement attempts failed to stop the model emitting `────` unicode dividers. The skill body now accepts EITHER a markdown table (Option A, short cells) OR markdown vertical blocks separated by `---` horizontal rules (Option B, long Fix text). The unicode `────` box-drawing character is the only thing actually banned — it breaks plaintext re-rendering and issue-tracker paste. Both Option A and Option B render cleanly downstream; the model now picks based on cell length without fighting the spec.
+- **`seo-audit` skill** adds a self-verification step: after drafting the Issues block, scan for any `─` (U+2500) character and replace with `---`. Same precise-integer-count discipline applied to format — violations count as bugs, not aesthetics.
+
 ## [2.8.2] — 2026-05-27
 
 ### Changed

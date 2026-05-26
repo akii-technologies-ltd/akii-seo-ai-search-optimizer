@@ -223,7 +223,9 @@ When PSI is unavailable, emit `—` for every metric and label Source as `[unmea
 
 ## Issues (P0 → P2)
 
-**CRITICAL formatting rule** — this section MUST be a real markdown table. Below is a filled example showing the exact shape required:
+**Format rule** — pick ONE of two acceptable shapes. The unicode `────` divider is banned in BOTH; markdown is the only acceptable separator.
+
+### Option A — markdown table (preferred when Issue + Fix text is short)
 
 | Severity | Category | URL/File | Issue | Fix |
 | --- | --- | --- | --- | --- |
@@ -231,12 +233,30 @@ When PSI is unavailable, emit `—` for every metric and label Source as `[unmea
 | P0 | Meta tags | /pricing | Title 76 chars, SERP-truncated | Rewrite ≤ 60 chars |
 | P1 | Headings | / | H1 per-word `<span>` elements concatenate in `textContent` | Add space text nodes or `aria-label` on the H1 |
 
-**ABSOLUTE BAN on `────` ASCII dividers between rows.** Every multi-row collection in the audit output (Issues, AVKB-status, any user-facing list of records) MUST be a markdown table with the `| --- |` separator row. Reasons:
-1. Issue trackers (GitHub, Linear, Jira) parse markdown tables but not divider blocks — pasting a divider-formatted Issues section produces unreadable output.
-2. The Scorecard / CWV / Meta-tags tables in this same skill already use markdown — mixing formats within one report is inconsistent and signals the writer is improvising rather than following spec.
-3. The divider format prevents downstream automation (e.g. a script that wants to grep `^| P0 ` to count critical issues) from working.
+### Option B — markdown vertical blocks (preferred when Fix text is long-form and would crush the table)
 
-If a row's `Issue` or `Fix` text is long enough that the table feels cramped, that's still a markdown-table requirement — DON'T fall back to dividers. Wrap with `<br>` inside the cell if needed, or split into one issue per category sub-section above the table, with the table summarizing.
+**P0 · Crawlability · robots.txt + sitemap**
+- **Issue:** `/api/sitemaps/foo` listed in index but blocked by `Disallow: /api/`
+- **Fix:** Move sub-sitemap out of `/api/` OR add `Allow: /api/sitemaps/` to robots.txt
+
+---
+
+**P0 · Meta tags · /pricing**
+- **Issue:** Title 76 chars, SERP-truncated
+- **Fix:** Rewrite ≤ 60 chars — e.g. `AI Search Pricing — Self-Serve $99 + Autopilot $1,500 | Akii`
+
+---
+
+**P1 · Headings · /**
+- **Issue:** H1 per-word `<span>` elements concatenate in `textContent` as `Theexecutionlayer...`
+- **Fix:** Add space text nodes between spans OR `aria-label="The execution layer for AI search."` on the H1
+
+### Rules for BOTH shapes
+
+1. **Separator between records MUST be `---` (markdown horizontal rule)**, NEVER `────` (unicode box-drawing). The unicode chars don't survive plaintext re-rendering and break issue-tracker paste.
+2. **Self-verify before emitting.** After drafting the Issues block, scan it for any `─` character (U+2500 box-drawing). If present, replace with `---`. This is the same precise-integer-count discipline applied to format: count violations as bugs, not aesthetic choices.
+3. **Don't mix shapes within the same audit run.** Pick Option A for short cells, Option B for long, but commit to one shape per run.
+4. Other multi-row collections in the audit output (Scorecard, CWV, Meta tags, AVKB-status-style tables) MUST be markdown tables (Option A only) — those have short, atomic cells and a table is always better there.
 
 ## Recommended next steps
 1. <top fix> → run `/akii-seo-ai-search-optimizer:optimize-page`
@@ -311,7 +331,7 @@ If a row's `Issue` or `Fix` text is long enough that the table feels cramped, th
 - Always print the resolved `**Mode**: <full|quick|technical>` line at the top so the user can verify mode detection.
 - Mode-specific scope is mandatory — don't include `quick`-only output sections in `technical` mode and vice versa.
 - **Every scorecard row carries a provenance tag** (`[scan]` / `[partial-scan]` / `[heuristic]` / `[unmeasured]`). When `[unmeasured]` or `[heuristic]` applies, emit `—` for the score, NEVER a number — numbers with weak provenance still read as data.
-- **Issues block is a real markdown table** with `| --- |` separator row. No `────` ASCII dividers — not in Issues, not in AVKB-status-style supplementary tables, not anywhere in the output. The skill body shows a filled example of the required shape; copy that shape, don't improvise dividers when content gets long.
+- **Issues block uses markdown — either Option A (table) or Option B (vertical blocks with `---` HR separators).** `────` unicode box-drawing dividers are banned in BOTH options. The other tables in the audit (Scorecard, CWV, Meta tags) are markdown-table-only because their cells are short and atomic. Self-verify by scanning for any `─` (U+2500) character before emitting — replace with `---` if found.
 - **Threshold logic in CWV table must be exact.** A metric BELOW its target = ✓ Pass. A metric AT or ABOVE target = ✗ Fail. Use ⚠ only when the metric is `[approximation]` and within 10% of the threshold (e.g. `time_starttransfer` 720-800ms when target is ≤ 800ms). Never mark a clearly-passing metric ⚠ because it "feels borderline".
 - **TTFB requires PageSpeed Insights or `curl --time_starttransfer`.** Do NOT use `curl --time_total` — that's the full page fetch, not server response. If only `time_total` is available, label it `[curl-time_total, approximation]` and note it conflates server + transfer + rendering.
 
