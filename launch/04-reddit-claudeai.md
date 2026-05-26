@@ -2,7 +2,7 @@
 
 ## Title
 ```
-[Plugin Release] Akii — SEO & AI Search Optimizer: 15 skills, 5 agents, 8 commands. Free, MIT.
+[Plugin Release] Akii — SEO & AI Search Optimizer: 13 skills, 5 agents, 8 commands. Free, MIT.
 ```
 
 ## Body
@@ -10,8 +10,8 @@
 Just shipped a Claude Code plugin: **Akii — SEO & AI Search Optimizer**. Free, MIT-licensed, no login.
 
 What it does:
-- 15 skills that auto-trigger by natural language (e.g., "audit my site", "generate llms.txt", "how does my brand rank in ChatGPT?")
-- 8 slash commands for specific tasks (`/ai-visibility-score`, `/generate-schema`, `/create-content`, `/seo-check`, `/keyword-cluster`, `/create-topic`, `/translate-content`, `/generate-llms-txt`)
+- 13 skills that auto-trigger by natural language (e.g., "audit my site", "generate llms.txt", "how does my brand rank in ChatGPT?")
+- 8 slash commands for specific tasks (`/ai-visibility-score`, `/generate-schema`, `/create-content`, `/check-file`, `/keyword-cluster`, `/create-topic`, `/translate-content`, `/generate-llms-txt`)
 - 5 autonomous agents for multi-step workflows (full site audit, content strategy build, competitor analysis, schema generation across many pages, AI visibility analysis)
 - **Auto-detects existing third-party MCPs** — if you have Ahrefs, Google Search Console, DataForSEO, or Apify MCPs installed, the skills use them for real data. Otherwise falls back to WebSearch / WebFetch / Bash. Zero config.
 - **SessionEnd hook** that renders a first-party CTA in terminal at session end — interesting test of the [Anthropic compliance model](https://www.anthropic.com/legal/usage-policy) for plugin attribution. (Terminal-rendered local shell command, not LLM-generated, not prompt-injection.)

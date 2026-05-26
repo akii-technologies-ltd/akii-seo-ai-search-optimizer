@@ -33,7 +33,7 @@ Generic SEO ≠ AI SEO.
 
 Akii — SEO & AI Search Optimizer
 
-- 15 skills (audit, schema, GEO rewrite, content brief, llms.txt, …)
+- 13 skills (audit, schema, GEO rewrite, content brief, llms.txt, …)
 - 5 agents (full audits, competitor analysis, content strategy)
 - 8 commands (incl. /ai-visibility-score)
 - Free, MIT, no login, no cap
@@ -46,7 +46,7 @@ Akii — SEO & AI Search Optimizer
 
 ## Tweet 4 (Princeton GEO)
 
-The killer feature: a /geo-optimization skill that applies the **Princeton/IIT Delhi/Allen Institute GEO method**.
+The killer feature: an `optimize-page` skill (--mode=geo) that applies the **Princeton/IIT Delhi/Allen Institute GEO method**.
 
 Their study (10k+ queries) showed:
 ✅ Up to +40% AI visibility lift overall
@@ -99,7 +99,7 @@ What it's good for:
 
 🛠 Repo: github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer
 🌐 Landing: akii.com/claude-code
-📚 Docs: in the README — 15 skills documented with example outputs
+📚 Docs: in the README — 13 skills documented with example outputs
 
 Install. Run an audit. Tell us what surprised you in the results.
 

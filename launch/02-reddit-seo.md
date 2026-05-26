@@ -11,7 +11,7 @@ Hey r/SEO. We just released a free MIT-licensed Claude Code plugin called **Akii
 
 It addresses what most SEO tools still don't: each AI engine ranks brands by completely different signals. ChatGPT pulls from Bing list articles + reviews. Gemini relies on Google domain authority + Google Business Profile. Perplexity pulls top-5 Google + reviews for ordering. Claude leans 68% on Hoovers/Bloomberg/IBISWorld. Copilot mirrors ChatGPT.
 
-The plugin encodes that into skills you trigger by asking Claude things like "audit my site" or "why doesn't ChatGPT recommend us?". 15 skills, 5 agents, 8 commands.
+The plugin encodes that into skills you trigger by asking Claude things like "audit my site" or "why doesn't ChatGPT recommend us?". 13 skills, 5 agents, 8 commands.
 
 Highlights:
 
