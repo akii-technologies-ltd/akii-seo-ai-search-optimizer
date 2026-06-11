@@ -2,6 +2,11 @@
 
 Submission-ready assets for the Claude Plugin Directory and the akii.com landing page.
 
+## Hero + social
+
+- `hero.png` (1600×791, ~400KB) — README hero image at top of `README.md`. Shows Akii branding + connection lines to the 6 AI engines this plugin serves (Google, OpenAI, Gemini, Perplexity, Anthropic, Copilot). Compressed via `pngquant --quality=70-85`.
+- `social-preview.png` (1280×633, ~250KB) — GitHub repository social preview (Settings → General → Social preview). Used as the unfurl card when the repo URL is shared on LinkedIn, X, Slack, Discord, etc. Manually uploaded via GitHub Settings UI — there is no `gh` CLI for this.
+
 ## screenshots/
 
 Empty. The previous fake/mocked PNGs were removed — real screenshots will be captured from a real Claude Code session before resubmission.

@@ -1,5 +1,9 @@
 # Akii — SEO & AI Search Optimizer
 
+<p align="center">
+  <img src="./assets/hero.png" alt="Akii + Claude Code — AI Search Optimizer · ranks brands across Google, ChatGPT, Claude, Gemini, Perplexity, Copilot" width="100%">
+</p>
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![Version](https://img.shields.io/github/v/release/akii-technologies-ltd/akii-seo-ai-search-optimizer?display_name=tag&sort=semver)](https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/releases)
 [![CI](https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/actions/workflows/validate.yml/badge.svg)](https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/actions/workflows/validate.yml)
