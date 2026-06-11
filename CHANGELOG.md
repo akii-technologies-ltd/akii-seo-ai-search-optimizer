@@ -4,6 +4,11 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.2] — 2026-05-27
+
+### Changed
+- **`ai-visibility` skill** now renders three trust-pass states added in the akii.com workflow that prevent free-tier scans from confidently making things up. (1) `competitorsState: 'insufficient_signal'` (the workflow returns this when the judge model had no real competitor signal — the skill now renders an explicit "insufficient signal data" block instead of trying to fill the empty list with famous-name guesses). (2) `evidenceSnippet: 'no measurable signal'` (the workflow's post-validator replaces brand-name tautologies — "the brand name X indicates AI relevance" — with this literal marker; the skill renders it verbatim in italics so the buyer reads honest absence). (3) New `nameCollisions[]` section surfaces established brands AI engines may conflate with the scanned brand (the GEO failure mode for new brands sharing tokens with Crunchbase / G2 / Trustpilot-rated established entities). When `nameCollisions` is empty, the section is omitted entirely. Closes issues [#49](https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/issues/49), [#50](https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/issues/50), [#51](https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer/issues/51).
+
 ## [2.9.1] — 2026-05-27
 
 ### Changed
