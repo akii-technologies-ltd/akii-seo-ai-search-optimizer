@@ -4,6 +4,11 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.3] — 2026-05-27
+
+### Fixed
+- **`ai-visibility` skill** Template A v2.9.2 shipped with `<If competitorsState === 'measured'>` and `<If nameCollisions is non-empty>` pseudo-conditional blocks inside the code-fenced template. Code-fenced content gets rendered literally to the user, so those tags would have shown up as visible text in the output (`<If competitorsState === 'measured'>` printed above the competitors table). The conditional logic now lives in prose **Branch rules** above the code fence; the code fence shows the single canonical shape (measured competitors + non-empty collisions) and the prose rules tell the skill what to swap / omit for the other branches. Same render outcomes, no literal tag leak. Also surfaced each dimension's `evidenceSnippet` directly under its `mainOpportunity` bullet so the "no measurable signal" honest-absence marker has a place to render (was only mentioned in Step 4a-1 but not anchored in the template body). Discovered during the v2.9.2 audit-work pass.
+
 ## [2.9.2] — 2026-05-27
 
 ### Changed

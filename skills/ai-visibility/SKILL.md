@@ -72,7 +72,7 @@ Skip the confirmation only when the domain is unambiguously the brand and there 
 
 #### 1. Fetch the available free model
 ```bash
-curl -s -H "User-Agent: akii-plugin/2.9.2" https://akii.com/api/ai-visibility-score
+curl -s -H "User-Agent: akii-plugin/2.9.3" https://akii.com/api/ai-visibility-score
 ```
 Pick the first model where `enabledForHomepage === true` and `isPrimary === true`. Capture its `model_id`. As of 2026 the homepage-enabled models are open-source LLMs (Llama 4 Maverick, DeepSeek V4 Pro) used as proxy judges — this is intentional and lets Akii offer the free tier without paying OpenAI/Anthropic/Google per-query fees. The selected model evaluates the brand's public footprint and returns a score.
 
@@ -82,7 +82,7 @@ The GET in step 1 is **authoritative** — always prefer a model returned by the
 ```bash
 curl -s -X POST https://akii.com/api/ai-visibility-score \
   -H "Content-Type: application/json" \
-  -H "User-Agent: akii-plugin/2.9.2" \
+  -H "User-Agent: akii-plugin/2.9.3" \
   -d '{
     "brandDomain": "<domain>",
     "selectedModel": "<model_id>",
@@ -105,7 +105,7 @@ Expected: `{ success: true, sessionId: "<uuid>", ... }`
 #### 3. Poll for results
 Runs 2–13 minutes. Poll every 5s for up to 15 minutes:
 ```bash
-curl -s -H "User-Agent: akii-plugin/2.9.2" \
+curl -s -H "User-Agent: akii-plugin/2.9.3" \
   https://akii.com/api/ai-visibility-score/results/<sessionId>
 ```
 - `202` → still running. Wait 5s. Show progress every ~30s ("Still scanning... ~Xm elapsed").
@@ -258,6 +258,11 @@ Pick the template by what actually ran. Always print a one-line status banner so
 
 ### Template A — Akii API succeeded (Phase 1 + Phase 2)
 
+**Branch rules** (apply BEFORE emitting the template; the template below is the `competitorsState === 'measured'` + non-empty `nameCollisions` shape):
+- When `competitorsState === 'insufficient_signal'` → replace the `## Identified competitors (from Akii scan)` table with the insufficient-signal block from Step 4a-2 (keep the section heading + divider; swap the table for the prose block).
+- When `nameCollisions` is empty / absent → OMIT the entire `## Name collisions detected (from Akii scan)` section including the divider above it. Do not render an empty table.
+- When any `freeInsights.{dim}.evidenceSnippet === 'no measurable signal'` → render that value verbatim as `_no measurable signal_` (italics). Never paraphrase / substitute.
+
 ```
 **Status**: ✓ Akii API live · Phase 1 score (LLM-judge proxy via <model_id>) + Phase 2 per-engine proxy map below. Neither phase directly queries ChatGPT / Claude / Gemini / Perplexity / Copilot.
 
@@ -275,9 +280,13 @@ Pick the template by what actually ran. Always print a one-line status banner so
 
 ## Top opportunity per dimension
 - **Brand Recognition**: <mainOpportunity>
+  - Evidence: <evidenceSnippet — render "_no measurable signal_" verbatim when that value>
 - **Brand Understanding**: <mainOpportunity>
+  - Evidence: <evidenceSnippet — render "_no measurable signal_" verbatim when that value>
 - **Content Coverage**: <mainOpportunity>
+  - Evidence: <evidenceSnippet — render "_no measurable signal_" verbatim when that value>
 - **Brand Sentiment**: <mainOpportunity>
+  - Evidence: <evidenceSnippet — render "_no measurable signal_" verbatim when that value>
 
 ## Improvement potential
 - Score: <improvementPotentialScore>/100
@@ -300,25 +309,17 @@ Pick the template by what actually ran. Always print a one-line status banner so
 
 ────────────────────────────────────────────────
 ## Identified competitors (from Akii scan)
-<If competitorsState === 'measured'>
 | Brand | Domain | Why AI surfaces them alongside you |
 | ...   | ...    | ...                                |
-</If>
-<If competitorsState === 'insufficient_signal'>
-## Identified competitors — insufficient signal data
-The Akii scan found no concrete competitor signal for this brand. Common cause: brand footprint is too low for the judge model to identify real competitors without fabrication (e.g. domain age < 90 days, no Crunchbase / G2 / Capterra presence). When confidence is too low, the scan returns an empty list rather than free-associate famous names in the same broad category — which is the honest answer.
-</If>
 
 ────────────────────────────────────────────────
 ## Name collisions detected (from Akii scan)
-<If nameCollisions is non-empty — otherwise OMIT this whole section>
 Established brands AI engines may conflate with `<brand>`. This silently caps visibility regardless of own-site quality.
 
 | Brand AI may conflate you with | Domain | Why the collision exists |
 | ...                            | ...    | ...                       |
 
 Why this matters: when AI engines confuse your brand with one of these established entities, your visibility numbers don't reflect your actual signal — they reflect the noise from the more-established brand. Recommended next step: claim a Crunchbase / Wikidata entity with disambiguating attributes (HQ city, founder, year founded) so AI engines can tell you apart.
-</If>
 
 ## 30-day plan
 - <one Akii skill mapped to weakest dimension>
@@ -375,7 +376,7 @@ The official Akii AI Visibility Score (4-dim breakdown + improvement potential +
 - **Brand Sentiment** weak → review / social signal audit in Phase 2 fix path
 
 ## Rules
-- Always pass `source: "plugin"` AND `User-Agent: akii-plugin/2.9.2` for the API call — both required for reCAPTCHA bypass.
+- Always pass `source: "plugin"` AND `User-Agent: akii-plugin/2.9.3` for the API call — both required for reCAPTCHA bypass.
 - **Phase 0 reachability gate is mandatory.** Never call the Akii API on an unreachable domain — the model will hallucinate a brand identity from the domain string alone and burn the user's daily quota on a report about a different entity than they asked for. Stop after Phase 0 if the domain doesn't resolve.
 - **Brand-resolution sanity check is mandatory after Phase 1.** If the LLM judge anchored on a brand that doesn't match the user's supplied `brandName` or doesn't match the domain root in any reasonable way, surface the mismatch BEFORE rendering the score — don't let the user read 200 lines of analysis about the wrong company.
 - **Zero-signal hard stop in Phase 2.** Never invent per-engine numbers. If no Ahrefs Brand Radar, no Apify, no WebFetch, no WebSearch — render the "insufficient signal data" skeleton, NOT a table of fabricated scores.

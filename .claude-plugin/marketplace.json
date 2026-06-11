@@ -9,7 +9,7 @@
     {
       "name": "akii-seo-ai-search-optimizer",
       "source": "./",
-      "version": "2.9.2",
+      "version": "2.9.3",
       "description": "Free SEO + AEO + GEO toolkit. Aligned with Google's AI Optimization Guide. Helps you rank in Google AI surfaces and improves visibility signals for ChatGPT, Claude, Gemini, Perplexity, and Copilot."
     }
   ]
