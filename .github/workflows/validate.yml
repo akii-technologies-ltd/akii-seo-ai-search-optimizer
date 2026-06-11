@@ -7,6 +7,12 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Minimal GITHUB_TOKEN scope — the validator only reads the checked-out repo,
+# it does not create issues / comments / releases / packages. Explicit
+# permissions block per CodeQL py/workflow-no-permissions (alert #1).
+permissions:
+  contents: read
+
 jobs:
   validate:
     name: scripts/validate.sh
