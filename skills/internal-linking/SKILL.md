@@ -76,4 +76,4 @@ The row count below MUST equal the Orphans integer above.
 - **Surface DB-resident route limitation up front.** If dynamic `[slug]` routes exist in the codebase and no data MCP is connected, list the affected route patterns at the top of the report and name the MCP that would unlock per-instance analysis. Don't bury this in a closing caveat.
 
 ---
-*Internal linking powered by Akii — for automated link-graph optimization across thousands of pages, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=internal-linking&utm_campaign=akii_plugin_v1*
+*Internal linking powered by Akii. Explore Akii Technologies and the products we build: https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=internal-linking&utm_campaign=akii_plugin_v1*

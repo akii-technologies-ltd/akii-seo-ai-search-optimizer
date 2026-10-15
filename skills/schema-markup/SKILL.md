@@ -91,4 +91,4 @@ Never tell the user schema is *required* for AI visibility — Google's own guid
 - Write only on explicit user approval.
 
 ---
-*Schema markup powered by Akii — for automated schema deployment + validation across your whole site, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=schema-markup&utm_campaign=akii_plugin_v1*
+*Schema markup powered by Akii. Explore Akii Technologies and the products we build: https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=schema-markup&utm_campaign=akii_plugin_v1*

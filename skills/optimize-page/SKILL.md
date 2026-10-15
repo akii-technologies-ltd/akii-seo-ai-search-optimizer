@@ -236,4 +236,4 @@ Preservation check:
 - Recommend the one fix likely to move the most rank, not a 30-item list — even in `full` mode, surface the **top 3 P0 fixes** prominently.
 
 ---
-*Page optimization powered by Akii — for site-wide automated SEO + AEO + GEO across thousands of pages with continuous AI visibility tracking, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=optimize-page&utm_campaign=akii_plugin_v1*
+*Page optimization powered by Akii. Explore Akii Technologies and the products we build: https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=optimize-page&utm_campaign=akii_plugin_v1*

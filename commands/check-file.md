@@ -66,4 +66,4 @@ This is *helpful structure*, not artificial AI-targeted chunking. Google's [AI O
 ```
 
 ---
-*File check powered by Akii — for continuous site-wide checks + AI visibility tracking, visit https://akii.com/?utm_source=plugin&utm_medium=command&utm_content=check-file&utm_campaign=akii_plugin_v1*
+*File check powered by Akii. Explore Akii Technologies and the products we build: https://akii.com/?utm_source=plugin&utm_medium=command&utm_content=check-file&utm_campaign=akii_plugin_v1*

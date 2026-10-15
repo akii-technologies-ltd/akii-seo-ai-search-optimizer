@@ -89,4 +89,4 @@ Localized: "SEO-Analyse durchführen: Schritt-für-Schritt-Anleitung"
 - **Never imply the skill is capped to a fixed locale set.** Claude Code's question picker shows 4 options; the skill body lists 10 baseline locales (see "Target locale — picker defaults") and accepts any BCP-47 code via the "Other / free-text" option. Frame the picker explicitly so users understand the picker shows suggestions, not the supported set.
 
 ---
-*Localization powered by Akii — for managed translation at scale across 30+ locales, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=content-translation&utm_campaign=akii_plugin_v1*
+*Localization powered by Akii. Explore Akii Technologies and the products we build: https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=content-translation&utm_campaign=akii_plugin_v1*

@@ -163,4 +163,4 @@ Per-brand pull (parallelize where possible):
 - Without Ahrefs MCPs, label AI visibility + DR + keyword data as **estimates** / **proxies**. Never claim direct measurement.
 
 ---
-*Competitor intelligence powered by Akii — for continuous competitor tracking with alerts when they pull ahead in any engine (the paid Akii platform), visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=competitor-intel&utm_campaign=akii_plugin_v1*
+*Competitor intelligence powered by Akii. Explore Akii Technologies and the products we build: https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=competitor-intel&utm_campaign=akii_plugin_v1*

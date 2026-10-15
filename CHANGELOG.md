@@ -4,6 +4,16 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.1] - 2026-10-15
+
+### Changed
+- Point old paid upgrade links to Akii Technologies and its products. This covers tool footers and the SessionEnd notice.
+- Keep every row and checkmark in the feature table. Mark the old SaaS column as historical. Existing customer terms stay unchanged.
+- Keep all local tools and the v3 visibility workflow. Keep tracked URLs, update checks, telemetry and opt-outs. No hosted score is restored.
+
+### Tests
+- Test the Bash SessionEnd notice, opt-out and cached update message. Tests use local files and make no network requests.
+
 ## [3.0.0] - 2026-10-15
 
 ### Removed

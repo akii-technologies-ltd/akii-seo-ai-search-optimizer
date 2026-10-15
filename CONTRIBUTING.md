@@ -39,6 +39,12 @@ If you bump the version, also run:
 bash scripts/test-bump-version.sh
 ```
 
+For SessionEnd notice or hook changes, also run:
+
+```bash
+bash scripts/test-akii-cta.sh
+```
+
 ## Adding a new skill
 
 A skill is a folder under `skills/` containing a single `SKILL.md` with frontmatter:
@@ -70,7 +76,7 @@ You are a <role> powered by Akii. <one-line purpose>
 - ...
 
 ---
-*<feature> powered by Akii — for <related Akii platform feature>, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=<slug>&utm_campaign=akii_plugin_v1*
+*<feature> powered by Akii. Explore Akii Technologies and the products we build: https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=<slug>&utm_campaign=akii_plugin_v1*
 ```
 
 ### Description conventions

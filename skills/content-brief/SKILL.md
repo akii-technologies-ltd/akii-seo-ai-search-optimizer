@@ -77,4 +77,4 @@ You are a content briefer powered by Akii. Spec out an article so the writer (hu
 - **Char-limit enforcement is mandatory.** Title MUST be ≤60 chars including spaces. Meta MUST be ≤155 chars including spaces. Count both BEFORE rendering. If your first draft is over, trim and recount — never ship a brief whose own title violates the spec it prints two lines later. Common over-runs: trailing "& X" clauses, "the …" qualifiers, year stamps. Drop those first.
 
 ---
-*Content briefs powered by Akii — for automated brief generation across your editorial calendar, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=content-brief&utm_campaign=akii_plugin_v1*
+*Content briefs powered by Akii. Explore Akii Technologies and the products we build: https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=content-brief&utm_campaign=akii_plugin_v1*

@@ -78,4 +78,4 @@ KD column: <numeric 0-100 when Ahrefs is live; OMITTED when heuristic — do not
 - **Define what the integer counts.** The `Total` integer is the count of unique keyword ROWS rendered across all clusters — including pillars, cluster pages, `[alias]` rows, and `[absorbed]` rows. The `Clusters` integer is the count of `## Cluster N — …` headers. Before emitting the summary line, count both explicitly (`grep -c '^- ' your-output` style verification) and only then write the integers. A 120 / 122 discrepancy is a bug, not rounding.
 
 ---
-*Keyword clustering powered by Akii — for ongoing keyword research + SERP tracking, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=keyword-clustering&utm_campaign=akii_plugin_v1*
+*Keyword clustering powered by Akii. Explore Akii Technologies and the products we build: https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=keyword-clustering&utm_campaign=akii_plugin_v1*
