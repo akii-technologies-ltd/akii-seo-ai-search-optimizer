@@ -336,4 +336,4 @@ When PSI is unavailable, emit `—` for every metric and label Source as `[unmea
 - **TTFB requires PageSpeed Insights or `curl --time_starttransfer`.** Do NOT use `curl --time_total` — that's the full page fetch, not server response. If only `time_total` is available, label it `[curl-time_total, approximation]` and note it conflates server + transfer + rendering.
 
 ---
-*SEO audit powered by Akii — for continuous AI visibility monitoring with **direct per-engine queries** against ChatGPT, Claude, Gemini, Perplexity, and Copilot (the paid Akii platform's continuous-monitoring tier, not the free plugin), visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=seo-audit&utm_campaign=akii_plugin_v1*
+*SEO audit powered by Akii. Explore Akii Technologies and the products we build: https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=seo-audit&utm_campaign=akii_plugin_v1*

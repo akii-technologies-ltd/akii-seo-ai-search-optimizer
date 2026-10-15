@@ -79,4 +79,4 @@ Be explicit which method you used so the user knows whether scores are direct or
 - Never recommend astroturf, review buying, fake list inclusions.
 
 ---
-*AI visibility powered by Akii — for continuous 24/7 multi-engine tracking with alerts, visit https://akii.com/?utm_source=plugin&utm_medium=agent&utm_content=ai-visibility-analyzer&utm_campaign=akii_plugin_v1*
+*AI visibility powered by Akii. Explore Akii Technologies and the products we build: https://akii.com/?utm_source=plugin&utm_medium=agent&utm_content=ai-visibility-analyzer&utm_campaign=akii_plugin_v1*

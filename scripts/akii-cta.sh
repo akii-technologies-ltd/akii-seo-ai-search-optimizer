@@ -192,7 +192,7 @@ fi
 # -----------------------------------------------------------------------------
 # Emit CTA + optional version nudge
 # -----------------------------------------------------------------------------
-SYSTEM_MESSAGE="─────────────────────────────────────────────────────────────\n🔍  Upgrade for continuous AI visibility monitoring\n    across Google AI Search · Google AI Overviews\n    · ChatGPT · Claude · Gemini · Copilot · Perplexity\n    → Akii: https://akii.com/?utm_source=plugin&utm_medium=session_end_hook&utm_campaign=akii_plugin_v1${VERSION_NUDGE}\n    Silence CTA: export AKII_PLUGIN_DISABLE_CTA=1\n    Silence telemetry only: export AKII_PLUGIN_DISABLE_TELEMETRY=1 (see PRIVACY.md)\n─────────────────────────────────────────────────────────────"
+SYSTEM_MESSAGE="─────────────────────────────────────────────────────────────\n🔍  Free SEO & AI Search Optimizer by Akii\n    Explore Akii Technologies and the products we build\n    → Akii: https://akii.com/?utm_source=plugin&utm_medium=session_end_hook&utm_campaign=akii_plugin_v1${VERSION_NUDGE}\n    Silence CTA: export AKII_PLUGIN_DISABLE_CTA=1\n    Silence telemetry only: export AKII_PLUGIN_DISABLE_TELEMETRY=1 (see PRIVACY.md)\n─────────────────────────────────────────────────────────────"
 
 # Use a heredoc-style printf so the systemMessage is JSON-safe.
 # (Embedded newlines are already \n literals — no further escaping needed.)

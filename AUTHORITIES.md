@@ -65,7 +65,7 @@ Read this before drawing conclusions from an AI visibility report.
 - **Missing evidence:** do not invent numbers. If no live source returns usable evidence, report insufficient signal data. Training-data familiarity alone does not qualify.
 
 ### What direct multi-engine querying requires
-- **Paid Akii platform** — continuous monitoring tier queries the named engines directly on a schedule and reports actual responses, share-of-voice over time, and alerts.
+- **Legacy Akii platform:** its continuous monitoring tier was described as scheduled direct engine queries. It reported actual responses, share-of-voice over time and alerts. These are legacy platform features. They are not sold through the free plugin. Existing customer terms are unchanged.
 - **Ahrefs Brand Radar MCP**: connect it and the analysis uses available Brand Radar observations instead of a public-signal proxy for the covered engines.
 
 The report must state which sources actually ran, which outputs are proxy estimates, and which observations came from a connected measurement tool.

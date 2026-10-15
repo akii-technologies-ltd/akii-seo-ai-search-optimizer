@@ -235,9 +235,9 @@ Telemetry is **default-off** on Amazon Bedrock, Google Cloud Vertex, Microsoft F
 
 If you hit a compatibility issue with a newer Claude Code release, please open an issue with `claude --version` output. Full compatibility matrix (MCPs, env vars, known limitations) is in [COMPATIBILITY.md](./COMPATIBILITY.md).
 
-## What this plugin covers vs the [Akii](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) platform
+## This free plugin and the legacy [Akii](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) platform
 
-| Capability | This Plugin (Free) | Akii Platform |
+| Capability | This Plugin (Free) | Legacy Akii platform (historical) |
 | --- | :---: | :---: |
 | Codebase + URL audits | ✅ | ✅ |
 | Schema, AEO, GEO optimization | ✅ | ✅ |
@@ -254,13 +254,15 @@ If you hit a compatibility issue with a newer Claude Code release, please open a
 | Team collaboration + role permissions | — | ✅ |
 | Historical trend data + reporting | — | ✅ |
 
-If you outgrow the one-shot plugin, the [Akii platform](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) automates these continuously across multiple brands with alerts, dashboards, and direct per-engine querying.
+The platform column records the legacy Akii SaaS feature set. It is not an offer to buy new Akii SaaS access. This documentation change does not change any existing customer agreement.
+
+[Akii Technologies](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) builds, owns, and runs AI products. Explore Marquorum, Revenue Scout, and our free SEO & AI Search Optimizer plugin.
 
 ## Why free?
 
 We believe every website deserves great SEO + AEO + GEO. This toolkit gives you professional-grade visibility capabilities right inside your AI assistant — with no login, no signup, no usage cap.
 
-For automated, continuous AI visibility monitoring at scale across Google AI Search, Google AI Overviews, ChatGPT, Claude, Gemini, Copilot, and Perplexity — with alerts, multi-brand dashboards, automated remediation, and team features — check out the full [Akii](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) platform.
+This free plugin is separate from the legacy Akii SaaS. The table keeps those old platform features for reference. This change leaves existing customer agreements unchanged.
 
 ## Contributing
 
@@ -276,4 +278,4 @@ Report vulnerabilities privately per [SECURITY.md](./SECURITY.md). Please do not
 
 ---
 
-Built by [Akii](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) — *continuous AI visibility monitoring for the AI-first internet*.
+Built by [Akii Technologies](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1), an AI venture builder that builds, owns, and runs AI products.

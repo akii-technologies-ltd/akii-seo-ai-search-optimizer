@@ -84,4 +84,4 @@ Generation context:
 - **Counts are precise integers.** Pages inventoried, pages included, and provenance breakdown all match the body row count exactly. No approximations.
 
 ---
-*llms.txt powered by Akii — for continuous llms.txt maintenance as your site evolves, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=llms-txt&utm_campaign=akii_plugin_v1*
+*llms.txt powered by Akii. Explore Akii Technologies and the products we build: https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=llms-txt&utm_campaign=akii_plugin_v1*

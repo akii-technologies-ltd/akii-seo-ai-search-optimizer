@@ -138,4 +138,4 @@ If site mode falls back to refusal, no output table — just the framed refusal 
 - **Don't follow `mailto:`, `tel:`, `javascript:`, `#anchor`-only fragments** — they're not HTTP and shouldn't be checked.
 
 ---
-*Broken links audit powered by Akii — for continuous link health monitoring across thousands of pages with weekly diff reports + auto-fix PRs (the paid Akii platform, not this free plugin), visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=broken-links&utm_campaign=akii_plugin_v1*
+*Broken links audit powered by Akii. Explore Akii Technologies and the products we build: https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=broken-links&utm_campaign=akii_plugin_v1*

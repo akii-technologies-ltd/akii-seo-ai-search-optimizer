@@ -104,4 +104,4 @@ Volumes + KDs above MUST come from `mcp__plugin_marketing_ahrefs__keywords-explo
 - **Context inheritance must be verified.** Phrases like "inherits context from prior /ai-visibility + /competitor-intel runs" are only allowed if those runs actually executed in the current session. Otherwise drop the inheritance claim and re-derive from scratch.
 
 ---
-*Content strategy powered by Akii — for continuous gap analysis + competitor monitoring, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=content-strategy&utm_campaign=akii_plugin_v1*
+*Content strategy powered by Akii. Explore Akii Technologies and the products we build: https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=content-strategy&utm_campaign=akii_plugin_v1*
