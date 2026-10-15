@@ -103,10 +103,11 @@ fi
 
 sect "7. claude plugin validate (optional)"
 if command -v claude >/dev/null 2>&1; then
-  if claude plugin validate "$ROOT" 2>&1 | tee /tmp/akii-claude-validate.log >/dev/null; then
+  CLAUDE_VALIDATE_LOG="${TMPDIR:-/tmp}/akii-claude-validate.log"
+  if claude plugin validate "$ROOT" 2>&1 | tee "$CLAUDE_VALIDATE_LOG" >/dev/null; then
     ok "claude plugin validate passed"
   else
-    fail "claude plugin validate failed (see /tmp/akii-claude-validate.log)"
+    fail "claude plugin validate failed (see $CLAUDE_VALIDATE_LOG)"
   fi
 else
   echo "  (claude CLI not on PATH — skipping)"
@@ -177,7 +178,14 @@ sect "12. User-Agent version pinned to plugin.json"
 UA_FAIL=0
 # Match full semver including optional -prerelease suffix; if we only matched
 # X.Y.Z we'd silently accept "akii-plugin/2.2.1-alpha.1" as if it were 2.2.1.
-UA_REFS=$(grep -RhoE 'akii-plugin/[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9.-]+)?' skills/ commands/ 2>/dev/null | sort -u)
+UA_REFS=$(grep -RhoE 'akii-plugin/[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9.-]+)?' skills/ commands/ 2>/dev/null) || {
+  UA_GREP_STATUS=$?
+  if [[ $UA_GREP_STATUS -ne 1 ]]; then
+    printf 'error: cannot read request User-Agents (grep exit %s)\n' "$UA_GREP_STATUS" >&2
+    exit "$UA_GREP_STATUS"
+  fi
+}
+UA_REFS=$(printf '%s\n' "$UA_REFS" | sort -u)
 for ua in $UA_REFS; do
   ua_v="${ua#akii-plugin/}"
   if [[ "$ua_v" != "$PLUGIN_V" ]]; then
@@ -227,6 +235,36 @@ for i, a in enumerate(names):
 if warned == 0:
     print("  \033[32m✓\033[0m no high-overlap skill pairs (threshold: 5+ shared positive triggers; NOT-carve-outs excluded)")
 PY
+
+sect "14. Local visibility analysis has no hosted-score dependency"
+python3 - <<'PY'
+from pathlib import Path
+import re
+
+paths = [Path(name) for name in (
+    'README.md', 'AUTHORITIES.md', 'SECURITY.md', 'COMPATIBILITY.md',
+    '.claude-plugin/plugin.json', 'assets/README.md',
+)]
+for directory in ('skills', 'agents', 'commands'):
+    paths.extend(Path(directory).rglob('*.md'))
+
+for path in paths:
+    text = path.read_text()
+    assert not re.search(r'/ai-visibility-score\b|Akii AI Visibility Score|Akii Score:', text), (
+        f'{path}: obsolete hosted-score request, command, report, or promise'
+    )
+
+skill = Path('skills/ai-visibility/SKILL.md').read_text()
+for retained in (
+    'Per-engine signal correlations', 'Zero-signal hard stop', 'Signals consulted:',
+    'mcp__plugin_marketing_ahrefs__brand-radar-', 'mcp__Apify__',
+    'WebSearch', 'WebFetch', '30-day plan', 'schema-markup', 'insufficient signal data',
+):
+    assert retained in skill, f'ai-visibility lost its independent analysis: {retained}'
+assert 'proxy estimate' in skill and 'Never invent per-engine numbers' in skill
+print('ok')
+PY
+ok "hosted-score callers absent; independent local signal analysis retained"
 
 echo
 if [[ $FAILED -gt 0 ]]; then

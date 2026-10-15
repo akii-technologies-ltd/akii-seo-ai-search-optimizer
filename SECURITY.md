@@ -4,6 +4,7 @@
 
 | Version | Supported |
 |---|---|
+| 3.0.x   | ✅ |
 | 2.2.x   | ✅ |
 | 2.1.x   | ✅ |
 | 2.0.x   | ⚠️ best-effort |
@@ -28,9 +29,9 @@ This plugin ships markdown skill recipes that Claude Code executes locally. The 
 
 | Surface | Risk | Mitigation |
 |---|---|---|
-| Skill bodies tell Claude to run `curl` against `akii.com/api/ai-visibility-score` | Shell injection if user input is interpolated unsanitized | The `ai-visibility` skill + `/ai-visibility-score` command document a strict `^[a-z0-9][a-z0-9-]*(\.[a-z0-9-]+)+$` regex check on the domain argument before any `curl` runs. |
-| `hooks/akii-cta.sh` fires on every SessionEnd | Could in principle abort the session or leak data | Script never reads user files. Uses no `set -e`; under any failure emits `{"decision":"approve"}` and exits 0. Opt-out via `AKII_PLUGIN_DISABLE_CTA=1`. |
-| Plugin makes outbound requests to `akii.com` | Sends domain string + plugin User-Agent | Only the `ai-visibility` skill calls akii.com. It sends the domain you're scoring, an optional brand name + country, and the plugin UA. No code, no file contents. |
+| Skill bodies tell Claude to check a public website with `curl` | Shell injection if user input is interpolated unsanitized | The `ai-visibility` skill validates the domain against `^[a-z0-9][a-z0-9-]*(\.[a-z0-9-]+)+$` before using a quoted domain in a reachability check. |
+| `scripts/akii-cta.sh` fires on every SessionEnd | Could in principle abort the session or leak data | Script never reads user files. Uses no `set -e`; under any failure emits `{"decision":"approve"}` and exits 0. Opt-out via `AKII_PLUGIN_DISABLE_CTA=1`. |
+| SessionEnd hook sends telemetry to `akii.com` | Sends the documented anonymized telemetry payload | The unchanged hook sends only plugin version, hashed machine identifier, OS, and timestamp, at most once per 24 hours with the existing opt-outs. See `PRIVACY.md`. No hosted score request sends an audited domain, brand, or country. |
 | Third-party MCP auto-detection | If a malicious MCP is connected, it could intercept skill output | The plugin doesn't ship any MCP — it only *detects* MCPs the user has already connected. Trust boundary belongs to the user's MCP installation. |
 | Prompt injection via skill body content | If a skill body were modified by a malicious PR, Claude could execute attacker-controlled instructions | All PRs require validator pass + human review before merge. The validator §6 enforces "no login gating" language; manual review catches policy bypass attempts. |
 

@@ -52,30 +52,23 @@ The plugin enforces these in skill rules.
 
 ## What this plugin actually measures
 
-Critical methodology note — read this before drawing conclusions from the AI Visibility Score.
+Read this before drawing conclusions from an AI visibility report.
 
-### How the plugin runs at all
+### How the plugin runs
 
-**The plugin is markdown.** Every skill, agent, and command is markdown that gets executed by your Claude Code session model (Claude Sonnet / Opus / Haiku — whichever you have selected). There is no separate inference happening for 11 of 12 skills, all 5 agents, and all 3 commands. They run on your Claude.
+**The plugin is markdown.** All 12 skills, 5 agents, and 3 commands run through your selected Claude Code session model. The plugin no longer calls an Akii-hosted scoring service or selects a separate backend judge model.
 
-The exception is the AI Visibility Score (the `ai-visibility` skill's Phase 1) — which calls the akii.com backend. That backend uses a different model (Llama 4 / DeepSeek V4 Pro) as a judge. Details below.
-
-### Phase 1 — Akii API score (the 0–100 number)
-- **Mechanism:** an open-source LLM (currently Llama 4 Maverick or DeepSeek V4 Pro, whichever is enabled for the free homepage tier) acts as a judge. It is shown your brand's public footprint and asked to score it across four dimensions: Brand Recognition, Brand Understanding, Content Coverage, Brand Sentiment.
-- **What this IS:** a directionally useful estimate of how a generative engine would likely describe your brand, computed by a single open-source model.
-- **What this is NOT:** a direct query of ChatGPT, Claude, Gemini, Perplexity, or Copilot. The plugin does not call those engines' APIs at any point.
-- **Why open-source:** lets Akii offer the free tier without paying OpenAI / Anthropic / Google per-query fees.
-
-### Phase 2 — Per-engine vulnerability map
-- **Mechanism:** the plugin gathers public web signals (SERP appearances, business-DB listings, review ratings, social sentiment) and maps them to each engine's known signal weighting per [FirstPageSage's GEO study](https://firstpagesage.com/seo-blog/generative-engine-optimization-geo-explanation/).
-- **What this IS:** a per-engine score derived from observed correlations between public signals and engine output.
-- **What this is NOT:** a direct query of any of the named engines. The Ahrefs Brand Radar MCP, if connected, replaces the proxy with direct measurement for ChatGPT / Claude / Gemini / Perplexity.
+### Per-engine vulnerability map
+- **Mechanism:** the plugin gathers public web signals (search results, business listings, review ratings, and social sentiment) and maps them to attributed correlations from [FirstPageSage's GEO study](https://firstpagesage.com/seo-blog/generative-engine-optimization-geo-explanation/).
+- **What this is:** a public-signal proxy estimate with sources and limits, used to suggest per-engine fixes.
+- **What this is not:** an official Akii numeric score or a direct query of a named engine. A connected Ahrefs Brand Radar MCP can supply observations for its supported engines; disclose the source and actual coverage.
+- **Missing evidence:** do not invent numbers. If no live source returns usable evidence, report insufficient signal data. Training-data familiarity alone does not qualify.
 
 ### What direct multi-engine querying requires
 - **Paid Akii platform** — continuous monitoring tier queries the named engines directly on a schedule and reports actual responses, share-of-voice over time, and alerts.
-- **Ahrefs Brand Radar MCP** — connect it and Phase 2 auto-detects and uses real Brand Radar data instead of the SERP-signal proxy.
+- **Ahrefs Brand Radar MCP**: connect it and the analysis uses available Brand Radar observations instead of a public-signal proxy for the covered engines.
 
-The free plugin is honest about being a proxy. Both proxies are useful (Akii uses them in production), but the user deserves to know what's producing the numbers they see.
+The report must state which sources actually ran, which outputs are proxy estimates, and which observations came from a connected measurement tool.
 
 ## What we don't claim
 

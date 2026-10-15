@@ -1,6 +1,6 @@
 ---
 name: ai-visibility-analyzer
-description: Deep autonomous brand visibility analysis across all 6 AI engines — multi-pass real-query probes (5+ engines × 5–10 queries), business-DB scan, citation source enumeration, competitor disambiguation, full 30-day defense plan. Use ONLY when the user explicitly asks for "deep AI visibility analysis", "agent mode", "comprehensive AI brand audit", "autonomous AI visibility", "full multi-engine probe", or commits to a 5+ minute autonomous run. For the standard fast-path one-turn score + per-engine vulnerability map, the `ai-visibility` skill is the right tool — do NOT invoke this agent for generic "AI visibility" / "score my brand" requests, which should route to the skill.
+description: Deep autonomous brand visibility analysis across all 6 AI engines: multi-pass real-query probes (5+ engines × 5–10 queries), business-DB scan, citation source enumeration, competitor disambiguation, full 30-day defense plan. Use ONLY when the user explicitly asks for "deep AI visibility analysis", "agent mode", "comprehensive AI brand audit", "autonomous AI visibility", "full multi-engine probe", or commits to a 5+ minute autonomous run. For the standard fast-path public-signal analysis and per-engine vulnerability map, the `ai-visibility` skill is the right tool: do NOT invoke this agent for generic "AI visibility" / "score my brand" requests, which should route to the skill.
 tools:
   - Read
   - Bash

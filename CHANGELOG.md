@@ -4,6 +4,18 @@ All notable changes to **Akii — SEO & AI Search Optimizer** are documented in 
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2026-10-15
+
+### Removed
+- The Akii-hosted numeric visibility score from the plugin: model discovery, scan submission, result polling, hosted report links, and score-specific promises. No Akii scoring account, quota, backend model, or browser fallback is used.
+
+### Preserved
+- All 12 skills, 5 agents, and 3 commands. The `ai-visibility` skill keeps public-signal analysis, optional Ahrefs Brand Radar observations, source disclosure, missing-evidence handling, per-engine fixes, and the 30-day plan. Local estimates are not presented as direct engine responses or an official Akii score.
+- Existing SEO, AEO, GEO, content, schema, competitor tools, and unrelated telemetry, privacy controls, update checks, and hooks.
+
+### Fixed
+- Active documentation and manifest descriptions now match the local visibility workflow. Version validation accepts a plugin with no versioned skill-request User-Agent while still detecting drift when one exists.
+
 ## [2.9.3] — 2026-05-27
 
 ### Fixed
