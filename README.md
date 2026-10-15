@@ -19,7 +19,7 @@ Free AI-powered SEO, AEO, and GEO toolkit by [Akii](https://akii.com/?utm_source
 
 Audit websites, plan content strategy, optimize pages, generate schema markup, cluster keywords, **estimate** your AI visibility for ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews, generate `llms.txt` for non-Google AI crawlers, and apply the cross-engine GEO rewrite tactics from the Princeton/IIT Delhi study ([Aggarwal et al., KDD 2024, arXiv:2311.09735](https://arxiv.org/abs/2311.09735)) — all without leaving your terminal or IDE.
 
-> **On the AI Visibility Score specifically:** that one skill (and its `/ai-visibility-score` command) calls the Akii backend, which uses Llama 4 / DeepSeek V4 Pro as an LLM judge against your brand's public footprint (Phase 1) plus a per-engine signal-correlation proxy (Phase 2 — done by your Claude Code session). It does NOT directly query ChatGPT, Claude, Gemini, Perplexity, or Copilot. Direct multi-engine querying is a paid Akii platform feature. See [AUTHORITIES.md](./AUTHORITIES.md) § "What this plugin actually measures" for full methodology.
+> **On AI visibility analysis:** the `ai-visibility` skill uses public web signals in your Claude Code session, or observations from a connected Ahrefs Brand Radar MCP. It does not request an Akii-hosted numeric score and does not directly query the named engines. See [AUTHORITIES.md](./AUTHORITIES.md) for methodology and source limits.
 
 See [AUTHORITIES.md](./AUTHORITIES.md) for how each source is scoped (Google guide → Google AI surfaces · Princeton paper → cross-engine GEO tactics · FirstPageSage breakdown → per-engine signal correlations).
 
@@ -80,7 +80,7 @@ After install, try this first to see what the plugin does — just ask in natura
 
 > "What's my AI visibility for yourdomain.com?"
 
-The `ai-visibility` skill auto-triggers and returns the Akii 0–100 score (4-dimension breakdown) plus a per-engine proxy map for ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews. From there, ask things like *"audit my site"*, *"compare my SEO against competitor.com"*, or *"apply GEO optimization to ./blog/my-post.md"* — skills auto-trigger on natural language.
+The `ai-visibility` skill auto-triggers and builds a per-engine public-signal map for ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews. It labels proxy estimates, discloses the sources used, and uses connected Ahrefs Brand Radar observations when available. From there, ask things like *"audit my site"*, *"compare my SEO against competitor.com"*, or *"apply GEO optimization to ./blog/my-post.md"*. Skills auto-trigger on natural language.
 
 ## What's included
 
@@ -112,7 +112,7 @@ Skills activate automatically when you ask about these topics. Grouped by workfl
 **AI Search**
 | Skill | What it does |
 | --- | --- |
-| **AI Visibility** | Akii 0–100 score (4-dim breakdown, computed by Llama 4 / DeepSeek V4 Pro as LLM judge) + per-engine proxy map for ChatGPT, Claude, Gemini, Perplexity, Copilot, Google AI Overviews (FirstPageSage signal weights, NOT direct engine queries) |
+| **AI Visibility** | Public-signal map for ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews, with source disclosure and per-engine fixes. Proxy estimates, not direct engine queries; connected Ahrefs Brand Radar observations when available. |
 | **llms.txt** | Generate/maintain `llms.txt` + `llms-full.txt` |
 
 **Localization**
@@ -149,7 +149,7 @@ Three argument-driven slash commands for operations that benefit from positional
 ## Examples
 
 ```
-# Get your real Akii AI Visibility Score (0–100) — the headline feature
+# Review your public AI visibility signals and per-engine fixes
 "What's my AI visibility for example.com?"
 
 # Research topics for your niche
@@ -243,7 +243,7 @@ If you hit a compatibility issue with a newer Claude Code release, please open a
 | Schema, AEO, GEO optimization | ✅ | ✅ |
 | Content briefs + content generation | ✅ | ✅ |
 | Keyword clustering | ✅ | ✅ |
-| AI visibility — 0–100 score (LLM-judge proxy) + per-engine signal map (one-shot) | ✅ | ✅ |
+| AI visibility: per-engine public-signal map (one-shot) | ✅ | ✅ |
 | AI visibility — **direct per-engine querying** (real ChatGPT / Claude / Gemini / Perplexity / Copilot responses) | — | ✅ |
 | AI visibility — **continuous 24/7 multi-engine tracking** | — | ✅ |
 | Real-time alerts when visibility drops | — | ✅ |

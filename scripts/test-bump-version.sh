@@ -26,6 +26,9 @@ cp -R "$ROOT/agents/." "$TMP/agents/"
 cp -R "$ROOT/hooks/." "$TMP/hooks/"
 cp "$ROOT/README.md" "$TMP/README.md"
 cp "$ROOT/CHANGELOG.md" "$TMP/CHANGELOG.md"
+cp "$ROOT/AUTHORITIES.md" "$ROOT/SECURITY.md" "$ROOT/COMPATIBILITY.md" "$TMP/"
+mkdir -p "$TMP/assets"
+cp "$ROOT/assets/README.md" "$TMP/assets/README.md"
 
 cd "$TMP"
 
@@ -39,8 +42,62 @@ extract_version() {
 }
 
 ua_strings() {
-  grep -RhoE 'akii-plugin/[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9.-]+)?' skills/ commands/ | sort -u
+  local refs status
+  refs=$(grep -RhoE 'akii-plugin/[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9.-]+)?' skills/ commands/) || {
+    status=$?
+    if [[ $status -ne 1 ]]; then
+      return "$status"
+    fi
+  }
+  printf '%s\n' "$refs" | sort -u
 }
+
+sect "0. A plugin without versioned request User-Agents is valid"
+python3 - <<'PY'
+from pathlib import Path
+import re
+for directory in ('skills', 'commands'):
+    for path in Path(directory).rglob('*.md'):
+        text = re.sub(r'akii-plugin/[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9.-]+)?',
+                      'fixture-without-versioned-user-agent', path.read_text())
+        path.write_text(text)
+PY
+[[ -z "$(ua_strings)" ]] && pass "zero-UA fixture has no request version pins" || fail "zero-UA fixture still has a pin"
+if bash scripts/validate.sh > "$TMP/zero-ua-validation.log" 2>&1; then
+  pass "validator accepts zero versioned request User-Agents"
+else
+  cat "$TMP/zero-ua-validation.log"
+  fail "validator rejected zero versioned request User-Agents"
+fi
+
+sect "0b. Unexpected grep failures stay failures"
+AKII_TEST_REAL_GREP=$(command -v grep)
+export AKII_TEST_REAL_GREP
+mkdir -p "$TMP/grep-error-bin"
+cat > "$TMP/grep-error-bin/grep" <<'SH'
+#!/usr/bin/env bash
+if [[ "${1:-}" == '-RhoE' && "${2:-}" == akii-plugin/* ]]; then
+  exit 2
+fi
+exec "$AKII_TEST_REAL_GREP" "$@"
+SH
+chmod +x "$TMP/grep-error-bin/grep"
+if (PATH="$TMP/grep-error-bin:$PATH"; ua_strings >/dev/null 2>&1); then
+  fail "User-Agent reader ignored grep exit 2"
+else
+  status=$?
+  [[ $status -eq 2 ]] && pass "User-Agent reader preserves grep exit 2" || fail "User-Agent reader returned $status, expected 2"
+fi
+if PATH="$TMP/grep-error-bin:$PATH" bash scripts/validate.sh > "$TMP/grep-error-validation.log" 2>&1; then
+  fail "validator ignored grep exit 2"
+else
+  status=$?
+  [[ $status -eq 2 ]] && pass "validator preserves grep exit 2" || fail "validator returned $status, expected 2"
+fi
+
+# Synthetic request fixture only. Do not retain a removed API recipe for this test.
+FIXTURE_SKILL="skills/seo-audit/SKILL.md"
+printf '\nVersion-bump test fixture: User-Agent: akii-plugin/1.0.0\n' >> "$FIXTURE_SKILL"
 
 sect "1. Bump to a basic X.Y.Z"
 ./scripts/bump-version.sh 9.9.9 >/dev/null
@@ -87,9 +144,9 @@ sect "4. Validator §12 catches manual UA drift"
 ./scripts/bump-version.sh 2.2.1 >/dev/null
 # Corrupt one UA in-place using portable sed.
 if [[ "$(uname)" == "Darwin" ]]; then
-  sed -i '' -E 's|akii-plugin/2\.2\.1|akii-plugin/0.0.0-drift|' skills/ai-visibility/SKILL.md
+  sed -i '' -E 's|akii-plugin/2\.2\.1|akii-plugin/0.0.0-drift|' "$FIXTURE_SKILL"
 else
-  sed -i -E 's|akii-plugin/2\.2\.1|akii-plugin/0.0.0-drift|' skills/ai-visibility/SKILL.md
+  sed -i -E 's|akii-plugin/2\.2\.1|akii-plugin/0.0.0-drift|' "$FIXTURE_SKILL"
 fi
 # Validator should now fail on §12. Capture output separately so pipefail
 # from validate.sh's intentional exit-1 doesn't kill our pipeline.

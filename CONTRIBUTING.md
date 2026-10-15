@@ -14,13 +14,13 @@ hooks/
   hooks.json           lifecycle hooks → scripts/
   README.md            why the matcher is empty, opt-out, failure policy
 scripts/
-  validate.sh          pre-submission validator (13 checks)
+  validate.sh          pre-submission validator (14 checks)
   bump-version.sh      writes plugin.json + marketplace.json + UA strings in lockstep
   test-bump-version.sh self-test for bump-version.sh
   akii-cta.sh          SessionEnd CTA (terminal-rendered, not model-generated)
-skills/<name>/SKILL.md  13 model-invoked skills
+skills/<name>/SKILL.md  12 model-invoked skills
 agents/<name>.md        5 autonomous agents (flat layout)
-commands/<name>.md      8 slash commands
+commands/<name>.md      3 slash commands
 assets/screenshots/     submission collateral
 README.md · CHANGELOG.md · COMPATIBILITY.md · CONTRIBUTING.md · SECURITY.md · LICENSE
 ```
@@ -31,7 +31,7 @@ README.md · CHANGELOG.md · COMPATIBILITY.md · CONTRIBUTING.md · SECURITY.md 
 bash scripts/validate.sh
 ```
 
-All 13 sections must pass. CI runs the same script on PR open + push to main via `.github/workflows/validate.yml`.
+All 14 sections must pass. CI runs the same script on PR open + push to main via `.github/workflows/validate.yml`.
 
 If you bump the version, also run:
 

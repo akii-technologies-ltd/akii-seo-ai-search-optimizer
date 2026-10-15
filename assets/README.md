@@ -13,7 +13,7 @@ Empty. The previous fake/mocked PNGs were removed — real screenshots will be c
 
 Target set (3–5 PNGs, each ≥1000px wide, response-only crops):
 1. `01-audit-report.png` — full audit scorecard + per-engine breakdown
-2. `02-visibility-score.png` — Akii AI Visibility Score (0–100) + 4-dim breakdown
+2. `02-public-signals.png`: local public-signal analysis with sources and proxy-estimate labels
 3. `03-engine-profile.png` — per-engine vulnerability map
 4. `04-schema-generated.png` — JSON-LD output + validation
 5. `05-monitor-diff.png` — week-over-week visibility delta
