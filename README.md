@@ -256,7 +256,7 @@ If you hit a compatibility issue with a newer Claude Code release, please open a
 
 The platform column records the legacy Akii SaaS feature set. It is not an offer to buy new Akii SaaS access. This documentation change does not change any existing customer agreement.
 
-[Akii Technologies](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) builds, owns, and runs AI products. Explore Marquorum, Revenue Scout, and our free SEO & AI Search Optimizer plugin.
+[Akii Technologies](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1) is a Venture Builder based in Dubai. Its portfolio includes Marquorum, Revenue Scout, Entreprehardship, and the Akii SEO Plugin.
 
 ## Why free?
 
@@ -278,4 +278,4 @@ Report vulnerabilities privately per [SECURITY.md](./SECURITY.md). Please do not
 
 ---
 
-Built by [Akii Technologies](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1), an AI venture builder that builds, owns, and runs AI products.
+Built by [Akii Technologies](https://akii.com/?utm_source=plugin&utm_medium=readme&utm_campaign=akii_plugin_v1), a Venture Builder based in Dubai.
