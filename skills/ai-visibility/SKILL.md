@@ -180,4 +180,4 @@ Choose the method label from the sources that actually returned evidence. If non
 - Never recommend buying reviews, astroturfing, or fake list placements. Use compliant outreach and real customer review requests.
 
 ---
-*AI Visibility powered by Akii: for continuous 24/7 monitoring across all major AI engines with alerts, multi-brand dashboards, and the full pro-tier insights, visit https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=ai-visibility&utm_campaign=akii_plugin_v1*
+*AI visibility analysis by the Akii SEO Plugin. Meet the Venture Builder behind it and explore the Akii portfolio at [akii.com](https://akii.com/?utm_source=plugin&utm_medium=skill&utm_content=ai-visibility&utm_campaign=akii_plugin_v1).*

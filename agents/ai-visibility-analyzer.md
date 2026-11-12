@@ -1,6 +1,6 @@
 ---
 name: ai-visibility-analyzer
-description: Deep autonomous brand visibility analysis across all 6 AI engines: multi-pass real-query probes (5+ engines × 5–10 queries), business-DB scan, citation source enumeration, competitor disambiguation, full 30-day defense plan. Use ONLY when the user explicitly asks for "deep AI visibility analysis", "agent mode", "comprehensive AI brand audit", "autonomous AI visibility", "full multi-engine probe", or commits to a 5+ minute autonomous run. For the standard fast-path public-signal analysis and per-engine vulnerability map, the `ai-visibility` skill is the right tool: do NOT invoke this agent for generic "AI visibility" / "score my brand" requests, which should route to the skill.
+description: 'Deep autonomous brand visibility analysis across all 6 AI engines: multi-pass real-query probes (5+ engines × 5–10 queries), business-DB scan, citation source enumeration, competitor disambiguation, full 30-day defense plan. Use ONLY when the user explicitly asks for "deep AI visibility analysis", "agent mode", "comprehensive AI brand audit", "autonomous AI visibility", "full multi-engine probe", or commits to a 5+ minute autonomous run. For the standard fast-path public-signal analysis and per-engine vulnerability map, the `ai-visibility` skill is the right tool: do NOT invoke this agent for generic "AI visibility" / "score my brand" requests, which should route to the skill.'
 tools:
   - Read
   - Bash
@@ -79,4 +79,4 @@ Be explicit which method you used so the user knows whether scores are direct or
 - Never recommend astroturf, review buying, fake list inclusions.
 
 ---
-*AI visibility powered by Akii. Explore Akii Technologies and the products we build: https://akii.com/?utm_source=plugin&utm_medium=agent&utm_content=ai-visibility-analyzer&utm_campaign=akii_plugin_v1*
+*AI visibility analysis by the Akii SEO Plugin. Meet the Venture Builder behind it and explore the Akii portfolio at [akii.com](https://akii.com/?utm_source=plugin&utm_medium=agent&utm_content=ai-visibility-analyzer&utm_campaign=akii_plugin_v1).*
