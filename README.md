@@ -129,7 +129,7 @@ Autonomous agents for deep, multi-step work. Each agent has a fast-path skill co
 | **SEO Auditor** | Full autonomous site audit with scored report | `seo-audit` |
 | **Content Strategist** | Multi-pass site + competitor crawl → complete plan | `content-strategy` |
 | **Competitor Analyzer** | 5+ competitors, full backlink + keyword overlap | `competitor-intel` |
-| **AI Visibility Analyzer** | Multi-engine real-query probes + 30-day plan | `ai-visibility` |
+| **AI Visibility Analyzer** | Review public web signals or connected Brand Radar data. Build a 30-day plan. | `ai-visibility` |
 | **Schema Generator** | Bulk JSON-LD across many pages, writes into source | `schema-markup` |
 
 #### Routing contract
